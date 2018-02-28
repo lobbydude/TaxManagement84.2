@@ -1,0 +1,257 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Collections;
+using System.Data;
+using System.Net;
+using System.IO;
+
+public partial class Admin_Create_Order_Type : System.Web.UI.Page
+{
+    Commonclass commnclass = new Commonclass();
+    DataAccess dataaccess = new DataAccess();
+    DropDownistBindClass dbc = new DropDownistBindClass();
+    Checkboxbindclass chk = new Checkboxbindclass();
+    DataTable dt = new DataTable();
+    int userid;
+    string Empname;
+    string duplicate;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Session["userid"] == null)
+        {
+
+            Response.Redirect("~/Login.aspx");
+        }
+        else
+        {
+
+            userid = int.Parse(Session["userid"].ToString());
+            Empname = Session["Empname"].ToString();
+        }
+        
+        if (!IsPostBack)
+        {
+            //Empname = Session["Empname"].ToString();
+            //userid = int.Parse(Session["userid"].ToString());
+            Divcreate.Visible = false;
+            DivView.Visible = true;
+            lblhead.Text = "View Order Type";
+            LoadGrid();
+            lbl_RecordAddedOn.Text = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss tt");
+            lbl_RecordAddedBy.Text = Empname;
+        }
+       
+    }
+    protected void btn_Save_Click(object sender, EventArgs e)
+    {
+
+        Validation();
+        Hashtable ht = new Hashtable();
+        
+        try
+        {
+            if (btn_Save.Text == "Add New Order Type")
+            {
+
+                if (txt_Order_Type.Text != "" && duplicate != "Duplicate Data")
+                {
+                    model1.Show();
+                    ht.Add("@Trans", "INSERT");
+                    ht.Add("@Order_Type", txt_Order_Type.Text);
+                    string ChkStatus;
+                    if (Chk_Status.Checked == true)
+                    {
+                        ChkStatus = "True";
+                    }
+                    else
+                    {
+                        ChkStatus = "False";
+                    }
+                    ht.Add("@Status", ChkStatus);
+                    ht.Add("@Inserted_By", userid);
+                    ht.Add("@Inserted_Date", Convert.ToDateTime(DateTime.Now.ToString()));
+                    dt = dataaccess.ExecuteSP("Sp_Order_Type", ht);
+                    model1.Hide();
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Order Type Created Sucessfully')</script>", false);
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Enter Order Type')</script>", false);
+                }
+            }
+
+            else if (btn_Save.Text == "Edit Order Type")
+            {
+                 if (txt_Order_Type.Text != "")
+                {
+                    model1.Show();
+                ht.Add("@Trans", "UPDATE");
+                ht.Add("@Order_Type_ID", int.Parse(txt_Order_No.Text.ToString()));
+                ht.Add("@Order_Type", txt_Order_Type.Text);
+                string ChkStatus;
+                if (Chk_Status.Checked == true)
+                {
+                    ChkStatus = "True";
+                }
+                else
+                {
+                    ChkStatus = "False";
+                }
+                ht.Add("@Status", ChkStatus);
+                ht.Add("@Modified_By", userid);
+                ht.Add("@Modified_Date", Convert.ToDateTime(DateTime.Now.ToString()));
+                dt = dataaccess.ExecuteSP("Sp_Order_Type", ht);
+                model1.Hide();
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Order Type Updated Sucessfully')</script>", false);
+            }
+                 else
+                 {
+                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Enter Order Type')</script>", false);
+                 }
+            }
+        }
+            
+        
+        catch (Exception ex)
+        {
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('" + ex + "')</script>", false);
+        }
+        LoadGrid();
+        Divcreate.Visible = false;
+        DivView.Visible = true;
+    }
+ 
+    
+    
+    protected void LoadGrid()
+    {
+        model1.Show();
+        Hashtable ht = new Hashtable();
+        int iRowcount = 0;
+        ht.Add("@Trans", "BIND");
+        dt = dataaccess.ExecuteSP("Sp_Order_Type", ht);
+        if (dt.Rows.Count > 0)
+        {
+
+            grd_Order_Type_details.Visible = true;
+            grd_Order_Type_details.DataSource = dt;
+            grd_Order_Type_details.DataBind();
+            iRowcount = iRowcount + 1;
+        }
+        model1.Hide();
+    }
+    protected void grd_Order_Type_details_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        model1.Show();
+        int id = int.Parse(grd_Order_Type_details.DataKeys[e.RowIndex].Values["Order_Type_ID"].ToString());
+        Hashtable ht = new Hashtable();
+        ht.Add("@Trans", "DELETE");
+        ht.Add("@Order_Type_ID", id);
+        dt = dataaccess.ExecuteSP("Sp_Order_Type", ht);
+        model1.Hide();
+        LoadGrid();
+    }
+    protected void grd_Order_Type_details_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        model1.Show();
+        GridViewRow row = grd_Order_Type_details.SelectedRow;
+        Hashtable ht = new Hashtable();
+        ht.Add("@Trans", "SELECT");
+        ht.Add("@Order_Type_ID", int.Parse(row.Cells[0].Text.ToString()));
+        dt = dataaccess.ExecuteSP("Sp_Order_Type", ht);
+        txt_Order_No.Text = dt.Rows[0]["Order_Type_ID"].ToString();
+        txt_Order_Type.Text = dt.Rows[0]["Order_Type"].ToString();
+        string ChkStatus = dt.Rows[0]["Status"].ToString();
+        if ( ChkStatus=="True")
+        {
+            Chk_Status.Checked = true;
+        }
+        else
+        {
+            Chk_Status.Checked = false;
+        }
+        if (dt.Rows[0]["Modifiedby"].ToString() != "")
+        {
+            lbl_RecordAddedBy.Text = dt.Rows[0]["Modifiedby"].ToString();
+            lbl_RecordAddedOn.Text = dt.Rows[0]["Modified_Date"].ToString();
+        }
+        else if (dt.Rows[0]["Modifiedby"].ToString() == "")
+        {
+            lbl_RecordAddedBy.Text = dt.Rows[0]["Insertedby"].ToString();
+            lbl_RecordAddedOn.Text = dt.Rows[0]["Instered_Date"].ToString();
+        }
+        Divcreate.Visible = true;
+        DivView.Visible = false;
+        lblhead.Text = "Edit Order Type";
+        btn_Save.Text = "Edit Order Type";
+        model1.Hide();
+    }
+    protected void btn_Submit_Click(object sender, EventArgs e)
+    {
+        GridViewRow row = grd_Order_Type_details.SelectedRow;
+        Hashtable ht = new Hashtable();
+        ht.Add("@Trans", "MAXORDERTYPENUMBER");
+        dt = dataaccess.ExecuteSP("Sp_Order_Type", ht);
+        txt_Order_No.Text = dt.Rows[0]["ORDERTYPENUMBER"].ToString();
+        Divcreate.Visible = true;
+        DivView.Visible = false;
+       clear();
+       lblhead.Text = "Add New Order Type";
+       btn_Save.Text = "Add New Order Type";
+    }
+    protected void News_Click(object sender, EventArgs e)
+    {
+
+        Divcreate.Visible = false;
+        DivView.Visible = true;
+        LoadGrid();
+       
+    }
+    protected void btn_Cancel_Click(object sender, EventArgs e)
+    {
+        clear();
+    }
+    protected void clear()
+    {
+        model1.Show();
+        txt_Order_Type.Text = "";
+        Chk_Status.Checked = true;
+        lbl_RecordAddedBy.Text = Empname;
+        lbl_RecordAddedOn.Text = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss tt");
+        Chk_Status.Checked = false;
+        Hashtable ht = new Hashtable();
+        dt.Clear();
+        ht.Add("@Trans", "MAXORDERTYPENUMBER");
+        dt = dataaccess.ExecuteSP("Sp_Order_Type", ht);
+        txt_Order_No.Text = dt.Rows[0]["ORDERTYPENUMBER"].ToString();
+        lblhead.Text = "Add New Order Type";
+        btn_Save.Text = "Add New Order Type";
+        model1.Hide();
+    }
+ protected void Validation()
+ {
+     Hashtable ht = new Hashtable();
+      ht.Add("@Trans", "BIND");
+        dt = dataaccess.ExecuteSP("Sp_Order_Type", ht);
+        for (int i = 0; i <= dt.Rows.Count - 1; i++)
+        {
+            string DtOrderType = (dt.Rows[i]["Order_Type"].ToString()).ToLower();
+
+            string OrderType = (txt_Order_Type.Text).ToLower();
+            if (DtOrderType == OrderType && btn_Save.Text != "Edit Order Type")
+            {
+                 duplicate = "Duplicate Data";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Order Type Already Exists')</script>", false);
+                return;
+            }
+        }
+ }
+ protected void txt_Order_Type_TextChanged(object sender, EventArgs e)
+ {
+  
+ }
+}

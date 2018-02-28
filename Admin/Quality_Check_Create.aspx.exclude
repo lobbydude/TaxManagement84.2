@@ -1,0 +1,762 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masterpage/AdminHome.master" AutoEventWireup="true" CodeFile="Quality_Check_Create.aspx.cs" Inherits="Admin_Web_Order_Tax_Create" MaintainScrollPositionOnPostback="true" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
+<%@ Register assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
+
+<asp:Content ID="Content1" runat="server" 
+    contentplaceholderid="ContentPlaceHolder1">
+    
+        <script language="javascript" type="text/javascript">
+        function show()
+        {
+              document.write("<head id="Head1" runat='server'></head>");
+        }
+</script>
+    <script type="text/javascript">
+        function PostToNewWindow() {
+            originalTarget = document.forms[0].target;
+            document.forms[0].target = '_blank';
+            window.setTimeout("document.forms[0].target=originalTarget;", 300);
+            return true;
+        }
+</script>
+<script type="text/javascript">
+    window.scrollTo = function (x, y) {
+        return true;
+    }
+</script>
+<script type="text/jscript">
+    $("#txt_Tax_Comments, #txt_Client_Name").on("keypress", function (e) {
+        var keycode = (e.keyCode ? e.keyCode : e.which);
+        if (keycode == '13') {
+           
+            }
+            $("#btn_Update").click();
+        }
+    });
+</script>
+<script  type="text/javascript">
+    function btnreturn() {
+        return confirm('Are You Proceed?');
+    }
+   
+    
+</script>
+<script type="text/javascript">
+
+
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+
+
+    prm.add_beginRequest(beginRequest);
+
+
+    function beginRequest() {
+        prm._scrollPosition = null;
+    }
+
+
+</script>
+
+<script language="javascript" type="text/javascript">
+
+    function openNewWin(url) {
+
+        var x = window.open(url, 'mynewwin', 'width=600,height=600,toolbar=1');
+
+        x.focus();
+
+    }
+
+</script>
+<script type="text/javascript" language="javascript">
+    function controlEnter(obj, event) {
+        var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+        if (keyCode == 13) {
+            document.getElementById(obj).focus();
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+</script>
+
+<style type="text/css">
+        .MyTabStyle .ajax__tab_header
+        {
+            font-family: "Helvetica Neue" , Arial, Sans-Serif;
+            font-size: 14px;
+            font-weight:bold;
+            display: block;
+        
+             background: url('../Tabxp/tab-line.gif') repeat-x bottom;
+cursor:pointer;
+
+        }
+        .MyTabStyle .ajax__tab_header .ajax__tab_outer
+        {
+            border-color: #222;
+             color: #FFFFFF;
+            padding-left: 10px;
+            margin-right: 3px;
+            border:solid 1px #d7d7d7;
+        }
+        .MyTabStyle .ajax__tab_header .ajax__tab_inner
+        {
+            border-color: #666;
+           color: #FFFFFF;
+            padding: 3px 10px 2px 0px;
+        }
+        .MyTabStyle .ajax__tab_hover .ajax__tab_outer
+        {
+            background-color:#FFBFBF;
+        }
+        .MyTabStyle .ajax__tab_hover .ajax__tab_inner
+        {
+            color: #fff;
+        }
+        .MyTabStyle .ajax__tab_active .ajax__tab_outer
+        {
+           background-color: #FFBFBF;
+              color: #000000;
+        }
+        .MyTabStyle .ajax__tab_active .ajax__tab_inner
+        {
+            color: #000;
+            border-color: #333;
+        }
+        .MyTabStyle .ajax__tab_body
+        {
+            font-family: verdana,tahoma,helvetica;
+            font-size: 10pt;
+            background-color: #fff;
+            border-top-width: 0;
+            border: solid 1px #d7d7d7;
+            border-top-color: #ffffff;
+        }
+    </style>
+    
+
+     <asp:UpdatePanel ID="uporderDetails" runat="server" UpdateMode="Always"><ContentTemplate>
+          <table style="width:100%">
+      
+      
+         <tr>
+            <td>
+               <div id="Divcreate" runat="server"  align="center" class="DivContentBody" style="height:100%; width:100%;">
+                  
+
+                  <asp:UpdatePanel ID="uptab" runat="server" UpdateMode="Always"><ContentTemplate>
+                               
+                 <table align="center" 
+                       style="border: medium dotted #008080; width:95%; height:300px;" >
+                          
+                                 
+                            
+                           
+                                    <tr>
+                                        <td align="left" colspan="2" style="border: thin dotted #006666; height:100%;" 
+                                            valign="top">
+                                            <ajax:TabContainer ID="TabContainer1" runat="server"  CssClass="MyTabStyle"
+                                                ActiveTabIndex="3" Width="100%" Height="300px">
+<ajax:TabPanel ID="tbpnluser" runat="server" ><HeaderTemplate>Web Info</HeaderTemplate><ContentTemplate><div style="width:100%; height:100%; overflow:scroll;"><asp:PlaceHolder ID="PlaceHolder1"     runat="server"></asp:PlaceHolder></div></ContentTemplate></ajax:TabPanel>
+<ajax:TabPanel ID="tbpnlusrdetails" runat="server" ><HeaderTemplate>Order KB</HeaderTemplate><ContentTemplate><div id="div3" runat="server" style="overflow:scroll; width:100%; height:300px;"><table style=" width:100%; "><tr><td><table><tr><td><table style=" width:100%;"><tr><td style="width:100px;"><asp:Label ID="Label8" runat="server" CssClass="Label" 
+                Text="Document"></asp:Label></td><td style=" width:150px;"><asp:TextBox ID="txt_order_Kb_Document" runat="server" 
+            CssClass="textbox" style="text-transform:uppercase;" Width="150px"></asp:TextBox></td><td><asp:Label ID="Label9" runat="server" CssClass="Label" Text="Comments"></asp:Label></td><td><asp:TextBox ID="txt_order_Kb_Comment" runat="server" CssClass="textbox" 
+            style="text-transform:uppercase;" Width="500px"></asp:TextBox></td><td><asp:Label ID="Label27" runat="server" CssClass="Label" Text="Upload Document"></asp:Label></td><td><asp:UpdatePanel ID="UpdatePanel1" runat="server"><ContentTemplate><asp:FileUpload ID="fileupload1" runat="server" CssClass="textbox" TabIndex="11" /></ContentTemplate><triggers><asp:PostBackTrigger ControlID="img_btn_order_kb_add"></asp:PostBackTrigger></triggers></asp:UpdatePanel></td></tr></table></td><td align="right" style="border: thin dotted #008080"><asp:ImageButton ID="img_btn_order_kb_add" runat="server" AlternateText="Add" 
+                ImageUrl="~/images/Gridview/Add.png" OnClick="img_btn_order_kb_add_Click" 
+                Width="16px"></asp:ImageButton></td></tr></table></td></tr><tr><td><asp:GridView ID="grd_order_kb" runat="server" AllowSorting="True" 
+                AutoGenerateColumns="False" CellPadding="4" CssClass="name" 
+                DataKeyNames="Order_Kb_Id" Font-Size="Medium" ForeColor="#333333" 
+                GridLines="None" onrowdatabound="grd_order_kb_RowDataBound" 
+                OnRowDeleting="grd_order_kb_RowDeleting" 
+                OnSelectedIndexChanged="grd_order_kb_SelectedIndexChanged" 
+                ShowHeaderWhenEmpty="True" Width="100%" ><AlternatingRowStyle BackColor="White"></AlternatingRowStyle><Columns><asp:TemplateField HeaderText="id" Visible="False"><ItemTemplate><asp:Label ID="lblOrder_Kb_Id" runat="server" CssClass="Label" 
+            Text='<%#Eval("Order_Kb_Id") %>' Visible="false"></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center"></HeaderStyle><ItemStyle HorizontalAlign="Center" Width="100px"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="SI NO" SortExpression="Order_Number"><ItemTemplate><asp:Label ID="lblsi" runat="server" Text="<%# Container.DataItemIndex + 1 %>"> </asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center"></HeaderStyle><ItemStyle CssClass="Label" HorizontalAlign="Center" Width="30px"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="Documents" SortExpression="Document_Name"><ItemTemplate><asp:Label ID="lblDocument_Name" runat="server" CssClass="Label" 
+            Text='<%#Eval("Document_Name") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center"></HeaderStyle><ItemStyle HorizontalAlign="Center" Width="100px"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="File"><ItemTemplate><asp:ImageButton 
+            ID="imgbtndoc" runat="server" CommandName="Select" Height="30px" 
+            OnClientClick="return PostToNewWindow();" OnCommand="View_OrderDocuemnt" 
+            Visible="false" Width="30px" /><asp:Label 
+            ID="lbl_Order_Kb_File_Type" runat="server" CssClass="Label" 
+            Text='<%#Eval("Order_kb_File_Type") %>' Visible="false"></asp:Label><asp:Label 
+            ID="lbl_orderkb_doc_path" runat="server" CssClass="Label" 
+            Text='<%#Eval("Order_Kb_Path") %>' Visible="false"></asp:Label></ItemTemplate><HeaderStyle ForeColor="White" HorizontalAlign="Center"></HeaderStyle><ItemStyle HorizontalAlign="Center" Width="30px"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="Comments" SortExpression="Comments"><ItemTemplate><asp:Label ID="lblComments" runat="server" CssClass="Label" 
+            Text='<%#Eval("Comments") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center"></HeaderStyle><ItemStyle HorizontalAlign="Center" Width="100px"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="Updated By" SortExpression="Loan_Number"><ItemTemplate><asp:Label ID="lblUser_Name" runat="server" CssClass="Label" 
+            Text='<%#Eval("User_Name") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center"></HeaderStyle><ItemStyle HorizontalAlign="Center" Width="100px"></ItemStyle></asp:TemplateField><asp:TemplateField HeaderText="Updated When" SortExpression="Date"><ItemTemplate><asp:Label ID="lblModified_Date" runat="server" CssClass="Label" 
+            Text='<%#Eval("Modified_Date") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center"></HeaderStyle><ItemStyle HorizontalAlign="Center" Width="100px"></ItemStyle></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:ImageButton ID="imgbtnExamEdit" runat="server" CommandName="Select" Height="15px" 
+            ImageUrl="~/images/Gridview/View.png" Width="15px" /></ItemTemplate><ItemStyle HorizontalAlign="Center" Width="16px"></ItemStyle></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:ImageButton ID="imgbtnExamDelete" runat="server" CommandName="Delete" 
+            Height="15px" ImageUrl="~/images/Gridview/Remove-icon.png" 
+            OnClientClick="return alert('Do you want delete ?');return true;" 
+            Width="12px" /></ItemTemplate><ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="16px"></ItemStyle></asp:TemplateField></Columns><EditRowStyle BackColor="#CCDDDD"></EditRowStyle><EmptyDataRowStyle Font-Names="Verdana" ForeColor="#FF5050"></EmptyDataRowStyle><FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White"></FooterStyle><HeaderStyle BackColor="#1C5E55" Font-Bold="True" Font-Size="Large" ForeColor="White"></HeaderStyle><PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center"></PagerStyle><RowStyle BackColor="#E3EAEB"></RowStyle><SelectedRowStyle BackColor="#C5D8D8" Font-Bold="True" ForeColor="#333333"></SelectedRowStyle><sortedascendingcellstyle backcolor="#F8FAFA"></sortedascendingcellstyle><sortedascendingheaderstyle backcolor="#246B61"></sortedascendingheaderstyle><sorteddescendingcellstyle backcolor="#D4DFE1"></sorteddescendingcellstyle><sorteddescendingheaderstyle backcolor="#15524A"></sorteddescendingheaderstyle></asp:GridView></td></tr></table></div></ContentTemplate></ajax:TabPanel>
+<ajax:TabPanel ID="tbpnljobdetails" runat="server" ><HeaderTemplate>Agency KB</HeaderTemplate><ContentTemplate><div id="div2" runat="server" style="overflow:scroll; width:100%; height:300px;"><table style=" width:100%;"><tr><td><table><tr><td 
+        style=" border: thin dotted #008080; width:100%;"><table 
+        style=" width:100%;"><tr><td><asp:Label ID="Label2" runat="server" CssClass="Label" 
+                Text="Comments:"></asp:Label></td><td><asp:TextBox ID="txt_Agency_Comment" 
+                    runat="server" CssClass="textbox" Width="500px"></asp:TextBox></td></tr></table></td><td 
+        align="right" style="border: thin dotted #008080"><asp:ImageButton 
+            ID="imgbtn_agency_Add" runat="server" AlternateText="Add" 
+            ImageUrl="~/images/Gridview/Add.png" onclick="imgbtn_agency_Add_Click" 
+            Width="16px" /></td></tr></table></td></tr><tr><td><asp:GridView 
+            ID="grd_Agency" runat="server" AllowSorting="True" AutoGenerateColumns="False" 
+            CellPadding="4" CssClass="name" DataKeyNames="Order_Agency_Kb_Id" 
+            Font-Size="Medium" ForeColor="#333333" GridLines="None" 
+            onrowdeleting="grd_Agency_RowDeleting" 
+            onselectedindexchanged="grd_Agency_SelectedIndexChanged" 
+            ShowHeaderWhenEmpty="True" Width="100%"><AlternatingRowStyle 
+                BackColor="White" /><Columns><asp:TemplateField HeaderText="id" Visible="False"><ItemTemplate><asp:Label 
+                    ID="lbl_Agency_Order_Kb_Id" runat="server" CssClass="Label" 
+                    Text='<%#Eval("Order_Agency_Kb_Id") %>' Visible="false"></asp:Label></ItemTemplate><HeaderStyle 
+                    HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                    Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="SI NO" 
+                    SortExpression="Order_Number"><ItemTemplate><asp:Label ID="lblagnsi" 
+                        runat="server" Text="<%# Container.DataItemIndex + 1 %>"> </asp:Label></ItemTemplate><HeaderStyle 
+                    HorizontalAlign="Center" /><ItemStyle CssClass="Label" 
+                    HorizontalAlign="Center" Width="30px" /></asp:TemplateField><asp:TemplateField 
+                    HeaderText="Comments" SortExpression="Comments"><ItemTemplate><asp:Label 
+                        ID="lbl_Agency_Comments" runat="server" CssClass="Label" 
+                        Text='<%#Eval("Comments") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                    HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                    Width="100px" /></asp:TemplateField><asp:TemplateField 
+                    HeaderText="Updated By" SortExpression="Loan_Number"><ItemTemplate><asp:Label 
+                        ID="lbl_Agency_User_Name" runat="server" CssClass="Label" 
+                        Text='<%#Eval("User_Name") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                    HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                    Width="100px" /></asp:TemplateField><asp:TemplateField 
+                    HeaderText="Updated When" SortExpression="Date"><ItemTemplate><asp:Label 
+                        ID="lbl_Agency_Modified_Date" runat="server" CssClass="Label" 
+                        Text='<%#Eval("Modified_Date") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                    HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                    Width="100px" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:ImageButton 
+                        ID="imgbtnExamEdit" runat="server" CommandName="Select" Height="15px" 
+                        ImageUrl="~/images/Gridview/View.png" Width="15px" /></ItemTemplate><ItemStyle 
+                    HorizontalAlign="Center" Width="16px" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:ImageButton 
+                        ID="imgbtnExamDelete" runat="server" CommandName="Delete" Height="15px" 
+                        ImageUrl="~/images/Gridview/Remove-icon.png" 
+                        OnClientClick="return alert('Do you want delete ?');return true;" 
+                        Width="12px" /></ItemTemplate><ItemStyle HorizontalAlign="Center" 
+                    VerticalAlign="Middle" Width="16px" /></asp:TemplateField></Columns><EditRowStyle 
+                BackColor="#C6D9D9" /><EmptyDataRowStyle Font-Names="Verdana" 
+                ForeColor="#FF5050" /><FooterStyle BackColor="#1C5E55" Font-Bold="True" 
+                ForeColor="White" /><HeaderStyle BackColor="#1C5E55" Font-Bold="True" 
+                Font-Size="Large" ForeColor="White" /><PagerStyle BackColor="#666666" 
+                ForeColor="White" HorizontalAlign="Center" /><RowStyle 
+                BackColor="#E3EAEB" /><SelectedRowStyle BackColor="#C5D8D8" 
+                Font-Bold="True" ForeColor="#333333" /><sortedascendingcellstyle 
+                backcolor="#F8FAFA" /><sortedascendingheaderstyle backcolor="#246B61" /><sorteddescendingcellstyle 
+                backcolor="#D4DFE1" /><sorteddescendingheaderstyle backcolor="#15524A" /></asp:GridView></td></tr></table></div></ContentTemplate></ajax:TabPanel>
+<ajax:TabPanel ID="TabPanel1" runat="server" ><HeaderTemplate>Out Put PReview</HeaderTemplate><ContentTemplate><table style="width:100%;"><tr><td align="center"><div 
+                                                    id="divreport" runat="server" 
+                    style="overflow:scroll; height:300px; width:100%; margin-right: 0px;" align="center">
+    <CR:CrystalReportViewer ID="CrystalReportViewer1" Visible="false" runat="server" AutoDataBind="true" />
+                    <radPdf:PdfWebControl id="PdfWebControl1" runat="server" 
+        height="300px" width="100%" DocumentKeyMaxAge="1.00:00:00" 
+        ThrowMaxPagesException="True"/></div></td></tr></table></ContentTemplate></ajax:TabPanel>
+<ajax:TabPanel ID="TabPanel2" runat="server" ><HeaderTemplate>County DataBase</HeaderTemplate><ContentTemplate><div id="divConutyDatabase" runat="server" style="overflow:scroll; width:100%; height:300px;"><table style="width:100%;"><tr><td align="center"><asp:GridView ID="grd_Tax_County_Database" runat="server" AllowSorting="True" 
+                        AutoGenerateColumns="False" CellPadding="4" CssClass="name" 
+                        DataKeyNames="Conty_Database_Id" Font-Size="Medium" ForeColor="#333333" 
+                        GridLines="None" 
+                        ShowHeaderWhenEmpty="True" Width="100%" 
+                        onrowediting="grd_Tax_County_Database_RowEditing" 
+                        onrowupdating="grd_Tax_County_Database_RowUpdating" 
+                        onrowcancelingedit="grd_Tax_County_Database_RowCancelingEdit"><Columns><asp:TemplateField><EditItemTemplate><asp:ImageButton ID="imgbtnUpdate" CommandName="Update" runat="server" ImageUrl="~/images/Gridview/Save.png" ToolTip="Update" Height="20px" Width="20px" /><asp:ImageButton ID="imgbtnCancel" runat="server" CommandName="Cancel" ImageUrl="~/images/Gridview/Cancel.png" ToolTip="Cancel" Height="20px" Width="20px" /></EditItemTemplate><ItemTemplate><asp:ImageButton ID="imgbtnEdit" CommandName="Edit" runat="server" ImageUrl="~/images/Gridview/edit.png" ToolTip="Edit" Height="20px" Width="20px" /></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" Width="50px" /></asp:TemplateField><asp:TemplateField HeaderText="id" Visible="False"><ItemTemplate><asp:Label ID="lbl_Conty_Database_Id" runat="server" CssClass="Label" 
+                                        Text='<%#Eval("Conty_Database_Id") %>' Visible="false"></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="SI NO"><ItemTemplate><asp:Label ID="lblsi" runat="server" 
+                                        Text="<%# Container.DataItemIndex + 1 %>"> </asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" ForeColor="White" /><ItemStyle CssClass="Label" HorizontalAlign="Center" Width="30px" /></asp:TemplateField><asp:TemplateField HeaderText="Tax Type" SortExpression="Tax_Type"><ItemTemplate><asp:Label ID="lbl_County_Tax_Type" runat="server" CssClass="Label" 
+                                        Text='<%#Eval("Tax_Type") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="Phone No" SortExpression="Ph_No"><EditItemTemplate><asp:TextBox ID="txt_County_Phno" runat="server"  Text='<%#Eval("Ph_No") %>'></asp:TextBox></EditItemTemplate><ItemTemplate><asp:Label ID="lbl_Ph_No" runat="server" CssClass="Label" 
+                                        Text='<%#Eval("Ph_No") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="Make Changes Payable To" SortExpression="Make_Changes_Payable_to"><EditItemTemplate><asp:TextBox ID="txt_Make_Changes_Payable_to" Width="300px" TextMode="MultiLine" runat="server"  Text='<%#Eval("Make_Changes_Payable_to") %>'></asp:TextBox></EditItemTemplate><ItemTemplate><asp:Label ID="lbl_Make_Changes_Payable_to" runat="server" CssClass="Label" 
+                                        Text='<%#Eval("Make_Changes_Payable_to") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Left" Width="300px" /></asp:TemplateField><asp:TemplateField HeaderText="Payee Address" SortExpression="Make_Changes_Payable_to"><EditItemTemplate><asp:TextBox ID="txt_Payee_Address" runat="server"  Width="300px" TextMode="MultiLine" Text='<%#Eval("Payee_Address") %>'></asp:TextBox></EditItemTemplate><ItemTemplate><asp:Label ID="lbl_Payee_Address" runat="server" CssClass="Label" 
+                                        Text='<%#Eval("Payee_Address") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Left" Width="300px" /></asp:TemplateField></Columns><EditRowStyle BackColor="#C5D8D8" /><EmptyDataRowStyle Font-Names="Verdana" ForeColor="#FF5050" /><FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" /><HeaderStyle BackColor="#1C5E55" Font-Bold="True" Font-Size="Large" 
+                            ForeColor="White" /><PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" /><RowStyle BackColor="#E3EAEB" /><SelectedRowStyle BackColor="#D3E2E2" Font-Bold="True" ForeColor="#333333" /><SortedAscendingCellStyle BackColor="#F8FAFA" /><SortedAscendingHeaderStyle BackColor="#246B61" /><SortedDescendingCellStyle BackColor="#D4DFE1" /><SortedDescendingHeaderStyle BackColor="#15524A" /></asp:GridView></td></tr></table></div></ContentTemplate></ajax:TabPanel>
+</ajax:TabContainer>
+                                           
+                                           </td>
+                                    </tr>
+                                    <tr>
+                                        
+                                        <td style="border: thin solid #FF9999">
+                                            <table style="width: 100%">
+                                           
+                                                <tr style="border: thin dotted #006666; ">
+                                                    <td style="border: thin dotted #008080;" valign="middle">
+                                                        <asp:Label ID="Label26" runat="server" CssClass="Label" Text="Error Reason"></asp:Label>
+                                                    </td>
+                                                    <td valign="middle" style="border: thin dotted #008080">
+                                                        <asp:TextBox ID="txt_Error" runat="server" CssClass="textbox" Width="600px"></asp:TextBox>
+                                                    </td>
+                                                    <td style=" border: thin dotted #008080;" align="left">
+                                                        <asp:UpdatePanel ID="upbtn" runat="server">
+                                                            <ContentTemplate>
+                                                                <asp:FileUpload ID="fileuploadError" runat="server" CssClass="textbox" 
+                                                                    TabIndex="11" />
+                                                            </ContentTemplate>
+                                                            <Triggers>
+                                                                <asp:PostBackTrigger ControlID="btn_Error_Submit" />
+                                                            </Triggers>
+                                                        </asp:UpdatePanel>
+                                                    </td>
+                                                    <td align="left" style="border: thin dotted #008080">
+                                                        <asp:Button ID="btn_Error_Submit" runat="server" CssClass="textbox" 
+                                                            onclick="btn_Error_Submit_Click" 
+                                                            OnClientClick="return alert('Are You Sure ?');return true;" Text="Submit" 
+                                                            Width="75px" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:90px;" valign="middle">
+                                                        </td>
+                                                    <td valign="middle">
+                                                        <asp:Button ID="btn_Preview" runat="server" 
+                                                              CssClass="WebButton"    Text="Preview" 
+                                                            onclick="btn_Preview_Click" />
+                                                        <asp:Button ID="btn_Complete" runat="server"   OnClientClick="btnreturn()"  
+                                                              CssClass="WebButton"    Text="Complete" 
+                                                            onclick="btn_Complete_Click" />
+                                                        <asp:Button ID="btn_Send" runat="server" 
+                                                              CssClass="WebButton"    Text="Send" />
+                                                    </td>
+                                                    <td align="right" colspan="2">
+                                                        <asp:Button ID="btn_PreviewMail" runat="server" 
+                                                              CssClass="WebButton"    Text="Preview -Mail" />
+                                                        <asp:Button ID="btn_PreviewFax" runat="server" 
+                                                              CssClass="WebButton"    Text="Preview -Fax" />
+                                                        <asp:Button ID="btn_PreviewEfax" runat="server" 
+                                                              CssClass="WebButton"    Text="Preview -eFax" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="border: thin dotted #008000; height:100px;">
+                                            
+                                              <ajax:TabContainer ID="TabContainer2" runat="server"  CssClass="MyTabStyle"
+                                                ActiveTabIndex="0"  Width="100%" Height="200px">
+<ajax:TabPanel ID="TabPanel3" runat="server" ><HeaderTemplate>Tax Details</HeaderTemplate><ContentTemplate><table  style="width:100%;"><tr><td><div id="divtaxgrid" runat="server" style="overflow:scroll; width:100%; height:200px;"><asp:GridView ID="gvTaxDetails"  runat="server" AutoGenerateColumns="False"  
+        Width="100%" ShowFooter="True" GridLines="None" CellPadding="3" ForeColor="#333333"   
+        PageSize="4" onrowcancelingedit="gvTaxDetails_RowCancelingEdit" 
+        onrowcommand="gvTaxDetails_RowCommand" onrowdeleting="gvTaxDetails_RowDeleting" 
+        onrowediting="gvTaxDetails_RowEditing" 
+        onrowupdating="gvTaxDetails_RowUpdating" DataKeyNames="Tax_Id" 
+        onrowdatabound="gvTaxDetails_RowDataBound"><Columns><asp:TemplateField><EditItemTemplate><asp:ImageButton ID="imgbtnUpdate" CommandName="Update" runat="server" ImageUrl="~/images/Gridview/Save.png" ToolTip="Update" Height="20px" Width="20px" /><asp:ImageButton ID="imgbtnCancel" runat="server" CommandName="Cancel" ImageUrl="~/images/Gridview/Cancel.png" ToolTip="Cancel" Height="20px" Width="20px" /></EditItemTemplate><FooterTemplate><asp:ImageButton ID="imgbtnAdd" runat="server" ImageUrl="~/images/Gridview/Add.png" CommandName="AddNew" Width="20px" Height="20px" ToolTip="Add New" ValidationGroup="validaiton" /></FooterTemplate><ItemTemplate><asp:ImageButton ID="imgbtnEdit" CommandName="Edit" runat="server" ImageUrl="~/images/Gridview/edit.png" ToolTip="Edit" Height="20px" Width="20px" /><asp:ImageButton ID="imgbtnDelete" CommandName="Delete" Text="Edit" runat="server" ImageUrl="~/images/Gridview/Remove-icon.png" ToolTip="Delete" Height="20px" Width="20px" /></ItemTemplate></asp:TemplateField><asp:TemplateField HeaderText="Id" Visible="False"><ItemTemplate><asp:Label ID="lbl_Tax_Id" Width="100px" CssClass="Label" runat="server" Visible="false" Text='<%#Eval("Tax_Id") %>'/></ItemTemplate></asp:TemplateField><asp:TemplateField HeaderText="Tax Id"><EditItemTemplate><asp:TextBox ID="txt_Tax_No" Width="100px"   CssClass="Gridtextbox" runat="server" Text='<%#Eval("Tax_No") %>'/></EditItemTemplate><FooterTemplate><asp:TextBox ID="txt_Tax_No_Entry" Width="100px"   CssClass="Gridtextbox" runat="server"/></FooterTemplate><ItemTemplate><asp:Label ID="lblentry_Tax" CssClass="Label" runat="server" Width="100px" Text='<%#Eval("Tax_No") %>'/></ItemTemplate><HeaderStyle ForeColor="White" /></asp:TemplateField><asp:TemplateField HeaderText="Tax Type"><EditItemTemplate><asp:DropDownList ID="ddl_Tax_Type" Width="100px"   CssClass="GridDropDown" runat="server" ></asp:DropDownList></EditItemTemplate><FooterTemplate><asp:DropDownList ID="ddl_Tax_Type_Entry"  Width="200px"   CssClass="GridDropDown" runat="server" ></asp:DropDownList></FooterTemplate><ItemTemplate><asp:Label ID="lbl_Tax_Type" Width="100px" CssClass="Label" runat="server" Text='<%#Eval("Tax_Type") %>'/></ItemTemplate><HeaderStyle ForeColor="White" /></asp:TemplateField><asp:TemplateField HeaderText="Tax Year"><EditItemTemplate><asp:DropDownList ID="ddl_Tax_Year" Width="100px" runat="server"   CssClass="GridDropDown"></asp:DropDownList></EditItemTemplate><FooterTemplate><asp:DropDownList ID="ddl_Tax_Year_Entry" Width="100px"   CssClass="GridDropDown" runat="server" ></asp:DropDownList></FooterTemplate><ItemTemplate><asp:Label ID="lbl_Tax_Year" Width="100px" CssClass="Label" runat="server" Text='<%#Eval("Tax_Year") %>'/></ItemTemplate><HeaderStyle ForeColor="White" /></asp:TemplateField><asp:TemplateField HeaderText="Status"><EditItemTemplate><asp:DropDownList ID="ddl_Tax_Status" Width="100px" runat="server" ></asp:DropDownList></EditItemTemplate><FooterTemplate><asp:DropDownList ID="ddl_Tax_Status_Entry" Width="100px"   CssClass="GridDropDown" runat="server" ></asp:DropDownList></FooterTemplate><ItemTemplate><asp:Label ID="lbl_Tax_Status" Width="100px" CssClass="Label" runat="server" Text='<%#Eval("Tax_Status") %>'/></ItemTemplate><HeaderStyle ForeColor="White" /></asp:TemplateField><asp:TemplateField HeaderText="Amount"><EditItemTemplate><asp:TextBox ID="txt_Tax_Amount" Width="100px"   CssClass="Gridtextbox" runat="server" Text='<%#Eval("Tax_Amount") %>'/><ajax:FilteredTextBoxExtender ID="txt_Tax_Amount_FilteredTextBoxExtender" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Tax_Amount" ValidChars="."></ajax:FilteredTextBoxExtender></EditItemTemplate><FooterTemplate><asp:TextBox ID="txt_Tax_Amount_Entry" Width="100px"   CssClass="Gridtextbox" runat="server"/></FooterTemplate><ItemTemplate><asp:Label ID="lbl_Tax_Amount" Width="100px"  CssClass="Label" runat="server" Text='<%#Eval("Tax_Amount") %>'/></ItemTemplate><HeaderStyle ForeColor="White" /></asp:TemplateField><asp:TemplateField HeaderText="Due Date"><EditItemTemplate><asp:TextBox ID="txt_Tax_Due_Date" Width="100px"   CssClass="Gridtextbox" runat="server" Text='<%#Eval("Tax_Due_Date") %>'/><ajax:FilteredTextBoxExtender ID="txt_Tax_Due_Date_filter_Date" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Tax_Due_Date" ValidChars="_/"></ajax:FilteredTextBoxExtender><ajax:CalendarExtender ID="txt_Tax_Due_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Due_Date"></ajax:CalendarExtender></EditItemTemplate><FooterTemplate><asp:TextBox ID="txt_Tax_Due_Date_Entry" Width="100px"   CssClass="Gridtextbox" runat="server"/><ajax:FilteredTextBoxExtender ID="txt_Tax_Due_Date_Entry_filter_Date" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Tax_Due_Date_Entry" ValidChars="_/"></ajax:FilteredTextBoxExtender><ajax:CalendarExtender ID="txt_Tax_Due_Date_Entry_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Due_Date_Entry"></ajax:CalendarExtender></FooterTemplate><ItemTemplate><asp:Label ID="lbl_Tax_Due_Date" Width="100px" CssClass="Label"  runat="server" Text='<%#Eval("Tax_Due_Date") %>'/></ItemTemplate><HeaderStyle ForeColor="White" /></asp:TemplateField><asp:TemplateField HeaderText="Period"><EditItemTemplate><asp:DropDownList ID="ddl_Tax_Period" Width="100px"   CssClass="GridDropDown" runat="server"></asp:DropDownList></EditItemTemplate><FooterTemplate><asp:DropDownList ID="ddl_Tax_Period_Entry" Width="100px"   CssClass="GridDropDown" runat="server" ></asp:DropDownList></FooterTemplate><ItemTemplate><asp:Label ID="lbl_Tax_Period" Width="100px" CssClass="Label" runat="server" Text='<%#Eval("Tax_Period") %>'/></ItemTemplate><HeaderStyle ForeColor="White" /></asp:TemplateField><asp:TemplateField HeaderText="Good Through Date"><EditItemTemplate><asp:TextBox ID="txt_Tax_Good_Through_Date" Width="100px"   CssClass="Gridtextbox" runat="server" Text='<%#Eval("Good_Through_Date") %>'/><ajax:FilteredTextBoxExtender ID="txt_Tax_Good_Through_Date_filter_Date" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Tax_Good_Through_Date" ValidChars="_/"></ajax:FilteredTextBoxExtender><ajax:CalendarExtender ID="txt_Tax_Good_Through_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Good_Through_Date"></ajax:CalendarExtender></EditItemTemplate><FooterTemplate><asp:TextBox ID="txt_Tax_Entry_Good_Through_Date"  Width="100px"   CssClass="Gridtextbox" runat="server"/><ajax:FilteredTextBoxExtender ID="txt_Tax_Entry_Good_Through_Date_filter_Date" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Tax_Entry_Good_Through_Date" ValidChars="_/"></ajax:FilteredTextBoxExtender><ajax:CalendarExtender ID="txt_Tax_Entry_Good_Through_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Entry_Good_Through_Date"></ajax:CalendarExtender></FooterTemplate><ItemTemplate><asp:Label ID="lbl_Tax_Good_Through_Date" Width="100px" CssClass="Label" runat="server" Text='<%#Eval("Good_Through_Date") %>'/></ItemTemplate><HeaderStyle ForeColor="White" /></asp:TemplateField><asp:TemplateField HeaderText="Paid Date"><EditItemTemplate><asp:TextBox ID="txt_Tax_Paid_Date" Width="100px"   CssClass="Gridtextbox" runat="server" Text='<%#Eval("Paid_Date") %>'/><ajax:FilteredTextBoxExtender ID="txt_Tax_Paid_Date_filter_Date" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Tax_Paid_Date" ValidChars="_/"></ajax:FilteredTextBoxExtender><ajax:CalendarExtender ID="txt_Tax_Paid_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Paid_Date"></ajax:CalendarExtender></EditItemTemplate><FooterTemplate><asp:TextBox ID="txt_Tax_Entry_Paid_Date" Width="100px"   CssClass="Gridtextbox" runat="server"/><ajax:FilteredTextBoxExtender ID="txt_Tax_Entry_Paid_Date_filter_Date" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Tax_Entry_Paid_Date" ValidChars="_/"></ajax:FilteredTextBoxExtender><ajax:CalendarExtender ID="txt_Tax_Entry_Paid_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Entry_Paid_Date"></ajax:CalendarExtender></FooterTemplate><ItemTemplate><asp:Label ID="lbl_Tax_Paid_Date" Width="100px" CssClass="Label" runat="server" Text='<%#Eval("Paid_Date") %>'/></ItemTemplate><HeaderStyle ForeColor="White" /></asp:TemplateField></Columns><EditRowStyle BackColor="#BED3D3" /><FooterStyle Font-Bold="True" ForeColor="White" /><HeaderStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" /><PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" /><RowStyle BackColor="#E3EAEB" /><SelectedRowStyle BackColor="#DBE8E8" Font-Bold="True" ForeColor="#333333" /><SortedAscendingCellStyle BackColor="#F8FAFA" /><SortedAscendingHeaderStyle BackColor="#246B61" /><SortedDescendingCellStyle BackColor="#D4DFE1" /><SortedDescendingHeaderStyle BackColor="#15524A" /></asp:GridView></div></td></tr></table></ContentTemplate></ajax:TabPanel>
+<ajax:TabPanel ID="TabPanel4" runat="server" ><HeaderTemplate>Assesed Values</HeaderTemplate><ContentTemplate><div id="div1" runat="server" style="overflow:scroll; height:200px; width:100%;"><table style=" width:100%;"><tr><td><table><tr><td 
+                                                      style=" border: thin dotted #008080; width:1100px;"><asp:UpdatePanel ID="Upcost" runat="server"><ContentTemplate><table 
+                                                      style=" width:100%;"><tr><td><asp:Label ID="lbl_Tax_Year" runat="server" CssClass="Label" Text="Tax Year"></asp:Label></td><td style="width:70px;"><asp:DropDownList ID="ddl_Assesed_Tax_Year" runat="server" CssClass="DropDown" 
+                    Width="100px"></asp:DropDownList></td><td style="width:70px;"><asp:Label ID="Label3" runat="server" CssClass="Label" Text="Land"></asp:Label></td><td style=" width:75px;"><asp:TextBox ID="txt_Land" runat="server" 
+                                                                  CssClass="textbox" 
+                    style="text-transform:uppercase;" Width="150px" AutoPostBack="True" ontextchanged="txt_Land_TextChanged" TabIndex="1"></asp:TextBox><ajax:FilteredTextBoxExtender ID="txt_Land_FilteredTextBoxExtender" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Land" ValidChars="."></ajax:FilteredTextBoxExtender></td><td style="width:75px;"><asp:Label 
+                                                                  ID="Label4" runat="server" 
+                    CssClass="Label" Text="Building"></asp:Label></td><td style="width:150px;"><asp:TextBox 
+                                                                  ID="txt_Building" 
+                    runat="server" CssClass="textbox" 
+                                                                  
+                    style="text-transform:uppercase;" Width="150px" AutoPostBack="True" ontextchanged="txt_Building_TextChanged" TabIndex="1"></asp:TextBox><ajax:FilteredTextBoxExtender ID="txt_Building_FilteredTextBoxExtender" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Building" ValidChars="."></ajax:FilteredTextBoxExtender></td><td><asp:Label ID="Label25" runat="server" CssClass="Label" Text="Total"></asp:Label></td><td><asp:TextBox ID="txt_total" runat="server" CssClass="textbox" 
+                    style="text-transform:uppercase;" Width="150px" Enabled="False"></asp:TextBox><ajax:FilteredTextBoxExtender ID="txt_total_FilteredTextBoxExtender" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_total" ValidChars="."></ajax:FilteredTextBoxExtender></td></tr></table></ContentTemplate></asp:UpdatePanel></td><td 
+                                                      align="right" style="border: thin dotted #008080"><asp:ImageButton 
+                                                          ID="imgbtn_Assesd_Add" 
+            runat="server" AlternateText="Add" ImageUrl="~/images/Gridview/Add.png" 
+                                                          Width="16px" 
+            onclick="imgbtn_Assesd_Add_Click" TabIndex="2" /></td></tr></table></td></tr><tr><td><asp:GridView 
+                                                          ID="grd_Assesed" 
+            runat="server" AllowSorting="True" AutoGenerateColumns="False" 
+                                                          CellPadding="4" 
+            CssClass="name" Font-Size="Medium" ForeColor="#333333" 
+                                                          GridLines="None" 
+            ShowHeaderWhenEmpty="True" Width="100%" 
+                onselectedindexchanged="grd_Assesed_SelectedIndexChanged"><AlternatingRowStyle 
+                                                          BackColor="White" /><Columns><asp:TemplateField HeaderText="id" Visible="False"><ItemTemplate><asp:Label 
+                                                              ID="lblTax_Assessed_Id" runat="server" CssClass="Label" Text='<%#Eval("Tax_Assessed_Id") %>' 
+                                                              Visible="false"></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField><asp:TemplateField 
+                                                            HeaderText="SI NO" SortExpression="Order_Number"><ItemTemplate><asp:Label 
+                                                                ID="lblsi_Assesid" runat="server" Text="<%# Container.DataItemIndex + 1 %>"> </asp:Label></ItemTemplate><HeaderStyle 
+                                                            HorizontalAlign="Center"></HeaderStyle><ItemStyle CssClass="Label" 
+                                                            HorizontalAlign="Center" Width="30px"></ItemStyle></asp:TemplateField><asp:TemplateField 
+                                                              HeaderText="Tax Year" SortExpression="Tax_Year"><ItemTemplate><asp:Label 
+                                                                  ID="lblTax_Year" runat="server" CssClass="Label" 
+                                                                  Text='<%#Eval("Tax_Year") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField>
+                                                              <asp:TemplateField 
+                                                              HeaderText="Land" SortExpression="Land_Cost"><ItemTemplate><asp:Label 
+                                                                  ID="lblLand_Cost" runat="server" CssClass="Label" 
+                                                                  Text='<%#Eval("Land_Cost") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField><asp:TemplateField 
+                                                              HeaderText="Building" SortExpression="Building_Cost"><ItemTemplate><asp:Label 
+                                                                  ID="lblBuilding_Cost" runat="server" CssClass="Label" 
+                                                                  Text='<%#Eval("Building_Cost") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField><asp:TemplateField 
+                                                              HeaderText="Total" SortExpression="Total"><ItemTemplate><asp:Label 
+                                                                  ID="lblTotal" runat="server" CssClass="Label" Text='<%#Eval("Total") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:ImageButton 
+                                                                  ID="imgbtnExamEdit" runat="server" CommandName="Select" Height="15px" 
+                                                                  ImageUrl="~/images/Gridview/View.png" Width="15px" /></ItemTemplate><ItemStyle 
+                                                              HorizontalAlign="Center" Width="16px" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:ImageButton 
+                                                                  ID="imgbtnExamDelete" runat="server" CommandName="Delete" Height="15px" 
+                                                                  ImageUrl="~/images/Gridview/Remove-icon.png" 
+                                                                  OnClientClick="return alert('Do you want delete ?');return true;" 
+                                                                  Width="12px" /></ItemTemplate><ItemStyle HorizontalAlign="Center" 
+                                                              VerticalAlign="Middle" Width="16px" /></asp:TemplateField></Columns><EditRowStyle 
+                                                          BackColor="#B8CFCF" /><EmptyDataRowStyle Font-Names="Verdana" 
+                                                          ForeColor="#FF5050" /><FooterStyle BackColor="#1C5E55" Font-Bold="True" 
+                                                          ForeColor="White" /><HeaderStyle BackColor="#1C5E55" Font-Bold="True" 
+                                                          Font-Size="Large" ForeColor="White" /><PagerStyle BackColor="#666666" 
+                                                          ForeColor="White" HorizontalAlign="Center" /><RowStyle 
+                                                          BackColor="#E3EAEB" /><SelectedRowStyle BackColor="#CCDDDD" 
+                                                          Font-Bold="True" 
+            ForeColor="#333333" /><sortedascendingcellstyle 
+                                                          backcolor="#F8FAFA" /><sortedascendingheaderstyle backcolor="#246B61" /><sorteddescendingcellstyle 
+                                                          backcolor="#D4DFE1" /><sorteddescendingheaderstyle backcolor="#15524A" /></asp:GridView></td></tr></table></div></ContentTemplate></ajax:TabPanel>
+
+</ajax:TabContainer>
+                                            </td>
+                                    </tr>
+                          
+                          
+                                    <tr>
+                                        <td colspan="2" style="border: thin dotted #008000; height:100px; width:100%;">
+                                        <asp:UpdatePanel ID="uporderTab" runat="server" UpdateMode="Always"><ContentTemplate>
+                                            <table style=" width:100%;">
+                                                <tr>
+                                                    <td style="width:150px;">
+                                                        <asp:Label ID="Label10" runat="server" CssClass="Label" Text="Tax Comments"></asp:Label>
+                                                    </td>
+                                                    <td colspan="5">
+                                                        <asp:TextBox ID="txt_Tax_Comments" ClientIDMode="Static"  runat="server" 
+                                                            CssClass="textbox" 
+                                                            Width="950px" AutoPostBack="True" 
+                                                            ontextchanged="txt_Tax_Comments_TextChanged"></asp:TextBox>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="Label11" runat="server" CssClass="Label" Text="Order Number"></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox ID="txt_Order_Number" runat="server" CssClass="textbox" 
+                                                            TabIndex="1" Enabled="False"></asp:TextBox>
+                                                    </td>
+                                                    <td>
+                                                        <asp:Label ID="Label17" runat="server" CssClass="Label" Text="Barrower Name"></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox ID="txt_Barrower_Name" CssClass="textbox" runat="server" 
+                                                            TabIndex="9" AutoPostBack="True" 
+                                                            ontextchanged="txt_Barrower_Name_TextChanged"></asp:TextBox>
+                                                    </td>
+                                                    <td rowspan="3">
+                                                        &nbsp;</td>
+                                                    <td rowspan="3">
+                                                        <asp:Button ID="btn_Update" runat="server" 
+                                                              CssClass="WebButton"    onclick="btn_Update_Click" 
+                                                            Text="Preview" Visible="False" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="Label12" runat="server" CssClass="Label" Text="Loan  Number"></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox ID="txt_Loan_Number" runat="server" CssClass="textbox" 
+                                                            TabIndex="2"></asp:TextBox>
+                                                    </td>
+                                                    <td>
+                                                        <asp:Label ID="Label18" runat="server" CssClass="Label" Text="Address"></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox ID="txt_Barrower_Address" runat="server" CssClass="textbox" 
+                                                            TabIndex="10" AutoPostBack="True" 
+                                                            ontextchanged="txt_Barrower_Address_TextChanged"></asp:TextBox>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="Label13" runat="server" CssClass="Label" Text="Client Name"></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox ID="txt_Client_Name" runat="server" CssClass="textbox"  ClientIDMode="Static"
+                                                            TabIndex="3" Enabled="False" AutoPostBack="True" 
+                                                            ontextchanged="txt_Client_Name_TextChanged"></asp:TextBox>
+                                                    </td>
+                                                    <td>
+                                                        <asp:Label ID="Label19" runat="server" CssClass="Label" Text="City And County"></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox ID="txt_Barrower_City" runat="server" CssClass="textbox" 
+                                                            Width="130px" TabIndex="11" AutoPostBack="True" 
+                                                            ontextchanged="txt_Barrower_City_TextChanged"></asp:TextBox>
+                                                        <asp:DropDownList ID="ddl_Barrower_County" runat="server" CssClass="DropDown" 
+                                                            Width="125px" TabIndex="12">
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="Label14" runat="server" CssClass="Label" Text="Address"></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox ID="txt_Client_Address" runat="server" CssClass="textbox" 
+                                                            TabIndex="4" AutoPostBack="True" 
+                                                            ontextchanged="txt_Client_Address_TextChanged"></asp:TextBox>
+                                                    </td>
+                                                    <td>
+                                                        <asp:Label ID="Label20" runat="server" CssClass="Label" Text="State And Zip"></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <asp:DropDownList ID="ddl_Barrower_State" runat="server" CssClass="DropDown" 
+                                                            Width="125px" AutoPostBack="True" 
+                                                            onselectedindexchanged="ddl_Barrower_State_SelectedIndexChanged" 
+                                                            TabIndex="13">
+                                                        </asp:DropDownList>
+                                                        <asp:TextBox ID="txt_Barrower_Zip" runat="server" CssClass="textbox" 
+                                                            Width="130px" TabIndex="14" AutoPostBack="True" 
+                                                            ontextchanged="txt_Barrower_Zip_TextChanged"></asp:TextBox>
+                                                    </td>
+                                                    <td>
+                                                  
+                                                        <asp:Label ID="Label28" runat="server" CssClass="Label" Text="ETA Date"></asp:Label>
+                                                  
+                                                    </td>
+                                                    <td>
+                                                     
+                                                             <asp:TextBox ID="txt_ETA_date" runat="server" CssClass="textbox" 
+                                                          style="text-transform:uppercase;"   TabIndex="18" AutoPostBack="True" 
+                                                            Enabled="False"></asp:TextBox>
+                                                          <ajax:FilteredTextBoxExtender ID="txt_ETA_date_FilteredTextBoxExtender" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_ETA_date" ValidChars="_/"></ajax:FilteredTextBoxExtender>
+
+ <ajax:CalendarExtender ID="txt_ETA_date_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_ETA_date"></ajax:CalendarExtender>
+                                                      </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="Label15" runat="server" CssClass="Label" Text="City And County"></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox ID="txt_Client_City" runat="server" CssClass="textbox" 
+                                                            Width="130px" TabIndex="5" AutoPostBack="True" 
+                                                            ontextchanged="txt_Client_City_TextChanged"></asp:TextBox>
+                                                        <asp:DropDownList ID="ddl_Client_County" CssClass="DropDown" runat="server" 
+                                                            Width="125px" TabIndex="6" AutoPostBack="True" 
+                                                            onselectedindexchanged="ddl_Client_County_SelectedIndexChanged">
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                    <td rowspan="3">
+                                                        <asp:Label ID="Label21" runat="server" CssClass="Label" Text="Cooments" 
+                                                            TabIndex="15"></asp:Label>
+                                                    </td>
+                                                    <td rowspan="3" valign="top">
+                                                       <div id="divcomments" runat="server" style=" overflow:scroll; height:100px;">
+
+                                                           <table style="width:100%;">
+                                                               <tr>
+                                                                   <td >
+                                                                       <asp:TextBox ID="txt_Order_Comments" runat="server" CssClass="textbox" 
+                                                                          TabIndex="16" AutoPostBack="True" 
+                                                                           ontextchanged="txt_Order_Comments_TextChanged"></asp:TextBox>
+                                                                   </td>
+                                                               </tr>
+                                                               <tr>
+                                                                   <td>
+                                                                          <asp:GridView ID="Grid_Comments" runat="server" AutoGenerateColumns="False" 
+                style="width:100%;"  PageSize="5" 
+                DataKeyNames="Comment_Id" GridLines="None" ShowHeader="False" CellSpacing="20" 
+                                                                BackColor="White">
+                <Columns>
+                   
+                          <asp:TemplateField Visible="false" ><ItemTemplate><asp:Label 
+                                                                  ID="lblComment_Id" runat="server" Visible="false" CssClass="Label" 
+                                                                  Text='<%#Eval("Comment_Id") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center"  /></asp:TemplateField>
+
+              
+                               
+                                <asp:TemplateField>
+                                  <ItemTemplate>
+                                 
+                                 <table>
+                                 <tr>
+                                 <td style="width:150px;" align="left" valign="top">  <asp:Label  ID="lblComment" runat="server" CssClass="Label"  Text='<%#Eval("Comment") %>'></asp:Label></td>
+                                    <td align="right"  >by:<asp:Label ID="lbl_Coomentuser" runat="server" ForeColor="Red" Text='<%# Eval("User_Name") %>' > </asp:Label></td>
+                                 </tr>
+                               
+                                 </table>
+                                 
+                                  
+                          </ItemTemplate>
+                                    
+
+                                 </asp:TemplateField>     
+
+                                
+              
+        
+         
+                </Columns>
+            </asp:GridView>
+                                                                      </td>
+                                                               </tr>
+                                                           </table>
+
+                                                       </div>
+                                                       </td>
+                                                    <td rowspan="2">
+                                                          <asp:Label ID="Label29" runat="server" CssClass="Label" Text="Notes"></asp:Label>
+                                                    </td>
+                                                    <td rowspan="3">
+                                                                                                  
+                                                        <div id="div4" runat="server" style=" overflow:scroll; height:100px;">
+
+                                                           <table style="width:100%;">
+                                                               <tr>
+                                                                   <td>
+                                                                       <asp:TextBox ID="txt_Order_Notes" runat="server" CssClass="textbox" 
+                                                                            TabIndex="17" AutoPostBack="True" 
+                                                                           ontextchanged="txt_Order_Notes_TextChanged"></asp:TextBox>
+                                                                   </td>
+                                                               </tr>
+                                                               <tr>
+                                                                   <td>
+                                                                          <asp:GridView ID="Grid_Notes" runat="server" AutoGenerateColumns="False" 
+                style="width:100%;"  PageSize="5" 
+                DataKeyNames="Note_Id" GridLines="None" ShowHeader="False" CellSpacing="20" 
+                                                                BackColor="White">
+                <Columns>
+                   
+                          <asp:TemplateField Visible="false" ><ItemTemplate><asp:Label 
+                                                                  ID="lblNote_Id" runat="server" Visible="false" CssClass="Label" 
+                                                                  Text='<%#Eval("Note_Id") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                               /></asp:TemplateField>
+          
+
+                                                                       <asp:TemplateField>
+                                  <ItemTemplate>
+                                 
+                                 <table>
+                                 <tr>
+                                 <td  style="width:150px;" align="left" valign="top"> <asp:Label 
+                                                                  ID="lblNote" runat="server" CssClass="Label" 
+                                                                  Text='<%#Eval("Note") %>'></asp:Label></td>
+                                    <td align="right">by:<asp:Label ID="lbl_Noteuser" runat="server"  ForeColor="Red" Text='<%# Eval("User_Name") %>' > </asp:Label></td>
+                                 </tr>
+                               
+                                 </table>
+                                 
+                                  
+                          </ItemTemplate>
+                                    
+
+                                 </asp:TemplateField>    
+
+         
+                </Columns>
+            </asp:GridView>
+                                                                      </td>
+                                                               </tr>
+                                                           </table>
+
+                                                       </div>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="Label16" runat="server" CssClass="Label" Text="State And Zip"></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <asp:DropDownList ID="ddl_Client_State" runat="server" CssClass="DropDown" 
+                                                            Width="125px" AutoPostBack="True" 
+                                                            onselectedindexchanged="ddl_Client_State_SelectedIndexChanged" 
+                                                            TabIndex="7">
+                                                        </asp:DropDownList>
+                                                        <asp:TextBox ID="txt_Client_Zip" runat="server" CssClass="textbox" 
+                                                            Width="130px" TabIndex="8" AutoPostBack="True" 
+                                                            ontextchanged="txt_Client_Zip_TextChanged"></asp:TextBox>
+                                                    </td>
+                                                </tr>
+                                             
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="Label24" runat="server" CssClass="Label" Text="Date"></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                          <asp:TextBox ID="txt_Date" runat="server" CssClass="textbox" 
+                                                          style="text-transform:uppercase;"   TabIndex="19" 
+                                                          Enabled="False"></asp:TextBox>
+                                                          <ajax:FilteredTextBoxExtender ID="filter_Date" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Date" ValidChars="_/"></ajax:FilteredTextBoxExtender>
+
+ <ajax:CalendarExtender ID="txt_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_Date"></ajax:CalendarExtender></td>
+                                                    <td>
+                                                        &nbsp;</td>
+                                                </tr>
+                                             
+                                            </table>
+                                        </ContentTemplate></asp:UpdatePanel>
+                                          </td>
+                                    </tr>
+                          
+                          
+                                </table>
+                                   <a href="#" class="back-to-top"><div class="imgbacktotop"></div></a>
+            </ContentTemplate></asp:UpdatePanel>
+               </div>
+                  
+               </td>
+        </tr>
+    </table>
+     <div>                            
+    <asp:UpdateProgress id="updateProgress" runat="server">
+    <ProgressTemplate>
+        <div style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #DBDBDB; opacity: 0.7;">
+            <asp:Image ID="imgUpdateProgress" runat="server" 
+               ImageUrl="~/img/Loading.gif"  AlternateText="Loading ..." 
+                ToolTip="Loading ..." style="padding: 10px;position:fixed;top:45%;left:50%;" />
+        </div>
+    </ProgressTemplate>
+</asp:UpdateProgress>
+
+
+        
+        <div>
+            <ajaxToolkit:ModalPopupExtender ID="model1" TargetControlID="updateProgress" PopupControlID="updateProgress"  Enabled="true" runat="server" ViewStateMode="Enabled" >
+            
+            </ajaxToolkit:ModalPopupExtender>
+        </div>
+    </div>
+    </ContentTemplate></asp:UpdatePanel>
+</asp:Content>
+
+

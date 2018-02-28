@@ -1,0 +1,45 @@
+﻿.padding
+{
+    padding: 2px;
+}
+
+/*.btnStyle
+{
+    padding: 2px 10px 2px 10px;
+    border: 1px solid #003366;
+    background-image: url('../images/btn.jpg');
+    background-repeat: repeat-x;
+    background-position: left;
+    color: #FFFFFF;
+    background-color: #01aae1;
+}
+.btnStyle:hover
+{
+    background-image: url('../images/btn-hover.jpg');
+    background-repeat: repeat-x;
+    background-position: left;
+    color: #FFFFFF;
+    background-color: #01bee8;
+}
+
+*/
+.btnStyle
+{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #008FDB #005CB9 #002851 #002142;
+    padding: 2px 10px 2px 10px;
+    background-image: url('../images/btn.jpg');
+    background-repeat: repeat-x;
+    background-position: left;
+    color: #FFFFFF;
+    background-color: #0080C0;
+}
+.btnStyle:hover
+{
+    background-image: url('../images/btn-hover.jpg');
+    background-repeat: repeat-x;
+    background-position: left;
+    color: #FFFFFF;
+    background-color: #0196e1;
+}

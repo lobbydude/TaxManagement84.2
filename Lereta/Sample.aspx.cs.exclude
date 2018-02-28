@@ -1,0 +1,181 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Collections;
+using System.Data;
+using System.Net;
+using System.IO;
+
+
+public partial class Lereta_Sample : System.Web.UI.Page
+{
+    Commonclass commnclass = new Commonclass();
+    DataAccess dataaccess = new DataAccess();
+    DropDownistBindClass dbc = new DropDownistBindClass();
+    Checkboxbindclass chk = new Checkboxbindclass();
+    DataTable dt = new DataTable();
+    Hashtable ht = new Hashtable();
+    int userid;
+    string Empname;
+    string duplicate;
+    int Tax_Type_Id;
+    int Tax_Status_Id;
+    int Tax_Period_Id;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        if (!IsPostBack)
+        {
+            GenRateDynamicGridvieW();
+           Load_Grd_Tax_Type();
+        }
+
+    }
+
+
+    protected void GenRateDynamicGridvieW()
+    {
+
+        DataTable dt = new DataTable();
+        DataRow dr = null;
+       
+        //dt.Columns.Add(new DataColumn("Rownumber", typeof(string)));
+        //dt.Columns.Add(new DataColumn("Tax_Type_Id", typeof(string)));
+        dt.Columns.Add(new DataColumn("Tax_Type", typeof(string)));
+        for (int i = 0; i < 2; i++)
+        {
+            dr = dt.NewRow();
+           // dr["Rownumber"] = 1;
+            //dr["Tax_Type_Id"] = string.Empty;
+            dr["Tax_Type"] = string.Empty;
+            dt.Rows.Add(dr);
+        }
+        ViewState["CurentTable"] = dt;
+        grvStudentDetails.DataSource = dt;
+        grvStudentDetails.DataBind();
+
+    }
+    private void AddNewRow()
+    {
+
+        int rowIndex = 0;
+        if (ViewState["CurentTable"] != null)
+        {
+
+            DataTable dtcurrentTable = (DataTable)ViewState["CurentTable"];
+            DataRow dtcurrentrow = null;
+            if (dtcurrentTable.Rows.Count > 0)
+            {
+
+                for (int i = 0; i < dtcurrentTable.Rows.Count; i++)
+                { 
+
+                    
+                    DropDownList ddl_TaxType = (DropDownList)grvStudentDetails.Rows[rowIndex].Cells[1].FindControl("ddl_TaxType");
+                    dtcurrentrow = dtcurrentTable.NewRow();
+                    dtcurrentrow["Rownumber"] = i + 1;
+
+
+                    //dtcurrentTable.Rows[i - 1]["colmn1"] = ddl_TaxType.SelectedValue;
+                    
+                    rowIndex++;
+
+                }
+
+                dtcurrentTable.Rows.Add(dtcurrentrow);
+                ViewState["CurentTable"] = dtcurrentTable;
+                grvStudentDetails.DataSource = dtcurrentTable;
+                grvStudentDetails.DataBind();
+
+            }
+
+        }
+    }
+    protected void ButtonAdd_Click(object sender, EventArgs e)
+    {
+        AddNewRow();
+    }
+    protected void btn_Save_Tax_Type_Click(object sender, EventArgs e)
+    {
+        Load_Grd_Tax_Type();
+        //dt.Clear();
+        //ht.Clear();
+
+        //ht.Add("@Trans", "INSERT");
+        //ht.Add("@Tax_Type", txt_Tax_Type.Text);
+        //ht.Add("@Inserted_By", 0);
+        //ht.Add("@Inserted_Date", DateTime.Now);
+        //dt = dataaccess.ExecuteSP("Sp_Tax_Type", ht);
+
+     
+        //Load_Grd_Tax_Type();
+        //clear();
+        
+    }
+    protected void Load_Grd_Tax_Type()
+    {
+     
+        dt.Clear();
+        ht.Clear();
+        int iRowcount = 0;
+        ht.Add("@Trans", "SELECT");
+        dt = dataaccess.ExecuteSP("Sp_Tax_Type", ht);
+        if (dt.Rows.Count > 0)
+        {
+
+            grvStudentDetails.Visible = true;
+            grvStudentDetails.DataSource = dt;
+            grvStudentDetails.DataBind();
+            iRowcount = iRowcount + 1;
+        }
+     
+    }
+    protected void grvStudentDetails_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+
+    }
+    protected void grvStudentDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+
+            DropDownList ddltaxtype = (DropDownList)e.Row.FindControl("ddl_TaxType");
+            TextBox txt_TaxType = (TextBox)e.Row.FindControl("txt_taxType");
+            dbc.BindTax_Type(ddltaxtype);
+            Hashtable htsel = new Hashtable();
+            DataTable dtsel = new System.Data.DataTable();
+
+            htsel.Add("@Trans", "SELECT");
+
+            dtsel = dataaccess.ExecuteSP("Sp_Tax_Type", htsel);
+            if (dtsel.Rows.Count > 0)
+            {
+                ddltaxtype.SelectedValue = dtsel.Rows[0]["Tax_Type_Id"].ToString();
+                txt_TaxType.Text = dtsel.Rows[0]["Tax_Type"].ToString();
+            }
+
+            
+        }
+        else if ((e.Row.RowState==DataControlRowState.Edit))
+        {
+
+            DropDownList ddltaxtype = (DropDownList)e.Row.FindControl("ddl_TaxType");
+            dbc.BindTax_Type(ddltaxtype);
+             Hashtable htsel = new Hashtable();
+                DataTable dtsel = new System.Data.DataTable();
+
+                htsel.Add("@Trans", "SELECT");
+
+                dtsel = dataaccess.ExecuteSP("Sp_Tax_Type", htsel);
+                if (dtsel.Rows.Count > 0)
+                {
+                    ddltaxtype.SelectedValue = dtsel.Rows[0]["Tax_Type_Id"].ToString();
+                }
+
+        }
+    }
+
+}

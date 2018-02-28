@@ -1,0 +1,501 @@
+﻿A.Header {font-family: Trebuchet MS, Arial; font-size:22px; color:#5a5a5a; text-decoration:none;}
+
+#ui-datepicker-div { display: none; }
+div.ui-datepicker{ font-size:10px; }
+div.ui-dialog{ font-size:12px; }
+
+body { margin: 0px auto; }
+
+.main { text-align:left; font-family:Trebuchet MS, Arial; font-size:12px; color:#7d7d7d; }
+.main2 { text-align:left; font-family:Trebuchet MS, Arial; font-size:12px; color:#000000; }
+	
+.WebHRLogo { padding-top: 8px; float:left; }
+.WebHR_OrganizationLogo { float:right; }
+.WebHR_OrganizationName { font-family:Trebuchet MS, Arial; font-size:22px; margin:10px 0 0 0; float:right; }
+
+.WebHRTop { background:url(../images/Template/bgTop.png); width:100%; height:68px; }
+.WebHRLogos { width:90%; height:68px; margin: 0px auto; }
+.WebHRMain { width:90%; margin-left: auto;
+    margin-right: auto;
+    margin-top: 0px;
+    height: 74px;
+}
+.WebHRMenuItems { padding:0 0 0 0;color:#ffffff; }
+
+.WebHRBottom { height:100px; }
+.WebHRBottom a { font-family:Trebuchet MS, Arial; font-size:11px; color:#b9b9b9; padding-top:10px; height:26px; }
+.WebHRBottomText { font-family:Trebuchet MS, Arial; font-size:11px; color:#b9b9b9; }
+.WebHRBottom2 { font-family:Trebuchet MS, Arial; font-size:11px; color:#b9b9b9; padding-top:10px; height:92px; background-color:#262626; }
+.WebHRBottom2 a { font-family:Trebuchet MS, Arial; font-size:11px; color:#b9b9b9; padding-top:10px;  background-color:#262626; }
+
+.WebHRTable_Top { height:20px; font-family:Trebuchet MS, Arial; font-size:12px; color:#fff; background-color:#87b6d9; }
+.WebHRTable_Body { height:20px; border-bottom:1px solid #87b6d9; font-family:Trebuchet MS, Arial; font-size:12px; color:#226496; background-color:#f7fbff; }
+.WebHRTable_BodyAlt { height:20px; border-bottom:1px solid #87b6d9; font-family:Trebuchet MS, Arial; font-size:12px; color:#226496; background-color:#fff; }
+
+.WebHRDetails_Title { font-family:Trebuchet MS, Arial; font-size:12px; color:#226496; border-bottom:1px solid #87b6d9; padding:5px; }
+.WebHRDetails_Body { font-family:Trebuchet MS, Arial; font-size:12px; color:#226496; padding:5px; }
+
+.WebHRTitle1 { font-family:'ProximaNova-Light',Arial; font-size:20px; font-weight:normal; margin: 0.3em; padding-bottom: 4px; padding-left: 0.2em; }
+.WebHRTitle2 { font-family:'OpenSans-Light',Arial; font-size:22px; }
+
+.WebHRForm1 { font-family: Trebuchet MS, Arial; font-size: 12px; font-weight: normal; color: #58647E; border-top:0px;border-left:0px;border-right:0px; border-bottom:1px solid #b9b9b9;background-color: transparent; }
+
+FORM { display: inline; }
+
+.normtext { font-family: Arial, Verdana; font-weight: NORMAL; font-size:12px; color:#000000; }
+.redtext { font-family: Arial, Verdana; font-weight: NORMAL; font-size:12px; color:RED; }
+
+
+.news { font-family: Arial; font-weight: BOLD; font-size:9pt; color:#EAE3D3; }
+.menus
+{
+    font-family: Verdana, Arial;
+    font-weight: BOLD;
+    font-size: 9px;
+    color: #000000;
+}
+.smalltext { FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Arial }
+.form1  
+{
+	font-family: Trebuchet MS, Arial; font-size: 12px; font-weight: normal; color: #58647E; 
+	background-color: #FFFFFF; border: 1px solid #999999; vertical-align: middle
+
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-o-transition: border linear 0.2s, box-shadow linear 0.2s;
+	transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+
+.form1:focus
+{
+	border-color: rgba(82, 168, 236, 0.8);
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+	outline: 0;
+	outline: thin dotted \9;
+	/* IE6-9 */
+}
+
+.form2 { font-family: Tahoma, Verdana, Arial, Helvetica; font-size: 16px; font-weight: normal; color: #58647E; background-color: #FFFFFF; border: 1px solid #999999; vertical-align: middle}
+.form3 { font-family: Verdana, Arial, Helvetica; font-size: 10px; font-weight: bold; color: gray; background-color: #FFFFFF; border: 0px; vertical-align: middle}
+.scrolltext { font-family: Arial; font-weight: BOLD; font-size:9pt; color:#000000; }
+.scrolltext2 { font-family: Arial, Verdana; font-weight: BOLD; font-size:8pt; color:#000000; }
+
+.form1_disabled { font-family: Verdana, Arial, Helvetica; font-size: 10px; font-weight: bold; color: #58647E; background-color: #ece9d8; border: 1px solid #999999; vertical-align: middle;}
+
+.blackheading { font-family: Arial; font-weight: BOLD; font-size:9pt; color:#000000; }
+.menus { font-family: Arial, Verdana; font-weight: BOLD; font-size:11px; color:#680D0D; }
+.adminheading { font-family: Arial; font-weight: BOLD; font-size:12pt; color:#000000; }
+
+.disclaimer { font-family: Arial, Verdana; font-weight: NORMAL; font-size:8pt; color:#5B6A8E; }
+.maintext { font-family: Arial, Verdana; font-weight: NORMAL; font-size:8pt; color:#000000; }
+.largetext { font-family: Arial, Verdana; font-weight: NORMAL; font-size:10pt; color:#000000; }
+.blacktext { font-family: Verdana; font-weight: bold; font-size:8pt; color:#000000; }
+.errormessage { font-family: Verdana; font-weight: bold; font-size:8pt; color:#000000; }
+.boldtext { font-family: Arial, Verdana; font-weight: BOLD; font-size:8pt; color:#000000; }
+
+.BoldMessages { font-family: Arial, Verdana; font-weight: BOLD; font-size:12px; color:#395584; }
+
+.WhiteHeading { font-family: Arial, Verdana; font-weight: BOLD; font-size:12px; color:#FFFFFF; }
+.WhiteHeading2 { font-family: Arial, Verdana; font-weight: BOLD; font-size:14px; color:#FFFFFF; }
+
+.blackheading { font-family: Arial; font-weight: BOLD; font-size:9pt; color:#000000; }
+
+.title1 { FONT-SIZE: 24px; COLOR: #003366; FONT-WEIGHT: Bold; FONT-FAMILY: Arial }
+.headerlink  { color: #555; font-size: 10px; font-family: Geneva, Arial, Helvetica, Swiss, SunSans-Regular; text-decoration: none; letter-spacing: 1px; }
+
+.GrayText { font-family: Arial, Verdana; font-weight: NORMAL; font-size:8pt; color:gray; }
+
+.dividergrayh { BACKGROUND: url(../images/dot-gray.gif) repeat-x left top }
+.dividergrayv { BACKGROUND: url(../images/dot-gray.gif) repeat-y left top }
+
+SPAN.TreeviewSpanArea A { font-family: Arial, Verdana; font-weight: NORMAL; font-size:8pt; color:#000000; }
+SPAN.TreeviewSpanArea A:hover { color:#820082; }
+
+#bordermessage {
+  font-size: 12px;
+  text-align: center;
+  margin: 0px 0px;
+  padding: 10px 0px;
+  color: #999;
+  background: #f7f7f7;
+  border: solid 1px #ddd; }
+
+#helpmessage {
+  font-size: 12px;
+  text-align: justify;
+  margin: 0px 0px;
+  padding: 10px 10px;
+  color: #999;
+  background: #f7f7f7;
+  border: solid 1px #ddd; }
+
+.graybutton { font-family: Verdana, Arial, Helvetica; font-size: 10px; font-weight: normal; color: #58647E; background-color: #f7f7f7; border: solid 1px #395584; vertical-align: middle }
+
+.formbutton2 { border-style: solid; border-top-width: 1px; border-left-width: 1px; border-bottom-width: 1px; border-right-width: 1px; border-top-color: #D9DFEA; border-left-color: #D9DFEA; border-bottom-color: #0e1f5b; border-right-color: #0e1f5b; background-color: #336699; color: #FFFFFF; font-size: 11px; padding: 0px; font-family: "lucida grande", tahoma, verdana, arial, sans-serif; }
+.formbutton3 { font-family:verdana, arial; font-size:10px; }
+.AdminHeader { font-family:Ebrima, Verdana; font-size:19px; Color: #003366;
+    margin-bottom: 0px;
+}
+
+.AdminFormButton1
+{
+    font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #000000;
+    background-color: transparent;
+    background-image: url(../images/ButtonBG-blue.gif);
+    border: 0 solid white;
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 21px;
+}
+
+.AdminFormButtonAdd {
+  font-family: Tahoma, Arial;
+  font-size: 11px;
+  color: #000000;
+  background-color: transparent;
+  background-image: url(../images/btnAdd.png);
+  border: 0 solid white;
+  background-repeat: no-repeat;
+  width:110px; height:21px;
+}
+
+.AdminFormButtonOk {
+  font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: #000000;
+  background-color: transparent;
+  background-image: url(../images/ButtonBG_Ok.gif);
+  border: 0 solid white;
+  background-repeat: no-repeat;
+  width:91px; height:21px;
+}
+
+
+.AdminFormButtonCancel {
+  font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: #000000;
+  background-color: transparent;
+  background-image: url(../images/ButtonBG_Cancel.gif);
+  border: 0 solid white;
+  background-repeat: no-repeat;
+  width:91px; height:21px;
+}
+
+
+.AdminFormButtonRemove {
+  font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: #000000;
+  background-color: transparent;
+  background-image: url(../images/ButtonBG_Remove.gif);
+  border: 0 solid white;
+  background-repeat: no-repeat;
+  width:91px; height:21px;
+}
+
+.ReportTitle { font-family:Arial, Tahoma; font-size:20px; font-weight:bold; color:green; }
+.ReportDate { font-family:Arial, Tahoma; font-size:12px; font-weight:bold; }
+
+.GridTable { border: 2px; border-style: solid; border-color:#c6c6c6; border-collapse: collapse; }
+.GridTR { background-color:#577bb0; border-color:red; }
+.GridTD { border: 1px solid #d7d7d7; }
+
+.formbutton {
+  font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: #000000;
+  background-color: transparent;
+  background-image: url(../images/ButtonBG-blue.gif);
+  border: 0 solid white;
+  background-repeat: no-repeat;
+  width:100px; height:21px;
+}
+
+.heading { font-size:16px; font-weight:bold; }
+
+.title2 { font-size: 18px; color: #ffffff; font-weight: bold; font-style:italic; font-family: Times New Roman, Arial, Verdana }
+.title3 { font-size: 12px; color: #577bb0; font-weight: bold; font-family: Arial, Verdana }
+
+.Details_Title { font-size: 18px; color: #ffffff; font-weight: bold; font-style:italic; font-family: Times New Roman, Arial, Verdana }
+.Details_Title_TR { background-color:#577bb0; }
+
+.Help_Title { font-family: Tahoma, Arial; font-size:18px; }
+.Help_Title2 { font-family: Tahoma, Arial; font-size:12px; font-weight:bold; }
+.Help_Contents { font-family: Tahoma, Arial; font-size:13px; }
+
+.Tahoma12 { font-family: Tahoma, Arial; font-size:12px; font-weight:normal; }
+.Tahoma12Bold { font-family: Tahoma, Arial; font-size:12px; font-weight:bold; }
+
+.Tahoma14 { font-family: Tahoma, Arial; font-size:14px; font-weight:normal; }
+.Tahoma14Bold { font-family: Tahoma, Arial; font-size:14px; font-weight:bold; }
+
+.Tahoma16 { font-family: Tahoma, Arial; font-size:16px; font-weight:normal; }
+.Tahoma16Bold { font-family: Tahoma, Arial; font-size:16px; font-weight:bold; }
+
+.style1 {
+	font-family: "trebuchet MS";
+	color: #000000;
+	font-weight: bold;
+	font-size: 22px;
+}
+.style2 {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+/* New CSS */
+.LoginBox { font-family:Tahoma, Arial; font-size:14px; width:160px; }
+
+.Trebuchet11 { font-family:Trebuchet MS, Arial; font-size:11px; color:#000000; }
+.Trebuchet12 { font-family:Trebuchet MS, Arial; font-size:12px; color:#000000; }
+.Trebuchet14 { font-family:Trebuchet MS, Arial; font-size:14px; color:#000000; }
+.Trebuchet16 { font-family:Trebuchet MS, Arial; font-size:16px; color:#000000; }
+.Trebuchet18 { font-family:Trebuchet MS, Arial; font-size:18px; color:#000000; }
+.Trebuchet22 { font-family:Trebuchet MS, Arial; font-size:22px; color:#000000; }
+.Trebuchet16Bold { font-family:Trebuchet MS, Arial; font-size:16px; color:#000000; font-weight:bold; }
+.Trebuchet12White { font-family:Trebuchet MS, Arial; font-size:12px; color:#ffffff; }
+
+.Trebuchet11Gray { font-family:Trebuchet MS, Arial; font-size:11px; color:#6a6a6a; }
+.Trebuchet12Gray { font-family:Trebuchet MS, Arial; font-size:12px; color:#6a6a6a; }
+
+.Calibri12 { font-family: Calibri, Arial; font-size:12px; }
+.Calibri12B { font-family: Calibri, Arial; font-size:12px; font-weight:bold; }
+.Calibri14 { font-family: Calibri, Arial; font-size:14px; }
+.Calibri14B { font-family: Calibri, Arial; font-size:14px; font-weight:bold; }
+
+/* Box */
+.Box_Top_Left { background:url(../images/box/top_left.png); width:12px; height:4px; background-repeat:no-repeat; }
+.Box_Top_Right { background:url(../images/box/top_right.png); width:12px; height:4px; background-repeat:no-repeat; }
+.Box_Top_Mid { background:url(../images/box/top_mid.png); background-repeat:repeat-x; }
+.Box_Bottom_Left { background:url(../images/box/bottom_left.png); width:12px; height:28px; background-repeat:no-repeat; }
+.Box_Bottom_Right { background:url(../images/box/bottom_right.png); width:12px; height:28px; background-repeat:no-repeat; }
+.Box_Bottom_Mid { background:url(../images/box/bottom_mid.png); background-repeat:repeat-x; }
+.Box_Mid_Left { background:url(../images/box/mid_left.png); width:12px; background-repeat:repeat-y; }
+.Box_Mid_Right { background:url(../images/box/mid_right.png); width:12px; background-repeat:repeat-y }
+
+/* Box 2 */
+.top_left { background:url(../images/box2/top_left.png); background-repeat:no-repeat; background-position:left; width:6px; height:28px; }
+.top_mid1 { background:url(../images/box2/top_mid1.png); background-repeat:repeat-x; height:28px; }
+.top_mid2 { background:url(../images/box2/top_mid2.png); background-repeat:no-repeat; width:43px; }
+.top_mid3 { background:url(../images/box2/top_mid3.png); background-repeat:repeat-x; }
+.top_right{ background:url(../images/box2/top_right.png); background-repeat:no-repeat; background-position:right; height:28px; width:6px; }
+.tab_mid { 	padding-left:6px; padding-right:6px; line-height:18px; background:#fff; border-right-width: thin; border-right-style: solid; border-left-style: solid; border-right-color: #afced3; border-left-color: #afced3; border-left-width: thin; }
+.bottom_left{ background:url(../images/box2/bottom_left.png); background-repeat:no-repeat; width:6px; height:7px; }
+.bottom_mid{ background:url(../images/box2/bottom_mid.png); background-repeat:repeat-x; height:7px; }
+.bottom_right{ background:url(../images/box2/bottom_right.png); background-repeat:no-repeat; width:6px; height:7px; }
+
+/* New Interface */
+.UITable { border:0px; }
+.UITR { border:0px; background-color:#b8b8b8; }
+.UITD { border-bottom: 1px solid #d7d7d7; font-family:Trebuchet MS, Arial; font-size:11px; color:#484848; }
+
+.UIText { font-family: Trebuchet MS, Arial; font-size:12px; color:#5a5a5a; }
+
+.Header { font-family: Trebuchet MS, Arial; font-size:22px; color:#5a5a5a; }
+.Header2 { font-family: Trebuchet MS, Arial; font-size:18px; color:#5a5a5a; }
+.Header3 { font-family: Trebuchet MS, Arial; font-size:14px; color:#5a5a5a; }
+
+.Question { font-size:18px; font-weight:normal; font-family: Tahoma, Arial, Verdana; color:#003366; }
+.Answer { text-align:justify; font-family: Tahoma, Arial; font-size:12px; color:#000000; }
+A.Answer { text-align:justify; font-family: Tahoma, Arial; font-size:12px; color:#0000ff; text-decoration:underline; }
+.Heading1 { font-size:18px; font-weight:normal; font-family: Tahoma, Arial, Verdana; color:#003366; }
+
+
+.UIButtonAdd { background:url(../images/icons/plus.gif) no-repeat 6px 6px;background-color: #e3e3e3; border: 1px solid #bbb; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -webkit-box-shadow: inset 0 0 1px 1px #f6f6f6; -moz-box-shadow: inset 0 0 1px 1px #f6f6f6; box-shadow: inset 0 0 1px 1px #f6f6f6; color: #333; font: bold 12px "helvetica neue", helvetica, arial, sans-serif; line-height: 1; padding: 7px 0 9px 12px; text-align: center; text-shadow: 0 1px 0 #fff; } 
+.UIButtonAdd:hover { background:url(../images/icons/plus.gif) no-repeat 6px 6px;background-color: #d9d9d9; -webkit-box-shadow: inset 0 0 1px 1px #eaeaea; -moz-box-shadow: inset 0 0 1px 1px #eaeaea; box-shadow: inset 0 0 1px 1px #eaeaea; color: #222; cursor: pointer; }
+.UIButtonAdd:active { background:url(../images/icons/plus.gif) no-repeat 6px 6px;background-color: #d0d0d0; -webkit-box-shadow: inset 0 0 1px 1px #e3e3e3; -moz-box-shadow: inset 0 0 1px 1px #e3e3e3; box-shadow: inset 0 0 1px 1px #e3e3e3; color: #000; }
+
+.UIButtonBack { background:url(../images/icons/iconBack.png) no-repeat 6px 6px;background-color: #e3e3e3; border: 1px solid #bbb; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -webkit-box-shadow: inset 0 0 1px 1px #f6f6f6; -moz-box-shadow: inset 0 0 1px 1px #f6f6f6; box-shadow: inset 0 0 1px 1px #f6f6f6; color: #333; font: bold 12px "helvetica neue", helvetica, arial, sans-serif; line-height: 1; padding: 7px 0 9px 12px; text-align: center; text-shadow: 0 1px 0 #fff; } 
+.UIButtonBack:hover { background:url(../images/icons/iconBack.png) no-repeat 6px 6px;background-color: #d9d9d9; -webkit-box-shadow: inset 0 0 1px 1px #eaeaea; -moz-box-shadow: inset 0 0 1px 1px #eaeaea; box-shadow: inset 0 0 1px 1px #eaeaea; color: #222; cursor: pointer; }
+.UIButtonBack:active { background:url(../images/icons/iconBack.png) no-repeat 6px 6px;background-color: #d0d0d0; -webkit-box-shadow: inset 0 0 1px 1px #e3e3e3; -moz-box-shadow: inset 0 0 1px 1px #e3e3e3; box-shadow: inset 0 0 1px 1px #e3e3e3; color: #000; }
+
+.UIButtonNext { background:url(../images/icons/iconNext.png) no-repeat 100px 6px;width:120px; background-color: #e3e3e3; border: 1px solid #bbb; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -webkit-box-shadow: inset 0 0 1px 1px #f6f6f6; -moz-box-shadow: inset 0 0 1px 1px #f6f6f6; box-shadow: inset 0 0 1px 1px #f6f6f6; color: #333; font: bold 12px "helvetica neue", helvetica, arial, sans-serif; line-height: 1; padding: 7px 0 9px 10px; text-align: left; text-shadow: 0 1px 0 #fff; } 
+.UIButtonNext:hover { background:url(../images/icons/iconNext.png) no-repeat 100px 6px;width:120px; background-color: #d9d9d9; -webkit-box-shadow: inset 0 0 1px 1px #eaeaea; -moz-box-shadow: inset 0 0 1px 1px #eaeaea; box-shadow: inset 0 0 1px 1px #eaeaea; color: #222; cursor: pointer; }
+.UIButtonNext:active { background:url(../images/icons/iconNext.png) no-repeat 100px 6px;width:120px; background-color: #d0d0d0; -webkit-box-shadow: inset 0 0 1px 1px #e3e3e3; -moz-box-shadow: inset 0 0 1px 1px #e3e3e3; box-shadow: inset 0 0 1px 1px #e3e3e3; color: #000; }
+
+.UIForm1 { font-size:22px; color: #58647E; background-color: #ffffff; border: 1px solid #999999; vertical-align: middle}
+
+/* Search Box */
+#search-box{display:inline-block;width:140px;height:17px;padding:4px;border:1px solid #a5a5a5;border-radius:3px;-moz-border-radius:3px}
+#search{font-family:Trebuchet MS, Arial; font-size:11px; width:120px;height:17px;display:block;float:left;border:0 none;padding:0;outline:none}
+#magnifier{width:17px;height:17px;background:url(../images/magnifier.png);float:left;cursor:pointer}
+.search{font-family:Trebuchet MS, Arial; font-size:11px; width:120px;height:17px;display:block;float:left;border:0 none;padding:0;outline:none}
+
+.SummaryTitle { font-size:13px; float:left; margin-top:8px; }
+.SummaryValue { font-size:13px; float:right; margin-top:8px; }
+
+/********** Web Fonts **********/
+@font-face { 
+    font-family: 'ProximaNova-Light';
+    src: url('../../system/Assets/WebHR_Assets/ProximaNova-Light-webfont.eot');
+    src: url('../../system/Assets/WebHR_Assets/ProximaNova-Light-webfont.eot?#') format('embedded-opentype'),
+         url('../../system/Assets/WebHR_Assets/ProximaNova-Light-webfont.woff') format('woff'),
+         url('../../system/Assets/WebHR_Assets/ProximaNova-Light-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face { 
+    font-family: 'OpenSans-Light';
+    src: url('../../system/Assets/WebHR_Assets/OpenSans-Light-webfont.eot');
+    src: url('../../system/Assets/WebHR_Assets/OpenSans-Light-webfont.eot?#') format('embedded-opentype'),
+         url('../../system/Assets/WebHR_Assets/OpenSans-Light-webfont.woff') format('woff'),
+         url('../../system/Assets/WebHR_Assets/OpenSans-Light-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face { 
+    font-family: 'yanonekaffeesatz-light';
+    src: url('../../system/Assets/WebHR_Assets/yanonekaffeesatz-light-webfont.eot');
+    src: url('../../system/Assets/WebHR_Assets/yanonekaffeesatz-light-webfont.eot?#') format('embedded-opentype'),
+         url('../../system/Assets/WebHR_Assets/yanonekaffeesatz-light-webfont.woff') format('woff'),
+         url('../../system/Assets/WebHR_Assets/yanonekaffeesatz-light-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'yanonekaffeesatz';
+    src: url('../../system/Assets/WebHR_Assets/yanonekaffeesatz-regular-webfont.eot');
+    src: url('../../system/Assets/WebHR_Assets/yanonekaffeesatz-regular-webfont.eot?#') format('embedded-opentype'),
+         url('../../system/Assets/WebHR_Assets/yanonekaffeesatz-regular-webfont.woff') format('woff'),
+         url('../../system/Assets/WebHR_Assets/yanonekaffeesatz-regular-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'yanonekaffeesatz-bold';
+    src: url('../../system/Assets/WebHR_Assets/yanonekaffeesatz-bold-webfont.eot');
+    src: url('../../system/Assets/WebHR_Assets/yanonekaffeesatz-bold-webfont.eot?#') format('embedded-opentype'),
+         url('../../system/Assets/WebHR_Assets/yanonekaffeesatz-bold-webfont.woff') format('woff'),
+         url('../../system/Assets/WebHR_Assets/yanonekaffeesatz-bold-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face{font-family:'BentonSans';src:url('../../system/Assets/WebHR_Assets/BentonSans.eot?#iefix') format('embedded-opentype'),url('../../system/Assets/WebHR_Assets/BentonSans.woff') format('woff'),url('../../system/Assets/WebHR_Assets/BentonSans.ttf') format('truetype'),url('../../system/Assets/WebHR_Assets/BentonSans.svg#web') format('svg');font-weight:100;font-style:normal}
+
+
+/********** End Web Fonts **********/
+
+.WebFont1
+{
+    margin: 0.2em 0 0.7em 0;
+    font-family: Segoe UI Semibold , sans-serif;
+    font-weight: 500;
+    font-size: 25px;
+    color: #333;
+    text-shadow: 0 1px 0 rgba(255,255,255, .9);
+}
+.WebFont1I { margin: 0.2em 0 0.7em 0; font-family: 'yanonekaffeesatz-light', Arial, sans-serif; font-weight: normal; font-size: 30px; color: #fff; text-shadow: 0 1px 0 rgba(0,0,0, .9); }
+
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; }
+.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+
+
+
+/* Messages */
+ul { list-style: none; }
+.clear { clear: both; display: block; }
+
+.widget .divider { height: 0; border-top: 1px solid #dfdfdf; border-bottom: 1px solid #fff; position: relative; margin: 20px 0; min-height: 0; }
+.widget .divider > span { position: absolute; left: 50%; margin-left: -21px; background: #eeeeee url(../../images/messages/widgetDiv.png) no-repeat 50%; width: 36px; padding: 0 3px; height: 9px; display: block; top: -4px; }
+
+.widget { background: #f7f7f7; border: 1px solid #cdcdcd; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; box-shadow: 0 2px 2px -2px #ccc; margin-top: 35px; position: relative; }
+.widget > [class*="whead"] { border-bottom: 1px solid #cdcdcd; box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; text-shadow: 0 1px #fff; -webkit-border-top-right-radius: 3px; -webkit-border-top-left-radius: 3px; -moz-border-radius-topright: 3px; -moz-border-radius-topleft: 3px;  position: relative; }
+.whead a { color: #636363; }
+.widget > [class*="whead"] h6 { float: left; display: block; padding: 8px 14px 7px 14px; font-size: 12px; font-weight: bold;  }
+.widget .body { padding: 14px 16px; }
+
+.whead   
+{
+padding: 10px 0px 10px 10px;
+color: #636363;
+background: #f8f8f8;
+background: -moz-linear-gradient(top,  #f8f8f8 0%, #e8e8e8 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#e8e8e8));
+background: -webkit-linear-gradient(top,  #f8f8f8 0%,#e8e8e8 100%);
+background: -o-linear-gradient(top,  #f8f8f8 0%,#e8e8e8 100%);
+background: -ms-linear-gradient(top,  #f8f8f8 0%,#e8e8e8 100%);
+background: linear-gradient(top,  #f8f8f8 0%,#e8e8e8 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8f8f8', endColorstr='#e8e8e8',GradientType=0 );
+}
+
+
+/* Messages page */
+.messagesOne li { position: relative; min-height: 36px; margin: 10px 0px 0px 0px; }
+.messagesOne li:first-child { margin-top: 0px; }
+.messagesOne > li.divider { border-top: 1px solid #DFDFDF!important; margin: 0px 0 0px 0!important; min-height: 0; }
+.messagesOne > li.divider > span { background-color: #f5f5f5!important; }
+.messagesOne .messageRow a { display: block; width: 37px; height: 36px; }
+
+.messagesOne .by_user > a, .messagesOne .by_me > a  { position: absolute; top: 0; display: block; }
+.messagesOne .by_user > a { left: 0; }
+.messagesOne .by_me > a { right: 0; }
+
+.messagesOne .by_user .aro, .messagesOne .by_me .aro { width: 8px; height: 9px;  position: absolute;  top: 12px; }
+.messagesOne .by_user .aro { background: url(../images/messages/messageArrow_left.png) no-repeat; left: -8px; }
+.messagesOne .by_me .aro { background: url(../images/messages/messageArrow_right.png) no-repeat; right: -8px; }
+
+.messagesOne .by_user .messageArea, .messagesOne .by_me .messageArea { box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; padding: 8px 12px; position: relative; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border: 1px solid; }
+.messagesOne .by_user .messageArea { background: #fafeff; border-color: #b5cdd7; margin-left: 60px; }
+.messagesOne .by_me .messageArea { background: #fefefe; border-color: #dcdcdc; margin-right: 60px; }
+
+.by_user .name > strong { color: #2c596d; }
+.by_me .name > strong { color: #2c596d; }
+
+
+/* Slide Panel */
+.cb_slide_panel { background: url(../images/Template/bgPanel.png) repeat; position: fixed; z-index: 65000; display: none; }
+.cb_slide_panel.panel_left, .cb_slide_panel.panel_right { width: 278px; height: 100%; }
+.cb_slide_panel.panel_top, .cb_slide_panel.panel_bottom { height: 278px; width: 100%; }
+.cb_slide_panel a.close { background: url(../images/Template/btnPanelClose.png) no-repeat; border: 1px solid #E0E0E0; height: 40px; position: absolute; text-indent: -9999em; width: 40px; display: none; }
+.cb_slide_panel.panel_right a.close { left: -42px; top: 20px; }
+.cb_slide_panel a.close:hover { background-position: -40px 0; }
+.cb_slide_panel .inner { width: 100%; }
+.cb_slide_panel.loading .inner { min-height: 300px; background: url(../images/loading.gif) no-repeat scroll 50% 50% transparent }
+
+
+.profile-img {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  }
+  
+  .User-img 
+  {
+       -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  }
+  
+ 
+
+

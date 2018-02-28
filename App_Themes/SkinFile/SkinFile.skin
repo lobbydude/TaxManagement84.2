@@ -1,0 +1,26 @@
+﻿<%--
+Default skin template. The following skins are provided as examples only.
+
+1. Named control skin. The SkinId should be uniquely defined because
+   duplicate SkinId's per control type are not allowed in the same theme.
+
+<asp:GridView runat="server" SkinId="gridviewSkin" BackColor="White" >
+   <AlternatingRowStyle BackColor="Blue" />
+</asp:GridView>
+
+2. Default skin. The SkinId is not defined. Only one default 
+   control skin per control type is allowed in the same theme.
+
+<asp:Image runat="server" ImageUrl="~/images/image1.jpg" />
+--%>
+
+
+
+
+        <asp:TextBox runat="server" CssClass="textbox"></asp:TextBox>
+
+        <asp:DropDownList   runat="server" Width="206" CssClass="textbox" >  </asp:DropDownList>
+
+        <asp:Button  runat="server" CssClass="btnStyle" />
+
+        <asp:GridView  runat="server"    CellPadding="4" ForeColor="#333333"                 GridLines="None"   Font-Size="8" Font-Names="verdana"                 BorderWidth="1px" CellSpacing="1" BorderColor="#2461BF"                 BorderStyle="Solid" >                 <RowStyle BackColor="#EFF3FB"  Font-Size="8" Font-Names="verdana" />         <HeaderStyle BackColor="#2781ba" Font-Bold="True" ForeColor="White"  Font-Size="8" Font-Names="verdana" />         <AlternatingRowStyle BackColor="White" />        <PagerStyle BackColor="#2781ba" ForeColor="White" HorizontalAlign="Center"  Font-Size="8" Font-Names="verdana" />        <SelectedRowStyle BackColor="#E1EAF7" Font-Bold="True" ForeColor="#333333" />         <FooterStyle BackColor="White" Font-Bold="True" ForeColor="White" Font-Size="9" Font-Names="verdana" />                      </asp:GridView>

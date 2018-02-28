@@ -1,0 +1,1058 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Collections;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+using iTextSharp.text.pdf;
+using RadPdf.Data.Document;
+using RadPdf.Data.Document.Common;
+using RadPdf.Data.Document.Objects;
+using RadPdf.Data.Document.Objects.FormFields;
+using RadPdf.Data.Document.Objects.Shapes;
+using System.Web.UI.WebControls.WebParts;
+using System.IO;
+using System.Web.UI.HtmlControls;
+
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.ReportSource;
+using CrystalDecisions.Shared;
+using CrystalDecisions.Web;
+using Ionic.Zip;
+using System.Text;
+using System.Drawing;
+
+public partial class Lereta_Lereta_Tax_Entry : System.Web.UI.Page
+{
+    Commonclass commnclass = new Commonclass();
+    CustomerBowser browser = new CustomerBowser();
+    DataAccess dataaccess = new DataAccess();
+    DropDownistBindClass dbc = new DropDownistBindClass();
+    int tabweb = 0, tabit = 0, taborder = 0, tabagency = 0, tabout = 0, tabcmt = 0, tabcountydb = 0, btncountydb = 0, btndeldb = 0;
+    int tabtax = 0, tabassed = 0, tabsaldet = 0, tabbankrupty = 0, tabsrcupload = 0, tabcurrent = 0, tabannual = 0, tabcomt = 0, tabfeed = 0;
+    int Order_Id;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        //Tab_AssedVal.Enabled = false;
+        //Tab_SalDetail.Enabled = false;
+        ////  Tab_MuncipleDet.Enabled = false;
+        //Tab_BankruptyDet.Enabled = false;
+        //Tab_SourceUpload.Enabled = false;
+
+        //Color bgcr = ColorTranslator.FromHtml("#12B61F");
+        //Color focr = ColorTranslator.FromHtml("#ffffff");
+        //Tab_TaxDetails.ForeColor = focr;
+        //Tab_TaxDetails.BackColor = bgcr;
+
+
+        Color bgclr = ColorTranslator.FromHtml("#33CCFF");
+        Color foclr = ColorTranslator.FromHtml("#303030");
+        tbpnluser.BackColor = bgclr;
+        tabitcomplent.BackColor = bgclr;
+        tbpnlusrdetails.BackColor = bgclr;
+        tbpnljobdetails.BackColor = bgclr;
+        taboutputpreview.BackColor = bgclr;
+        tabcountycmt.BackColor = bgclr;
+        tabcounty.BackColor = bgclr;
+        btn_CountyDB.BackColor = bgclr;
+        btn_DelequentDb.BackColor = bgclr;
+        tab_Feedback.BackColor = bgclr;
+
+        Tab_TaxDetails.BackColor = bgclr;
+        Tab_AssedVal.BackColor = bgclr;
+        Tab_SalDetail.BackColor = bgclr;
+        Tab_BankruptyDet.BackColor = bgclr;
+        Tab_SourceUpload.BackColor = bgclr;
+        TabPanelcurrent.BackColor = bgclr;
+        TabAnnual.BackColor = bgclr;
+        TaxNotes.BackColor = bgclr;
+        
+
+        Tab_TaxDetails.ForeColor = foclr;
+        Tab_AssedVal.ForeColor = foclr;
+        Tab_SalDetail.ForeColor = foclr;
+        Tab_BankruptyDet.ForeColor = foclr;
+        Tab_SourceUpload.ForeColor = foclr;
+        TabPanelcurrent.ForeColor = foclr;
+        TabAnnual.ForeColor = foclr;
+        TaxNotes.ForeColor = foclr;
+
+        tbpnluser.ForeColor = foclr;
+        tabitcomplent.ForeColor = foclr;
+        tbpnlusrdetails.ForeColor = foclr;
+        tbpnljobdetails.ForeColor = foclr;
+        taboutputpreview.ForeColor = foclr;
+        tabcountycmt.ForeColor = foclr;
+        tabcounty.ForeColor = foclr;
+        btn_CountyDB.ForeColor = foclr;
+        btn_DelequentDb.ForeColor = foclr;
+        tab_Feedback.ForeColor = foclr;
+        Order_Id = int.Parse(Session["order_id"].ToString());
+        if (!IsPostBack)
+        {
+            dbc.BindDeliquentTax_Type(ddl_Tax_Delquent_Tax_type, Order_Id);
+            dbc.BindDeliquentTax_Type(ddl_Source_upload_Taxtype, Order_Id);
+            dbc.BindComments_Tax_Type(ddl_TaxType_Commts, Order_Id);
+            Gridview_Bind_Order_Kb_Data();
+        }
+        
+        
+    }
+    
+    protected void tab_Feedback_Click(object sender, EventArgs e)
+    {
+        Feedback_Info.Visible = true;
+        Web_info.Visible = false;
+        IT_comp.Visible = false;
+        Order_Kb.Visible = false;
+        Agency_Kb.Visible = false;
+        Out_Put_Preview.Visible = false;
+        County_Comm.Visible = false;
+        County_Db.Visible = false;
+        td_row.Visible = true;
+        tr_county.Visible = false;
+        tr_countydb.Visible = false;
+        tabfeed = 1;
+        if (tabfeed == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            tab_Feedback.ForeColor = foclr;
+            tab_Feedback.BackColor = bgclr;
+        }
+    }
+    protected void tbpnluser_Click(object sender, EventArgs e)
+    {
+        Web_info.Visible = true;
+        IT_comp.Visible = false;
+        Order_Kb.Visible = false;
+        Agency_Kb.Visible = false;
+        Out_Put_Preview.Visible = false;
+        County_Comm.Visible = false;
+        County_Db.Visible = false;
+        btn_lnkCountyDb.Visible = false;
+        btnlnkDelequentDb.Visible = false;
+        td_row.Visible = true;
+        tr_county.Visible = false;
+        tr_countydb.Visible = false;
+
+        tabweb = 1;
+
+        if (tabweb == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            tbpnluser.ForeColor = foclr;
+            tbpnluser.BackColor = bgclr;
+        }
+        //     tr_btnCounty.Visible = false;
+    }
+    protected void tabitcomplent_Click(object sender, EventArgs e)
+    {
+        Web_info.Visible = false;
+        IT_comp.Visible = true;
+        Order_Kb.Visible = false;
+        Agency_Kb.Visible = false;
+        Out_Put_Preview.Visible = false;
+        County_Comm.Visible = false;
+        County_Db.Visible = false;
+        btn_lnkCountyDb.Visible = false;
+        btnlnkDelequentDb.Visible = false;
+        tr_county.Visible = false;
+        tr_countydb.Visible = false;
+        td_row.Visible = true;
+        tabit = 1;
+
+        if (tabit == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            tabitcomplent.ForeColor = foclr;
+            tabitcomplent.BackColor = bgclr;
+        }
+        //  tr_btnCounty.Visible = false;
+    }
+    protected void tbpnlusrdetails_Click(object sender, EventArgs e)
+    {
+        Web_info.Visible = false;
+        IT_comp.Visible = false;
+        Order_Kb.Visible = true;
+        Agency_Kb.Visible = false;
+        Out_Put_Preview.Visible = false;
+        County_Comm.Visible = false;
+        County_Db.Visible = false;
+        btn_lnkCountyDb.Visible = false;
+        btnlnkDelequentDb.Visible = false;
+        tr_county.Visible = false;
+        tr_countydb.Visible = false;
+        td_row.Visible = true;
+        taborder = 1;
+
+        if (taborder == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            tbpnlusrdetails.ForeColor = foclr;
+            tbpnlusrdetails.BackColor = bgclr;
+        }
+
+        //tr_btnCounty.Visible = false;
+    }
+    protected void tbpnljobdetails_Click(object sender, EventArgs e)
+    {
+        Web_info.Visible = false;
+        IT_comp.Visible = false;
+        Order_Kb.Visible = false;
+        Agency_Kb.Visible = true;
+        Out_Put_Preview.Visible = false;
+        County_Comm.Visible = false;
+        County_Db.Visible = false;
+        btn_lnkCountyDb.Visible = false;
+        btnlnkDelequentDb.Visible = false;
+        tr_county.Visible = false;
+        tr_countydb.Visible = false;
+        td_row.Visible = true;
+        tabagency = 1;
+
+        if (tabagency == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            tbpnljobdetails.ForeColor = foclr;
+            tbpnljobdetails.BackColor = bgclr;
+        }
+
+        // tr_btnCounty.Visible = false;
+    }
+    protected void taboutputpreview_Click(object sender, EventArgs e)
+    {
+        Web_info.Visible = false;
+        IT_comp.Visible = false;
+        Order_Kb.Visible = false;
+        Agency_Kb.Visible = false;
+        Out_Put_Preview.Visible = true;
+        County_Comm.Visible = false;
+        County_Db.Visible = false;
+        btn_lnkCountyDb.Visible = false;
+        btnlnkDelequentDb.Visible = false;
+        tr_county.Visible = false;
+        tr_countydb.Visible = false;
+        td_row.Visible = true;
+        tabout = 1;
+
+        if (tabout == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            taboutputpreview.ForeColor = foclr;
+            taboutputpreview.BackColor = bgclr;
+        }
+
+        //  tr_btnCounty.Visible = false;
+    }
+    protected void tabcountycmt_Click(object sender, EventArgs e)
+    {
+        Web_info.Visible = false;
+        IT_comp.Visible = false;
+        Order_Kb.Visible = false;
+        Agency_Kb.Visible = false;
+        Out_Put_Preview.Visible = false;
+        County_Comm.Visible = true;
+        County_Db.Visible = false;
+        btn_lnkCountyDb.Visible = false;
+        btnlnkDelequentDb.Visible = false;
+        tr_county.Visible = false;
+        tr_countydb.Visible = false;
+        td_row.Visible = true;
+        tabcmt = 1;
+
+        if (tabcmt == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            tabcountycmt.ForeColor = foclr;
+            tabcountycmt.BackColor = bgclr;
+        }
+        //  tr_btnCounty.Visible = false;
+    }
+    protected void tabcounty_Click(object sender, EventArgs e)
+    {
+        Web_info.Visible = false;
+        IT_comp.Visible = false;
+        Order_Kb.Visible = false;
+        Agency_Kb.Visible = false;
+        Out_Put_Preview.Visible = false;
+        County_Comm.Visible = false;
+        County_Db.Visible = true;
+        tr_county.Visible = true;
+        tr_countydb.Visible = true;
+        td_row.Visible = false;
+
+
+        //tr_btnCounty.Visible = true;
+        btn_lnkCountyDb.Visible = true;
+        btnlnkDelequentDb.Visible = false;
+        tabcountydb = 1;
+
+        if (tabcountydb == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            tabcounty.ForeColor = foclr;
+            tabcounty.BackColor = bgclr;
+        }
+
+    }
+    protected void btn_CountyDB_Click(object sender, EventArgs e)
+    {
+        btn_lnkCountyDb.Visible = true;
+        btnlnkDelequentDb.Visible = false;
+        Web_info.Visible = false;
+        IT_comp.Visible = false;
+        Order_Kb.Visible = false;
+        Agency_Kb.Visible = false;
+        Out_Put_Preview.Visible = false;
+        County_Comm.Visible = false;
+        tr_county.Visible = true;
+        tr_countydb.Visible = true;
+        btncountydb = 1;
+
+        if (btncountydb == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            btn_CountyDB.ForeColor = foclr;
+            btn_CountyDB.BackColor = bgclr;
+        }
+        // tr_btnCounty.Visible = true;
+        //County_Db.Visible = false;
+    }
+    protected void btn_DelequentDb_Click(object sender, EventArgs e)
+    {
+        btn_lnkCountyDb.Visible = false;
+        btnlnkDelequentDb.Visible = true;
+        Web_info.Visible = false;
+        IT_comp.Visible = false;
+        Order_Kb.Visible = false;
+        Agency_Kb.Visible = false;
+        Out_Put_Preview.Visible = false;
+        County_Comm.Visible = false;
+        tr_county.Visible = true;
+        tr_countydb.Visible = true;
+        btndeldb = 1;
+
+        if (btndeldb == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            btn_DelequentDb.ForeColor = foclr;
+            btn_DelequentDb.BackColor = bgclr;
+        }
+        //  tr_btnCounty.Visible = true;
+        //County_Db.Visible = false;
+    }
+    protected void btn_Error_Submit_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void img_btn_order_kb_add_Click(object sender, EventArgs e)
+    {
+        tr_OrderKb.Visible = false;
+        tr_OrderKb1.Visible = false;
+    }
+    protected void imgbtn_agency_Add_Click(object sender, EventArgs e)
+    {
+        tr_Agency.Visible = false;
+
+    }
+    protected void imgbtn_Taxtype_Note_Add_Click(object sender, EventArgs e)
+    {
+        tr_CountyData.Visible = false;
+        tr_CountyData1.Visible = false;
+    }
+    protected void imgbtn_Delequent_Tax_Add_Click(object sender, EventArgs e)
+    {
+        tr_DelequentDb.Visible = false;
+        tr_DelequentDb1.Visible = false;
+    }
+    protected void ddl_TaxType_Commts_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void ddl_Tax_Delquent_Tax_type_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void btn_Preview_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void btn_Complete_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void btn_Send_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void btn_PreviewMail_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void btn_PreviewFax_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void btn_PreviewEfax_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void btn_Update_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void txt_ETA_date_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void txt_Barrower_Address_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void txt_Parcel_Number_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void txt_Barrower_City_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void txt_Barrower_Zip_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void txt_Barrower_Last_Name_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void ddl_Barrower_State_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void Tab_TaxDetails_Click(object sender, EventArgs e)
+    {
+        Tax_Detail.Visible = true;
+        Assed_Val.Visible = false;
+        Tax_SalDet.Visible = false;
+        //Municipal_Det.Visible = false;
+        Bankrupty_Det22.Visible = false;
+        Source_Upload.Visible = false;
+        tr_Taxdet.Visible = true;
+        Tab_CurrentYear.Visible = true;
+        Tab_AnnualTax.Visible = false;
+        Tab_Comment.Visible = false;
+        tabtax = 1;
+        if (tabtax == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            Tab_TaxDetails.ForeColor = foclr;
+            Tab_TaxDetails.BackColor = bgclr;
+        }
+        tabcurrent = 1;
+        if (tabcurrent == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            TabPanelcurrent.ForeColor = foclr;
+            TabPanelcurrent.BackColor = bgclr;
+        }
+
+    }
+    protected void Tab_AssedVal_Click(object sender, EventArgs e)
+    {
+        Tax_Detail.Visible = false;
+        Assed_Val.Visible = true;
+        Tax_SalDet.Visible = false;
+        // Municipal_Det.Visible = false;
+        Bankrupty_Det22.Visible = false;
+        Source_Upload.Visible = false;
+        tr_Taxdet.Visible = false;
+        Tab_CurrentYear.Visible = false;
+        Tab_AnnualTax.Visible = false;
+        Tab_Comment.Visible = false;
+        tabassed = 1;
+        if (tabassed == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            Tab_AssedVal.ForeColor = foclr;
+            Tab_AssedVal.BackColor = bgclr;
+        }
+    }
+    protected void Tab_SalDetail_Click(object sender, EventArgs e)
+    {
+        Tax_Detail.Visible = false;
+        Assed_Val.Visible = false;
+        Tax_SalDet.Visible = true;
+        //   Municipal_Det.Visible = false;
+        Bankrupty_Det22.Visible = false;
+        Source_Upload.Visible = false;
+        tr_Taxdet.Visible = false;
+        Tab_CurrentYear.Visible = false;
+        Tab_AnnualTax.Visible = false;
+        Tab_Comment.Visible = false;
+        tabsaldet = 1;
+        if (tabsaldet == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            Tab_SalDetail.ForeColor = foclr;
+            Tab_SalDetail.BackColor = bgclr;
+        }
+    }
+    protected void Tab_MuncipleDet_Click(object sender, EventArgs e)
+    {
+        Tax_Detail.Visible = false;
+        Assed_Val.Visible = false;
+        Tax_SalDet.Visible = false;
+        // Municipal_Det.Visible = true;
+        Bankrupty_Det22.Visible = false;
+        Source_Upload.Visible = false;
+        
+    }
+    protected void Tab_BankruptyDet_Click(object sender, EventArgs e)
+    {
+        Tax_Detail.Visible = false;
+        Assed_Val.Visible = false;
+        Tax_SalDet.Visible = false;
+        Bankrupty_Det22.Visible = true;
+        Source_Upload.Visible = false;
+        tr_Taxdet.Visible = false;
+        Tab_CurrentYear.Visible = false;
+        Tab_AnnualTax.Visible = false;
+        Tab_Comment.Visible = false;
+        tabbankrupty = 1;
+        if (tabbankrupty == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            Tab_BankruptyDet.ForeColor = foclr;
+            Tab_BankruptyDet.BackColor = bgclr;
+        }
+    }
+    protected void Tab_SourceUpload_Click(object sender, EventArgs e)
+    {
+        Tax_Detail.Visible = false;
+        Assed_Val.Visible = false;
+        Tax_SalDet.Visible = false;
+        // Municipal_Det.Visible = false;
+        Bankrupty_Det22.Visible = false;
+        Source_Upload.Visible = true;
+        tr_Taxdet.Visible = false;
+        Tab_CurrentYear.Visible = false;
+        Tab_AnnualTax.Visible = false;
+        Tab_Comment.Visible = false;
+        tabsrcupload = 1;
+        if (tabsrcupload == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            Tab_SourceUpload.ForeColor = foclr;
+            Tab_SourceUpload.BackColor = bgclr;
+        }
+    }
+    protected void txt_Land_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void txt_Building_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void imgbtn_Assesd_Add_Click(object sender, ImageClickEventArgs e)
+    {
+
+    }
+    protected void ImageButton2_Click(object sender, ImageClickEventArgs e)
+    {
+
+    }
+    protected void imgbtn_Munciple_Add_Click(object sender, ImageClickEventArgs e)
+    {
+
+    }
+    protected void ddl_Bankruptcy_Yes_No_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void Imgbtn_Brancrupty_Click(object sender, ImageClickEventArgs e)
+    {
+
+    }
+    protected void img_btn_order_source_tax_upload_add_Click(object sender, ImageClickEventArgs e)
+    {
+
+    }
+    protected void btnDownload_Click(object sender, ImageClickEventArgs e)
+    {
+
+    }
+    protected void grd_order_kb_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        GridViewRow row = grd_order_kb.SelectedRow;
+        Label lblOrder_Kb_Id = (Label)row.FindControl("lblOrder_Kb_Id");
+        Label lbl_Document = (Label)row.FindControl("lblDocument_Name");
+        Label lbl_Comments = (Label)row.FindControl("lblComments");
+
+        ViewState["Order_Kb_Id"] = lblOrder_Kb_Id.Text;
+        txt_order_Kb_Document.Text = lbl_Document.Text;
+        txt_order_Kb_Comment.Text = lbl_Comments.Text;
+        //      img_btn_order_kb_add.ImageUrl = "~/images/Gridview/Save.png";
+        //    img_btn_order_kb_add.AlternateText = "UPDATE";
+        //  Operation = "UPDATE";
+        ViewState["Update"] = "UPDATE";
+    }
+    protected void grd_order_kb_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        int orderkbid = int.Parse(grd_order_kb.DataKeys[e.RowIndex].Values["Order_Kb_Id"].ToString());
+        Hashtable htdelete = new Hashtable();
+        DataTable dtdelete = new DataTable();
+        htdelete.Add("@Trans", "DELETE");
+        htdelete.Add("@Order_Kb_Id", orderkbid);
+        dtdelete = dataaccess.ExecuteSP("Sp_Order_Knowledge_Base", htdelete);
+        Gridview_Bind_Order_Kb_Data();
+    }
+    protected void Gridview_Bind_Order_Kb_Data()
+    {
+        Hashtable htselorderkb = new Hashtable();
+        DataTable dtuser = new System.Data.DataTable();
+
+        htselorderkb.Add("@Trans", "SELECT");
+        htselorderkb.Add("@Order_Id", Order_Id);
+        dtuser = dataaccess.ExecuteSP("Sp_Order_Knowledge_Base", htselorderkb);
+        if (dtuser.Rows.Count > 0)
+        {
+            //ex2.Visible = true;
+            grd_order_kb.Visible = true;
+            grd_order_kb.DataSource = dtuser;
+            grd_order_kb.DataBind();
+
+        }
+        else
+        {
+
+            grd_order_kb.DataSource = null;
+            grd_order_kb.EmptyDataText = "No Records Are Avilable";
+            grd_order_kb.DataBind();
+
+        }
+    }
+    protected void grd_order_kb_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            Label lbl_order_kb_id = (Label)e.Row.FindControl("lblOrder_Kb_Id");
+            Label lbl_order_kb_fileType = (Label)e.Row.FindControl("lbl_Order_Kb_File_Type");
+            Label lbl_order_kb_filepath = (Label)e.Row.FindControl("lbl_orderkb_doc_path");
+            ImageButton imbtn_orderdoc = (ImageButton)e.Row.FindControl("imgbtndoc");
+
+            if (lbl_order_kb_filepath.Text != "" && lbl_order_kb_filepath.Text != null)
+            {
+                ViewState["doc_type"] = lbl_order_kb_fileType.Text;
+                ViewState["doc_path"] = lbl_order_kb_filepath.Text;
+                imbtn_orderdoc.Visible = true;
+
+                if (lbl_order_kb_fileType.Text == ".doc" || lbl_order_kb_fileType.Text == ".docx")
+                {
+                    imbtn_orderdoc.ImageUrl = "~/Admin/MsgImage/Download.png";
+
+                }
+                else if (lbl_order_kb_fileType.Text == ".xls" || lbl_order_kb_fileType.Text == ".xlsx")
+                {
+
+                    imbtn_orderdoc.ImageUrl = "~/Admin/MsgImage/Download.png";
+                }
+                else if (lbl_order_kb_fileType.Text == ".pdf")
+                {
+
+                    imbtn_orderdoc.ImageUrl = "~/Admin/MsgImage/Download.png";
+                }
+            }
+            else
+            {
+
+                imbtn_orderdoc.Visible = false;
+            }
+
+
+
+        }
+    }
+    protected void View_OrderDocuemnt(object sender, CommandEventArgs e)
+    {
+        Session["Doc_Type"] = ViewState["doc_type"].ToString();
+        Session["Doc_Path"] = ViewState["doc_path"].ToString();
+        string doc_path = ViewState["doc_path"].ToString();
+        string samlpe = ViewState["doc_type"].ToString();
+        //if (ViewState["doc_type"].ToString() == ".doc" || ViewState["doc_type"].ToString() == ".docx")
+        //{
+        //    scpm.WordorExcelToPdfConverter.ConvertWordToPdf(Server.MapPath(ViewState["doc_path"].ToString()), Server.MapPath("~/pdfs/CrystalReport.pdf"));
+        //}
+        //else if (ViewState["doc_type"].ToString() == ".xls" || ViewState["doc_type"].ToString() == ".xlsx")
+        //{
+        //    scpm.WordorExcelToPdfConverter.ConvertExcelToPdf(Server.MapPath(ViewState["doc_path"].ToString()), Server.MapPath("~/pdfs/CrystalReport.pdf"));
+        //}
+
+        // path = path + fileName;
+        //  PdfView1();
+
+        using (ZipFile zip = new ZipFile())
+        {
+
+            string fileName = doc_path;
+            if (fileName != "")
+            {
+                string filePath = Server.MapPath(fileName);
+                zip.AddFile(filePath, "files");
+            }
+
+            if (zip.Entries.Count != 0)
+            {
+                Response.Clear();
+                Response.AddHeader("Content-Disposition", "attachment; filename=" + DateTime.Now.ToString("MM/dd/yyyy hh:mm tt") + ".zip");
+                Response.ContentType = "application/zip";
+                zip.Save(Response.OutputStream);
+                Response.End();
+            }
+        }
+
+
+    }
+    protected void btn_AddOrder_Click(object sender, ImageClickEventArgs e)
+    {
+        tr_OrderKb.Visible = true;
+        tr_OrderKb1.Visible = true;
+    }
+
+    protected void btn_AddAgency_Click(object sender, ImageClickEventArgs e)
+    {
+        tr_Agency.Visible = true;
+    }
+    protected void btn_AddCountyCmt_Click(object sender, ImageClickEventArgs e)
+    {
+        tr_CountyData.Visible = true;
+        tr_CountyData1.Visible = true;
+    }
+
+    protected void btn_AddCountyDb_Click(object sender, ImageClickEventArgs e)
+    {
+
+    }
+    protected void btn_AddDelequent_Click(object sender, ImageClickEventArgs e)
+    {
+        tr_DelequentDb.Visible = true;
+        tr_DelequentDb1.Visible = true;
+    }
+    protected void btn_AddTaxDet_Click(object sender, ImageClickEventArgs e)
+    {
+        tr_TaxDataRow.Visible = true;
+        tr_TaxDataRow1.Visible = true;
+        tr_TaxDataRow2.Visible = true;
+        tr_TaxDataRow3.Visible = true;
+        tr_TaxDataRow4.Visible = true;
+    }
+    protected void btn_TaxSubmit_Click(object sender, EventArgs e)
+    {
+        tr_TaxDataRow.Visible = false;
+        tr_TaxDataRow1.Visible = false;
+        tr_TaxDataRow2.Visible = false;
+        tr_TaxDataRow3.Visible = false;
+        tr_TaxDataRow4.Visible = false;
+        //Tab_AssedVal.Enabled = true;
+        //tabassed = 1;
+        //if (tabassed == 1)
+        //{
+        //    Color bgclr = ColorTranslator.FromHtml("#12B61F");
+        //    Color foclr = ColorTranslator.FromHtml("#ffffff");
+        //    Tab_AssedVal.ForeColor = foclr;
+        //    Tab_AssedVal.BackColor = bgclr;
+        //}
+
+        //Tax_Detail.Visible = false;
+        //Assed_Val.Visible = true;
+    }
+    protected void btn_AddAssessed_Click(object sender, ImageClickEventArgs e)
+    {
+        tr_AssedVal.Visible = true;
+        tr_AssedVal1.Visible = true;
+    }
+
+    protected void btn_ClearAssed_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void btn_Assesd_Add_Click(object sender, EventArgs e)
+    {
+        tr_AssedVal.Visible = false;
+        tr_AssedVal1.Visible = false;
+        //Tab_SalDetail.Enabled = true;
+        //tabsaldet = 1;
+        //if (tabsaldet == 1)
+        //{
+        //    Color bgclr = ColorTranslator.FromHtml("#12B61F");
+        //    Color foclr = ColorTranslator.FromHtml("#ffffff");
+        //    Tab_SalDetail.ForeColor = foclr;
+        //    Tab_SalDetail.BackColor = bgclr;
+        //}
+        //Tax_Detail.Visible = false;
+        //Assed_Val.Visible = false;
+        //Tax_SalDet.Visible = true;
+    }
+    protected void btn_Munciple_Add_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void btn_ClearMunicipal_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void btn_ClearSrcUpload_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void btn_AddSrcUpload_Click(object sender, EventArgs e)
+    {
+        tr_srcupld.Visible = false;
+        tr_srcupld1.Visible = false;
+    }
+    protected void btn_ClearSalInfo_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void btn_AddTaxSal_Click(object sender, ImageClickEventArgs e)
+    {
+        tr_SalDetail.Visible = true;
+        tr_SalDetail1.Visible = true;
+        tr_SalDetail2.Visible = true;
+    }
+    protected void btn_AddTaxBankrupty_Click(object sender, ImageClickEventArgs e)
+    {
+        tr_Bankrupty.Visible = true;
+        tr_Bankrupty1.Visible = true;
+    }
+    protected void btn_BrancruptyAdd_Click(object sender, EventArgs e)
+    {
+
+        tr_Bankrupty.Visible = false;
+        tr_Bankrupty1.Visible = false;
+        //Tab_SourceUpload.Enabled = true;
+        //tabsrcupload = 1;
+        //if (tabsrcupload == 1)
+        //{
+        //    Color bgclr = ColorTranslator.FromHtml("#12B61F");
+        //    Color foclr = ColorTranslator.FromHtml("#ffffff");
+        //    Tab_SourceUpload.ForeColor = foclr;
+        //    Tab_SourceUpload.BackColor = bgclr;
+        //}
+        //Tax_Detail.Visible = false;
+        //Assed_Val.Visible = false;
+        //Tax_SalDet.Visible = false;
+        //Bankrupty_Det22.Visible = false;
+        //Source_Upload.Visible = true;
+    }
+    protected void btn_AddSalInfo_Click(object sender, EventArgs e)
+    {
+        tr_SalDetail.Visible = false;
+        tr_SalDetail1.Visible = false;
+        tr_SalDetail2.Visible = false;
+        //Tab_BankruptyDet.Enabled = true;
+        //tabbankrupty = 1;
+        //if (tabbankrupty == 1)
+        //{
+        //    Color bgclr = ColorTranslator.FromHtml("#12B61F");
+        //    Color foclr = ColorTranslator.FromHtml("#ffffff");
+        //    Tab_BankruptyDet.ForeColor = foclr;
+        //    Tab_BankruptyDet.BackColor = bgclr;
+        //}
+        //Tax_Detail.Visible = false;
+        //Assed_Val.Visible = false;
+        //Tax_SalDet.Visible = false;
+        //Bankrupty_Det22.Visible = true;
+    }
+    protected void btn_ClearBankrupty_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void gvTaxDetails_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+
+    }
+    protected void gvTaxDetails_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+    }
+    protected void gvTaxDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+
+    }
+    protected void gvTaxDetails_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+
+    }
+    protected void gvTaxDetails_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+
+    }
+    protected void gvTaxDetails_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+
+    }
+    protected void gvTaxDetails_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void grd_Agency_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void grd_Agency_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+
+    }
+    protected void Grd_Tax_Type_Comments_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+
+    }
+    protected void Grd_Tax_Type_Comments_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void grd_Assesed_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+
+    }
+    protected void grd_Assesed_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void grd_Tax_Sold_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+
+    }
+    protected void grd_Tax_Sold_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void grid_Banckrupty_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+
+    }
+    protected void grid_Banckrupty_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void Tax_Type_Source_upload_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+
+    }
+    protected void Tax_Type_Source_upload_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+
+    }
+    protected void Tax_Type_Source_upload_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void btn_AddFeedback_Click(object sender, ImageClickEventArgs e)
+    {
+        tr_Feedback.Visible = true;
+    }
+    protected void grd_Feed_Details_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+    }
+    protected void TabPanelcurrent_Click(object sender, EventArgs e)
+    {
+        tr_Taxdet.Visible = true;
+        Tab_CurrentYear.Visible = true;
+        Tab_AnnualTax.Visible = false;
+        Tab_Comment.Visible = false;
+        tabcurrent = 1;
+        if (tabcurrent == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            TabPanelcurrent.ForeColor = foclr;
+            TabPanelcurrent.BackColor = bgclr;
+        }
+    }
+    protected void TabAnnual_Click(object sender, EventArgs e)
+    {
+        tr_Taxdet.Visible = true;
+        Tab_CurrentYear.Visible = false;
+        Tab_AnnualTax.Visible = true;
+        Tab_Comment.Visible = false;
+        tabannual = 1;
+        if (tabannual == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            TabAnnual.ForeColor = foclr;
+            TabAnnual.BackColor = bgclr;
+        }
+    }
+    protected void TaxNotes_Click(object sender, EventArgs e)
+    {
+        tr_Taxdet.Visible = true;
+        Tab_CurrentYear.Visible = false;
+        Tab_AnnualTax.Visible = false;
+        Tab_Comment.Visible = true;
+        tabcomt = 1;
+        if (tabcomt == 1)
+        {
+            Color bgclr = ColorTranslator.FromHtml("#12B61F");
+            Color foclr = ColorTranslator.FromHtml("#ffffff");
+            TaxNotes.ForeColor = foclr;
+            TaxNotes.BackColor = bgclr;
+        }
+    }
+    protected void btn_AddAnnual_Click(object sender, ImageClickEventArgs e)
+    {
+        tr_Annual.Visible = true;
+        tr_Annual1.Visible = true;
+    }
+    protected void btn_Comment_Click(object sender, ImageClickEventArgs e)
+    {
+        tr_cmt.Visible = true;
+        tr_cmt1.Visible = true;
+        tr_cmt2.Visible = true;
+        tr_cmt3.Visible = true;
+    }
+    protected void btn_Submit_Comments_Click(object sender, EventArgs e)
+    {
+        tr_cmt.Visible = false;
+        tr_cmt1.Visible = false;
+        tr_cmt2.Visible = false;
+        tr_cmt3.Visible = false;
+    }
+    protected void btn_SubmitAnnual_Click(object sender, EventArgs e)
+    {
+        tr_Annual.Visible = false;
+        tr_Annual1.Visible = false;
+    }
+    protected void btn_AddSrcUpd_Click(object sender, ImageClickEventArgs e)
+    {
+        tr_srcupld.Visible = true;
+        tr_srcupld1.Visible = true;
+    }
+    protected void btn_Submit_Click(object sender, EventArgs e)
+    {
+        tr_Feedback.Visible = false;
+    }
+}

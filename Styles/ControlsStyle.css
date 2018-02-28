@@ -1,0 +1,640 @@
+﻿
+
+inputs:-webkit-input-placeholder { 
+    color:    #b5b5b5; 
+} 
+ 
+inputs-moz-placeholder { 
+    color:    #b5b5b5; 
+} 
+ 
+ .Logintextbox  { 
+ 
+border: 1px solid #002062;
+height: 25px;
+width: 250px;
+font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+font-weight: 400; 
+font-size: 14px; 
+color: #9D9E9E; 
+text-shadow: 1px 1px 0 rgba(256, 256, 256, 1.0); 
+background: #FFF; 
+border: 1px solid #FFF; 
+border-radius: 5px; 
+box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.50); 
+-moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50); 
+-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.50); 
+} 
+.Logintextbox:focus { 
+background: #DFE9EC; 
+color: #414848; 
+box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25); 
+-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25); 
+-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25); 
+    outline:0; 
+} 
+  .Ligintextbox:hover   { 
+background: #DFE9EC; 
+color: #414848; 
+} 
+ 
+ 
+.css_btn_class
+{
+    font-size: 18px;
+    font-family: Arial;
+    font-weight: normal;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+    border: 1px solid #3866a3;
+    padding: 15px 36px;
+    text-decoration: none;
+    background: -webkit-gradient( linear, left top, left bottom, color-stop(105%, #104261), color-stop(0%, #468ccf) );
+    background: -moz-linear-gradient( center top, #104261 105%, #468ccf 0% );
+    background: -ms-linear-gradient( top, #104261 105%, #468ccf 0% );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#104261', endColorstr='#468ccf');
+    background-color: #000000;
+    color: #fafafa;
+    display: inline-block;
+    text-shadow: 1px 1px 0px #7cacde;
+    -webkit-box-shadow: inset 1px 1px 0px 0px #bee2f9;
+    -moz-box-shadow: inset 1px 1px 0px 0px #bee2f9;
+    box-shadow: inset 1px 1px 0px 0px #bee2f9;
+}.css_btn_class:hover
+{
+    background: -webkit-gradient( linear, left top, left bottom, color-stop(105%, #468ccf), color-stop(0%, #104261) );
+    background: -moz-linear-gradient( center top, #468ccf 105%, #104261 0% );
+    background: -ms-linear-gradient( top, #468ccf 105%, #104261 0% );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#468ccf', endColorstr='#104261');
+    background-color: #993333;
+}.css_btn_class:active {
+	position:relative;
+	top:1px;
+}
+ 
+ 
+ 
+ .textbox
+{
+    border: 1px solid rgb(51, 204, 255);
+    font-size: 13px;
+    padding: 4px 4px 4px 4px;
+    font-family: verdana;
+    margin-left: 0px;
+} 
+ 
+.textbox:focus
+{
+   outline: none;
+    border: 1px solid #006666;
+    box-shadow: 0px 0px 8px #7bc1f7;
+    -moz-box-shadow: 0px 0px 8px #7bc1f7;
+    -webkit-box-shadow: 0px 0px 8px #7bc1f7;
+}
+
+
+.textMultiline
+{
+    border: 1px solid #002062;
+    font-size: 13px;
+    padding: 4px 4px 4px 4px;
+    font-family: verdana;
+    }
+
+.textMultiline:focus
+{
+ outline: none;
+    border: 1px solid #006666;
+    box-shadow: 0px 0px 8px #7bc1f7;
+    -moz-box-shadow: 0px 0px 8px #7bc1f7;
+    -webkit-box-shadow: 0px 0px 8px #7bc1f7;
+}
+
+.DropDown
+{
+    border: 1px solid rgb(51, 204, 255);
+    -webkit-border:1px solid rgb(51, 204, 255);
+    -o-border:1px solid rgb(51, 204, 255);
+    -moz-border:1px solid rgb(51, 204, 255);
+    
+    padding: 4px 4px 4px 4px;
+    font-family: verdana;
+} 
+ 
+.DropDown:focus
+{
+    outline: none;
+    border: 1px solid #006666;
+    box-shadow: 0px 0px 8px #7bc1f7;
+    -moz-box-shadow: 0px 0px 8px #7bc1f7;
+    -webkit-box-shadow: 0px 0px 8px #7bc1f7;
+}
+
+
+.Button
+{
+    border: 1px solid #25729a;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    font-size: 12px;
+    font-family: verdana;
+    padding: 14px 14px 14px 14px;
+    text-decoration: none;
+    display: inline-block;
+    text-shadow: 0px 0px 0 rgba(0,0,0,0.3);
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #3093c7;
+    background-image: linear-gradient(to bottom, #3093c7, #1c5a85);
+}
+
+.Button:hover{
+ border:1px solid #1c5675;
+ background-color: #26759e; background-image: linear-gradient(to bottom, #26759e, #133d5b);
+ }
+
+.LoginButton
+{
+    border: 1px solid #25729a;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    font-size: 16px;
+    font-family: verdana;
+    padding: 14px 14px 14px 14px;
+    text-decoration: none;
+    display: inline-block;
+    text-shadow: 0px 0px 0 rgba(0,0,0,0.3);
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #3093c7;
+    background-image: linear-gradient(to bottom, #3093c7, #1c5a85);
+}
+
+.LoginButton:hover{
+ border:1px solid #1c5675;
+ background-color: #26759e; background-image: linear-gradient(to bottom, #26759e, #133d5b);
+ }
+
+
+.Label
+{
+    font-family: Ebrima,sans-serif;
+    font-size: 12px;
+    color: #000;
+    text-decoration: none;
+}
+.linkLabel
+{
+    font-family: Ebrima;
+    font-size: 14px;
+
+    color: #000000;
+    position: absolute;
+}
+
+.Link_Button
+{
+    font-family: Ebrima;
+    color: #0066CC;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 14px;
+}
+.loginLabel
+{
+    font-family: Verdana;
+    font-size: 16px;
+    line-height: 34px;
+    color: #414848;
+}
+
+
+
+Single Checkbox:
+.CheckBoxLabel
+{
+    white-space: nowrap;
+    
+}
+
+.SingleCheckbox input[type=checkbox]:not(old),
+input[type=radio   ]:not(old){
+  width     : 2em;
+  margin    : 0;
+  padding   : 0;
+  font-size : 1em;
+  opacity   : 0;
+}
+
+.SingleCheckbox input[type=checkbox]:not(old) + label,
+input[type=radio   ]:not(old) + label{
+  display      : inline-block;
+  margin-left  : -2em;
+  line-height  : 1.5em;
+}
+
+.SingleCheckbox input[type=checkbox]:not(old) + label > span,
+input[type=radio   ]:not(old) + label > span{
+  display          : inline-block;
+  width            : 0.875em;
+  height           : 0.875em;
+  margin           : 0.25em 0.5em 0.25em 0.25em;
+  border           : 0.0625em solid rgb(192,192,192);
+  -o-border:0.0625em solid rgb(192,192,192);
+  -moz-border:0.0625em solid rgb(192,192,192);
+  -webkit-border:0.0625em solid rgb(192,192,192);
+  border-radius    : 0.25em;
+ 
+  background       : rgb(224,224,224);
+  background-image :    -moz-linear-gradient(rgb(240,240,240),rgb(224,224,224));
+  background-image :     -ms-linear-gradient(rgb(240,240,240),rgb(224,224,224));
+  background-image :      -o-linear-gradient(rgb(240,240,240),rgb(224,224,224));
+  background-image : -webkit-linear-gradient(rgb(240,240,240),rgb(224,224,224));
+  background-image :         linear-gradient(rgb(240,240,240),rgb(224,224,224));
+  vertical-align   : bottom;
+}
+
+.SingleCheckbox input[type=checkbox]:not(old):checked + label > span,
+input[type=radio   ]:not(old):checked + label > span{
+  background-image :    -moz-linear-gradient(rgb(224,224,224),rgb(240,240,240));
+  background-image :     -ms-linear-gradient(rgb(224,224,224),rgb(240,240,240));
+  background-image :      -o-linear-gradient(rgb(224,224,224),rgb(240,240,240));
+  background-image : -webkit-linear-gradient(rgb(224,224,224),rgb(240,240,240));
+  background-image :         linear-gradient(rgb(224,224,224),rgb(240,240,240));
+}
+
+.SingleCheckbox input[type=checkbox]:not(old):checked + label > span:before{
+  content     : '✓';
+  display     : block;
+  width       : 1em;
+  color       : rgb(153,204,102);
+  font-size   : 0.875em;
+  line-height : 1em;
+  text-align  : center;
+  text-shadow : 0 0 0.0714em rgb(115,153,77);
+  font-weight : bold;
+}
+
+.SingleCheckbox input[type=radio]:not(old):checked +  label > span > span{
+  display          : block;
+  width            : 0.5em;
+  height           : 0.5em;
+  margin           : 0.125em;
+  border           : 0.0625em solid rgb(115,153,77);
+  -o-border:0.0625em solid rgb(115,153,77);
+  -moz-border:0.0625em solid rgb(115,153,77);
+  -webkit-border:0.0625em solid rgb(115,153,77);
+  border-radius    : 0.125em;
+  background       : rgb(153,204,102);
+  background-image :    -moz-linear-gradient(rgb(179,217,140),rgb(153,204,102));
+  background-image :     -ms-linear-gradient(rgb(179,217,140),rgb(153,204,102));
+  background-image :      -o-linear-gradient(rgb(179,217,140),rgb(153,204,102));
+  background-image : -webkit-linear-gradient(rgb(179,217,140),rgb(153,204,102));
+  background-image :         linear-gradient(rgb(179,217,140),rgb(153,204,102));
+}
+
+
+
+input[type=radio]:not(old){
+  width   : 28px;
+  margin  : 0;
+  padding : 0;
+  opacity : 0;
+}
+
+ input[type=radio]:not(old) + label
+{
+    display: inline-block;
+    padding-left: 25px;
+    background: url('../img/checks.png') no-repeat 0 0;
+    line-height: 24px;
+}
+
+
+
+input[type=radio]:not(old):checked + label
+{
+    background-position: 0 -48px;
+}
+
+
+
+
+
+
+.mGrid { background-color: #fff; margin: 5px 0 10px 0; border: solid 1px #E9E9E9; border-collapse:collapse; -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px;
+}
+.mGrid td { padding: 10px 10px;  border-bottom: solid 1px #ccc; color: #717171; font-size: 11pt;}
+.mGrid th { padding: 14px 10px;  color: #fff; background: #F7BC5B; font-size: 0.9em; }
+.mGrid .alt { background: #E3E3E3; }
+.mGrid .pgr {background: #F7BC5B; }
+.mGrid .pgr table {float: right; margin: 5px 100px 5px 5px; }
+.mGrid .pgr td { border-width: 0; padding: 5px; font-weight: bold; color: #fff; line-height: 12px;}   
+.mGrid .pgr a { color: #666; text-decoration: none; font-weight: normal;}
+.mGrid .pgr a:hover { color: yellow; text-decoration: none;  font-weight: normal;}
+
+
+
+
+.tableHeader
+{
+    font-size: 12px;
+    padding: 2px 10px;
+    font-weight: bold;
+    background: rgb(237,237,237);
+    background: -moz-linear-gradient(top, rgba(237,237,237,1) 0%, rgba(222,222,222,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(237,237,237,1)), color-stop(100%,rgba(222,222,222,1)));
+    background: -webkit-linear-gradient(top, rgba(237,237,237,1) 0%,rgba(222,222,222,1) 100%);
+    background: -o-linear-gradient(top, rgba(237,237,237,1) 0%,rgba(222,222,222,1) 100%);
+    background: -ms-linear-gradient(top, rgba(237,237,237,1) 0%,rgba(222,222,222,1) 100%);
+    background: rgb(45, 103, 98);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#dedede',GradientType=0 );
+    color: #999;
+    text-shadow: 1px 1px rgba(255,255,255,0.3);
+    border: 1px solid #bbb;
+    position: relative;
+    text-transform: uppercase;
+    color: #333;
+    bottom: 133px;
+}
+        .gridTableHeader
+{
+    font-size: 12px;
+    padding: 2px 10px;
+    font-weight: bold;
+    background: rgb(237,237,237);
+    background: -moz-linear-gradient(top, rgba(237,237,237,1) 0%, rgba(222,222,222,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(237,237,237,1)), color-stop(100%,rgba(222,222,222,1)));
+    background: -webkit-linear-gradient(top, rgba(237,237,237,1) 0%,rgba(222,222,222,1) 100%);
+    background: -o-linear-gradient(top, rgba(237,237,237,1) 0%,rgba(222,222,222,1) 100%);
+    background: -ms-linear-gradient(top, rgba(237,237,237,1) 0%,rgba(222,222,222,1) 100%);
+    background: linear-gradient(to bottom, rgba(237,237,237,1) 0%,rgba(222,222,222,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#dedede',GradientType=0 );
+    color: #999;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px rgba(255,255,255,0.3);
+    border-bottom: 1px solid #bbb;
+    position: relative;
+    text-transform: uppercase;
+    color: #333;
+}
+        .gridTableHeader th
+        {
+            text-align: left;
+            padding: 4px 10px 4px 10px;
+        }
+        .gridTableData
+        {
+            background-color: #F7F6F3;
+            color: #333333;
+        }
+        .gridTableData td
+        {
+            text-align: left;
+            padding: 3px 10px 3px 10px;
+        }
+        
+        .contentTable td
+{
+    border: 0.5px solid #bbb;
+}
+        .popupTable td
+        {
+            width: 50%;
+            padding: 3px;
+        }
+        
+        
+ .MainHeader
+{
+    font-family: Verdana;
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 34px;
+    color: #0B588B;
+}
+
+
+.alert { 
+	border-color: #e4bf7f; color: #9c6c38; margin-bottom: 15px; 
+	background: rgb(246,237,186);
+	background: -moz-linear-gradient(top, rgba(246,237,186,1) 0%, rgba(245,224,168,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(246,237,186,1)), color-stop(100%,rgba(245,224,168,1)));
+	background: -webkit-linear-gradient(top, rgba(246,237,186,1) 0%,rgba(245,224,168,1) 100%);
+	background: -o-linear-gradient(top, rgba(246,237,186,1) 0%,rgba(245,224,168,1) 100%);
+	background: -ms-linear-gradient(top, rgba(246,237,186,1) 0%,rgba(245,224,168,1) 100%);
+	background: linear-gradient(to bottom, rgba(246,237,186,1) 0%,rgba(245,224,168,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6edba', endColorstr='#f5e0a8',GradientType=0 );
+}
+.alert .close { top: -117px; 
+right: 1130px; 
+color: #937f0e;
+    position: absolute;
+    width: 14px;
+    left: -164px;
+    height: 22px;
+}
+.alert h4 { color: #9c6c38; }
+
+.alert-error {
+	border-color: #e18d9a; color:#da5251; 
+	background: rgb(246,216,216);
+	background: -moz-linear-gradient(top,  rgba(246,216,216,1) 0%, rgba(245,197,197,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(246,216,216,1)), color-stop(100%,rgba(245,197,197,1)));
+	background: -webkit-linear-gradient(top,  rgba(246,216,216,1) 0%,rgba(245,197,197,1) 100%);
+	background: -o-linear-gradient(top,  rgba(246,216,216,1) 0%,rgba(245,197,197,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(246,216,216,1) 0%,rgba(245,197,197,1) 100%);
+	background: linear-gradient(to bottom,  rgba(246,216,216,1) 0%,rgba(245,197,197,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6d8d8', endColorstr='#f5c5c5',GradientType=0 );	
+}
+.alert-error .close, .alert-error h4 { color: #990000; }
+.alert-success
+{
+    border-color: #3366CC;
+    color: #FFFFFF;
+    background: rgb(223,240,216);
+    background: -moz-linear-gradient(top,  rgba(223,240,216,1) 0%, rgba(208,242,195,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(223,240,216,1)), color-stop(100%,rgba(208,242,195,1)));
+    background: -webkit-linear-gradient(top,  rgba(223,240,216,1) 0%,rgba(208,242,195,1) 100%);
+    background: -o-linear-gradient(top,  rgba(223,240,216,1) 0%,rgba(208,242,195,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(223,240,216,1) 0%,rgba(208,242,195,1) 100%);
+    background: linear-gradient(to bottom,  rgba(223,240,216,1) 0%,rgba(208,242,195,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dff0d8', endColorstr='#d0f2c3',GradientType=0 );
+}
+.alert-success .close, .alert-success h4 { color: #468847; }
+.alert-info {
+	border-color: #88c4e2; color: #3a87ad;
+	background: rgb(217,237,247);
+	background: -moz-linear-gradient(top,  rgba(217,237,247,1) 0%, rgba(186,230,252,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(217,237,247,1)), color-stop(100%,rgba(186,230,252,1)));
+	background: -webkit-linear-gradient(top,  rgba(217,237,247,1) 0%,rgba(186,230,252,1) 100%);
+	background: -o-linear-gradient(top,  rgba(217,237,247,1) 0%,rgba(186,230,252,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(217,237,247,1) 0%,rgba(186,230,252,1) 100%);
+	background: linear-gradient(to bottom,  rgba(217,237,247,1) 0%,rgba(186,230,252,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d9edf7', endColorstr='#bae6fc',GradientType=0 );	
+}
+.alert-info .close, .alert-info h4 { color: #3a87ad; }
+
+
+.DivContenthead
+{
+    background-image: url('../images/bg.gif');
+    width: 900px;
+    height: 30px;
+}
+
+
+.blockhead
+{
+    font: normal 12px arial, helvetica, sans-serif;
+    color: #ffffff;
+    background: #FFFFFF url('../images/btn-hover.jpg') repeat-x;
+    _background-image: none;
+    padding: 4px 10px 4px 10px;
+    border: 1px solid #363636;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-topleft: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.blockhead h2 {
+	font-weight:bold;
+}
+
+.blockhead a { color:#ffffff; }
+.blockhead a:hover { color:#ffffff; }
+
+.blockhead img {
+	margin-bottom: -4px;
+}
+
+.blocksubhead {
+	font:  normal 12px ;
+	color:#424242;
+	background:#e9e9e9 none repeat-x  ;
+	padding:4px 10px 4px 10px;
+	border-top:1px solid #c6c6c6;
+}
+
+
+
+.blocksubhead img {
+	vertical-align:middle;
+}
+
+.blocksubhead a { color:#363636; text-decoration:none; }
+.blocksubhead a:hover { color:#5a5f63; }
+
+.blockhead_info, .blocksubhead_info {
+	float:right;
+	font-weight:normal;
+}
+
+/*.blockhead + */.blockbody { /* not sure why I had this .blockhead + .blockbody selector... need to look out for breakage */
+	background:#ebebeb none no-repeat  ;
+	padding-left:0px;
+	padding-right:0px;
+}
+
+.blockrow {
+	background:none none   ;
+	padding:5px 10px 5px 10px;
+	border:0 none ;
+	color:;
+	font:    ;
+}
+
+.blockrow a { color:; }
+.blockrow a:hover { color:; }
+
+.blockfoot, .blocksubfoot {
+	display:block;
+	clear:both;
+	background:#ebebeb none   ;
+	padding:5px 0px 5px 0px;
+	border:0 none rgb(102, 204, 0);
+	color:;
+	font:    ;
+
+}
+
+.blockfoot a { color:; }
+.blockfoot a:hover { color:; }
+
+.blockfootpad {
+	clear:both;
+	padding:5px 0px 5px 0px;
+}
+
+.blocksubfoot {
+	text-align:right;
+}
+/* END BLOCK STUFF */
+.Lblheader
+{
+    font-family: Verdana;
+    font-size: 12px;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+.Messagesucess
+{
+    font-family: Verdana;
+    font-size: 12px;
+    color: #3366CC;
+}
+.MessageFailure
+{
+    font-family: Verdana;
+    font-size: 12px;
+    color: #CC0000;
+}
+
+
+
+ .Gridtextbox
+{
+    
+    width: 120px;
+    font-size: 11px;
+    font-family: verdana;
+    border: 1px solid #B6DADA;
+    font-size: 13px;
+    padding: 4px 4px 4px 4px;
+    font-family: verdana;
+} 
+ 
+
+
+.GridDropDown
+{
+    
+  border-color: #B6DADA;
+  width: 120px;
+  font-size: 11px;
+    font-family: verdana;
+     border: 1px solid #B6DADA;
+   
+    padding: 4px 4px 4px 4px;
+ 
+  
+} 
+
+
+
+        .GridDock
+        {
+            overflow-x: auto;
+            overflow-y: hidden;
+            width: 100%;
+            height:200px;
+            padding: 0 0 17px 0;
+        }
+
+ 

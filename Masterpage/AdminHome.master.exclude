@@ -1,0 +1,340 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="AdminHome.master.cs" Inherits="Admin_Admin" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+
+<title>TaxPlorer | Online TaxPlorer Software</title>
+
+<meta name="keywords" content="drnds" />
+<meta name="description" content="drnds" />
+<meta name="author" content="VergeSystems - info@vergesystems.com" />
+<meta name="copyright" content="&copy; 2004-2013" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="../Styles/ControlsStyle.css" rel="Stylesheet" type="text/css" />
+<link href="../Styles/popmodal.css" rel="Stylesheet" type="text/css" />
+ <link href="../AdminStyle/WebHRStyleSheet.css" rel="stylesheet" type="text/css" />
+<link href="../AdminStyle/stylesheet.css" type="text/css" rel="stylesheet" />
+<link href="../AdminStyle/WebHRSprites.css" type="text/css" rel="stylesheet" />
+<link href="../AdminStyle/WebHRButtons.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="../AdminStyle/jQueryUI.css" />
+<link media="screen" rel="stylesheet" href="../AdminStyle/jQueryColorbox.css" />
+<link type="text/css" rel="stylesheet" href="../AdminStyle/cssWebHR.css" />
+   <link href="../AdminStyle/ScrollBar.css" rel="stylesheet" type="text/css" />
+ <script src="../AdminJs/jQuery.js" type="text/javascript"></script>
+    <link href="../AdminStyle/DashboardStyle.css" rel="stylesheet" type="text/css" />
+<script type="text/jscript" src="../AdminJs/jQueryUI.js"></script>
+<script language="JavaScript" type="text/javascript" src="../AdminJs/jsWebHR.js"></script>
+<script type="text/jscript" src="../AdminJs/jsHRMS.js"></script>
+	<script src="../AdminJs/Backtotop.js" type="text/jscript"></script>
+ <script type="text/jscript">
+     jQuery(document).ready(function () {
+         var offset = 220;
+         var duration = 500;
+         jQuery(window).scroll(function () {
+             if (jQuery(this).scrollTop() > offset) {
+                 jQuery('.back-to-top').fadeIn(duration);
+             } else {
+                 jQuery('.back-to-top').fadeOut(duration);
+             }
+         });
+
+         jQuery('.back-to-top').click(function (event) {
+             event.preventDefault();
+             jQuery('html, body').animate({ scrollTop: 0 }, duration);
+             return false;
+         })
+     });
+		</script>
+        	
+
+
+        <script type="text/javascript" language="javascript">
+            function DisableBackButton() {
+                window.history.forward()
+            }
+            DisableBackButton();
+            window.onload = DisableBackButton;
+            window.onpageshow = function (evt) { if (evt.persisted) DisableBackButton() }
+            window.onunload = function () { void (0) }
+          </script>
+         <script type="text/javascript">
+             function PostToNewWindow() {
+                 originalTarget = document.forms[0].target;
+                 document.forms[0].target = '_blank';
+                 window.setTimeout("document.forms[0].target=originalTarget;", 300);
+                 return true;
+             }
+</script>	
+
+<script type="text/javascript" >
+    //Variable used to prevent caching on some browsers and knowing the count how many times user sends request to server.
+    var counter;
+    counter = 0;
+
+    function KeepSession() {
+        // Increase counter value
+        counter++;
+
+        // Gets reference of image
+        var img = document.getElementById("ImgSesssion");
+
+        // Set new src value, which will send a request to the server
+        img.src = "~/Masterpage/AdminHome.master?count=" + counter;
+
+        // now schedule this process to happen in some time interval, in this example its 1 min
+        setTimeout(KeepSession, 60000);
+    }
+
+    // Call this function for a first time
+    KeepSession();
+</script>
+
+    <script language="javascript" type="text/javascript" src="../AdminJs/Session.js"></script>
+<script language="javascript" type="text/javascript">
+
+    function KeepSession() {
+        // A request to server
+        $.post("~/Masterpage/AdminHome.master");
+
+        //now schedule this process to happen in some time interval, in this example its 1 min
+        setInterval(KeepSession, 60000);
+    }
+
+    // First time call of function
+    KeepSession();
+ </script>
+
+</head>
+<body style="background: url(../images/Background.png);" >
+  
+  <asp:Image ID="ImgSesssion" runat="server" Visible="false" /> 
+<script>
+    $(document).ready(function () { $("[data-slidepanel]").slidepanel({ orientation: "right", mode: "push" }); });
+</script>
+
+
+<%--<div id="divWebHRTop" class="WebHRTop">
+ <div class="WebHRLogos">
+  <div class="WebHRLogo"><img style="height:43px;"  src="../images/DRN LOGO FINAL.jpg" border="0" alt="WebHR | Home" title="WebHR | Home" /></div>
+  
+  <div class="WebHR_OrganizationLogo" style="margin:10px 0 0 0;"><span class="WebHR_OrganizationName">drnds</span></div>
+ </div>
+</div>--%>
+   <style type="text/css">
+
+		.column { width: 33.3%; float: left; padding-bottom: 100px; }
+		.portlet { margin: 0 1em 1em 0; }
+		.portlet-header {  font-family:'ProximaNova-Light',Arial; font-size:20px; font-weight:normal; margin: 0.3em; padding-bottom: 4px; padding-left: 0.2em; }
+		.portlet-header .ui-icon { display:none; float: right; }
+		.portlet-content { padding: 0.4em; }
+		.ui-sortable-placeholder { border: 1px dotted black; visibility: visible !important; height: 50px !important; }
+		.ui-sortable-placeholder * { visibility: hidden; }
+		</style>
+		<script type="text/javascript">
+		    var cols = jQuery.parseJSON('{"prtColumn1":["prt1","prt2","prt3"],"prtColumn2":["prt4","prt5","prt6","prt7"],"prtColumn3":["prt8"]}');
+		    $(function () {
+		        $(".column").sortable({
+		            connectWith: ".column",
+		            //change: function(event, ui) { },
+		            //update: function () {  }
+		            create: function () { var colid = this.id; var col = cols[colid]; $.each(col, function (index, value) { $("#" + value).appendTo($("#" + colid)); }); },
+		            update: function () {
+		                $.get("../home/pages.php?page=Dashboard_Portlets", { col: this.id, sort: $(this).sortable("toArray").toString() });
+		            }
+		        });
+
+		        $(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ")
+		        //.find(".portlet-header")
+		        //.addClass("ui-widget-header") 
+		        //.prepend('<span class="ui-icon ui-icon-minus"></span>')
+		        //.end()
+				.find(".portlet-content");
+
+		        //$(".portlet-header .ui-icon").click(function() {
+		        //	$(this).toggleClass("ui-icon-minus").toggleClass("ui-icon-plus");
+		        //	$(this).parents(".portlet:first").find(".portlet-content").toggle();
+		        //});
+
+		    });
+		</script>
+		
+		<script>
+		    var aEmployeeInfo = Array();
+		    $(function () {
+		        aEmployeeInfo["Inbox_NewMessages"] = 0;
+		        aEmployeeInfo["Notifications"] = 0;
+
+		        if (aEmployeeInfo["Inbox_NewMessages"] > 0) {
+		            $("#divInboxBubble").show();
+		            $("#divInboxBubble").html(aEmployeeInfo["Inbox_NewMessages"]);
+		        }
+
+		        if (aEmployeeInfo["Notifications"] > 0) {
+		            $("#divNotificationsBubble").show();
+		            $("#divNotificationsBubble").html(aEmployeeInfo["Notifications"]);
+		        }
+
+		        //setTimeout(function(){ alert(0); }, 20000);
+		    });
+		</script>
+        <style type="text/css">
+ div#menu li { background: url() 98% 4px no-repeat; }
+ .WebHRMenu { height:41px; background:url(../AdminImage/fb_menubar_background.png) repeat-x; }
+ .WebHRSearch { font-family:Trebuchet MS, Arial; font-size:11px; color:#ffffff; padding-left:5px; width:100px; margin-top:8px; height:19px; border:0px; background:url(../images/Template/Blue/search_left.png); outline:none; }
+</style>
+  <form id="form1" runat="server">
+  <div>
+  <div>
+<div class="WebHRMenu">
+
+ <div style="width:95%;margin: 0px auto;">
+  <div style="float:left; width:600px;">
+   
+   <div id="menu">
+    <ul class="menu">
+     <li class="current">
+     <a>
+     <asp:LinkButton ID="lnk_Home"  runat="server"  onclick="lnk_Home_Click"><span>Home</span></asp:LinkButton>
+     </a>
+     </li>
+      <li class="limasters">
+     <a>
+     <asp:LinkButton ID="LinkMydashboard"  runat="server" 
+              onclick="LinkMydashboard_Click" ><span>DashBoard</span></asp:LinkButton>
+     </a>
+     </li>
+  
+     <li id="limasters" runat="server"><a href="../Admin/Create_Client.aspx" class="parent"><span>Masters</span></a>
+	
+        <ul style="width:450px; height:100px; background:url(../AdminImage/menulist.jpg);">
+      <li>
+      <div style="margin-top:5px; clear:both;"></div>
+	    <div class="iemployeetrainings" style="float:left; margin-left:10px;"></div><div style="width:180px; float:left;"><a href="../Admin/Create_Company.aspx">Company</a></div>
+	    <div class="itrainingevents" style="float:left; margin-left:10px;"></div><div style="width:180px; float:left;"><a href="../Admin/Create_Branch.aspx">Branch</a></div>
+    	<div style="margin-top:34px; clear:both;"></div>
+		<div style="margin-top:5px; clear:both;"></div>
+	    <div class="iemployeetrainings" style="float:left; margin-left:10px;"></div><div style="width:180px; float:left;"><a href="../Admin/Create_Client.aspx">Client Name</a></div>
+	    <div class="itrainingevents" style="float:left; margin-left:10px;"></div><div style="width:180px; float:left;"><a href="../Admin/Create_Order_Type.aspx">Order Type</a></div>
+    	<div style="margin-top:34px; clear:both;"></div>
+      <div class="iemployeetrainings" style="float:left; margin-left:10px;"></div><div style="width:180px; float:left;"><a href="../Admin/Create_SubProcess.aspx">Sub Process</a></div>
+	    <div class="itrainingevents" style="float:left; margin-left:10px;"></div><div style="width:180px; float:left;"><a href="../Admin/Create_Order_Status.aspx">Order Status</a></div>
+   <div style="margin-top:64px; clear:both;"></div>
+      </li>
+	  </ul>
+     </li>
+     <li id="li_users" runat="server" ><a href="../Admin/User_Create.aspx"><span>Users</span></a>
+	  <ul style="width:450px; height:80px; background:url(../AdminImage/menulist.jpg);">
+        
+      <li>
+		
+
+	    <div style="margin-top:5px; clear:both;"></div>
+	    <div class="iemployeetrainings" style="float:left; margin-left:10px;"></div><div style="width:180px; float:left;"><a href="../Admin/User_Create.aspx">Create Users</a></div>
+	    <div class="itrainingevents" style="float:left; margin-left:10px;"></div><div style="width:180px; float:left;"><a href="../Admin/ActiveInactiveusers.aspx">Deactive Users</a></div>
+    	<div style="margin-top:34px; clear:both;"></div>
+      <div class="iemployeetrainings" style="float:left; margin-left:10px;"></div><div style="width:180px; float:left;"><a href="../Admin/Create_UserRole.aspx">Create User Role</a></div>
+	       <div style="margin-top:64px; clear:both;"></div>
+      </li>
+	  </ul>
+	 </li>
+	    <li id="liTax_Masters" runat="server" ><a href="../Admin/Tax_Info.aspx"><span>Tax Masters</span></a>
+	  <ul style="width:450px; height:80px; background:url(../AdminImage/menulist.jpg);">
+      <li>
+		
+
+	    <div style="margin-top:5px; clear:both;"></div>
+	    <div class="iemployeetrainings" style="float:left; margin-left:10px;"></div><div style="width:180px; float:left;"><a href="../Admin/Import_County_Database_Information.aspx">Import County Database</a></div>
+	    <div class="itrainingevents" style="float:left; margin-left:10px;"></div><div style="width:180px; float:left;"><a href="../Admin/Tax_Info.aspx">Tax Master</a></div>
+    	<div style="margin-top:34px; clear:both;"></div>
+    
+      </li>
+	  </ul>
+	 </li>
+     <li id="liReports" runat="server" class="parent"><a href="../Gls/Gls_Tax_Order_Report.aspx"><span>Reports</span></a>
+	  <ul style="width:600px; height:160px; background:url(../AdminImage/menulist.jpg);">
+      <li>
+
+		<div style="margin-top:5px; clear:both;"></div>
+	    <div class="ireports-hr" style="float:left; margin-left:10px;"></div><div style="width:180px; float:left;"><a href="Order_Search_Entry_Report_Selection.aspx">Search Entry Reports</a></div>
+		
+
+      </li>
+	  </ul>
+	 </li>
+    
+    </ul>
+   </div>
+  </div>
+
+  <div style="float:right;">
+   <div id="menu2">
+    <ul class="menu2">
+	 
+	   <li class="last parent" style="padding-top:8px;"><span><asp:Label ID="Label1" runat="server" Text="Last Login:" Font-Size="Small" ForeColor="White"></asp:Label></span></li>
+       <li class="last parent" style="padding-top:8px;"><span><asp:Label ID="lastlogin" Font-Size="Small" runat="server"  ForeColor="White"></asp:Label></span></li>
+       <li class="last parent"><asp:Image ID="Img_User" Width="40px" Height="40px" CssClass="User-img" runat="server" /></li>
+     <li class="last parent"><a href="#"><span><asp:Label ID="lblusername" runat="server"></asp:Label></span></a><ul style="width:250px; height:90px; background:url(../AdminImage/menulist.jpg);">
+         
+      <li>
+         
+	  <table border="0" style="padding-left:0px;" cellspacing="0" cellpadding="4" width="100%">
+	   <tr><td><a style="padding-left:0px;color: #000000;" href="../Admin/User_Profile.aspx">My Profile</a></td></tr>
+	   <tr><td>
+          <span> <a style="padding-left:0px; color: #000000;"  href="../Admin/Change_Password.aspx">Settings</a></span></td></tr>
+             <tr><td>
+          <span> <a style="padding-left:0px; color: #000000;"  href="../Login.aspx">Log Out</a></span></td></tr>
+	  
+	  </table>
+      </li>
+	  </ul>
+	 </li>
+      </ul>
+    </div>
+    
+    
+   </div></div>
+
+ </div>
+</div>
+ 
+ 
+  
+     <div style="height:100%; width:100%"  class="WebHRMain">
+      <asp:ScriptManager ID="ScriptManager1" runat="server">
+         </asp:ScriptManager>
+     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+
+        
+
+     </asp:ContentPlaceHolder>
+     </div>
+     </div>
+  </form>
+ 
+<div id="divAccessDenied" title="Access Denied" style="display:none;" align="center"><br /><img src="../images/icons/iconCross3.png"><br /><br />Sorry, Access Denied...</span></div>
+<div id="divMessageDialog" title="Message" style="display:none;" align="center"><br /></div>
+<div id="divInbox_ComposeMessage" style="display:none; min-width: 350px; min-height:400px; position: fixed; bottom: 0px; right: 10px; border: 1px solid #b9b9b9; background-color: white;"></div> 
+<br /><br />
+<div class="WebHRBottom">
+ <div class="WebHRMain" align="right">
+  <div style="height:50px;"></div>
+  
+
+  <div align="center" class="WebHRBottomText">
+ <a href="#noanchor" onclick="jsOpenWindow('../../termsconditions.php',600,500);">Terms &amp; Conditions</a>&nbsp;|&nbsp;
+ <a href="#noanchor" onclick="jsOpenWindow('../../privacy.php',600,500);">Privacy Policy</a>&nbsp;|&nbsp;
+ <a href="../help/?page=ContactUs">Contact Us</a>
+ <br />
+ &copy;&nbsp;2013 - <a href="http://www.webhr.co/" target="_blank">DRN</a> - Developed by <a href="http://www.drnds.com" target="_blank">DRN Definite Solutions</a>
+</div>
+  </div>
+ </div>
+</div>
+
+
+
+</body>
+
+</html>

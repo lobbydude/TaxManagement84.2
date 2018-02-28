@@ -1,0 +1,280 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masterpage/AdminHome.master" AutoEventWireup="true" CodeFile="Order_UserWise_StatusAssign.aspx.cs" Inherits="Admin_Order_Assign" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+<%@ Register Assembly="FreeTextBox" Namespace="FreeTextBoxControls" TagPrefix="FTB" %>
+<asp:Content ID="Content1" runat="server" 
+    contentplaceholderid="ContentPlaceHolder1">
+      <script type="text/javascript">
+          var TotalChkBx;
+          var Counter;
+
+          window.onload = function () {
+              //Get total no. of CheckBoxes in side the GridView.
+              TotalChkBx = parseInt('<%= this.grd_User.Rows.Count %>');
+              //Get total no. of checked CheckBoxes in side the GridView.
+              Counter = 0;
+          }
+
+          function HeaderClick(CheckBox) {
+              //Get target base & child control.
+              var TargetBaseControl = document.getElementById('<%= this.grd_User.ClientID %>');
+              var TargetChildControl = "chkBxSelect";
+
+              //Get all the control of the type INPUT in the base control.
+              var Inputs = TargetBaseControl.getElementsByTagName("input");
+
+              //Checked/Unchecked all the checkBoxes in side the GridView.
+              for (var n = 0; n < Inputs.length; ++n)
+                  if (Inputs[n].type == 'checkbox' && Inputs[n].id.indexOf(TargetChildControl, 0) >= 0)
+                      Inputs[n].checked = CheckBox.checked;
+              //Reset Counter
+              Counter = CheckBox.checked ? TotalChkBx : 0;
+          }
+
+          function ChildClick(CheckBox, HCheckBox) {
+              //get target base & child control.
+              var HeaderCheckBox = document.getElementById(HCheckBox);
+
+              //Modifiy Counter;            
+              if (CheckBox.checked && Counter < TotalChkBx)
+                  Counter++;
+              else if (Counter > 0)
+                  Counter--;
+
+              //Change state of the header CheckBox.
+              if (Counter < TotalChkBx)
+                  HeaderCheckBox.checked = false;
+              else if (Counter == TotalChkBx)
+                  HeaderCheckBox.checked = true;
+          }
+    </script>
+      <asp:UpdatePanel ID="upnews" runat="server" UpdateMode="Always"><ContentTemplate>
+      <table style="width: 100%">
+        <tr>
+            <td>
+               <div id="content">
+                <span class="WebFont1">Assign UserWise Status</span>
+                  
+               </div>
+               
+               </td>
+        </tr>
+      
+         <tr>
+            <td>
+               <div id="Divcreate" runat="server" style="height:100%; width:100%;" class="DivContentBody">
+               
+                 <table style="width:100%;" >
+                          
+                                    
+                                    
+                                    <tr>
+                                        <td align="center">
+                                            <table style="width: 40%">
+                                                <tr>
+                                                    <td>
+                                                        <asp:Label ID="Label1" runat="server" CssClass="Label" Font-Bold="True" 
+                                                            Text="N -"></asp:Label>
+                                                        <asp:Label ID="Label7" runat="server" CssClass="Label" Font-Bold="True" 
+                                                            Text="NEW" ForeColor="#006666"></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <asp:Label ID="Label8" runat="server" CssClass="Label" Font-Bold="True" 
+                                                            Text="E -"></asp:Label>
+                                                        <asp:Label ID="Label9" runat="server" CssClass="Label" Font-Bold="True" 
+                                                            ForeColor="#006666" Text="EXPERIANCE"></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <asp:Label ID="Label10" runat="server" CssClass="Label" Font-Bold="True" 
+                                                            Text="NA -"></asp:Label>
+                                                        <asp:Label ID="Label11" runat="server" CssClass="Label" Font-Bold="True" 
+                                                            ForeColor="#006666" Text="NOT ASSIGNED"></asp:Label>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                          
+                                          </td>
+                                       
+                                    </tr> 
+                                    
+                                  
+                               
+                    
+                           
+                                    <tr>
+                                        <td align="left">
+                                            <div ID="view1">
+                                                <table style="width:100%;">
+                                                    <tr>
+                                                        <td align="center" class="lbltd" colspan="2">
+                                                            <asp:GridView ID="grd_User" runat="server" AllowPaging="True" 
+                                                                AutoGenerateColumns="False" BackColor="White" BorderColor="#E7E7FF" 
+                                                                BorderStyle="None" BorderWidth="1px" CellPadding="3" CssClass="name" GridLines="Both" 
+                                                                onpageindexchanging="grd_User_PageIndexChanging" 
+                                                                onrowdatabound="grd_User_RowDataBound" Width="100%">
+                                                                <AlternatingRowStyle BackColor="#F7F7F7" />
+                                                                <Columns>
+                                                                     <asp:TemplateField>
+                                                                     <HeaderTemplate>
+                                                                <asp:Label ID="Label6" runat="server"></asp:Label>
+                                                                <asp:CheckBox ID="chkBxHeader" runat="server" Checked="True"  Visible="false"
+                                                                    onclick="javascript:HeaderClick(this);" />
+                                                            </HeaderTemplate>
+                                                            <ItemTemplate>
+                                                                <asp:CheckBox ID="chkBxSelect" runat="server" AutoPostBack="true" 
+                                                                    Checked="false" OnCheckedChanged="chkSelect_CheckedChanged" />
+                                                            </ItemTemplate>
+                                                            <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="30px" />
+                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="30px" />
+                                                            
+                                                        </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="NO">
+                                                                        <ItemTemplate>
+                                                                            <asp:Label ID="lbluserid" runat="server" Text='<%#Eval("User_id")%>'></asp:Label>
+                                                                        </ItemTemplate>
+                                                                        <ItemStyle Width="30px" />
+                                                                    </asp:TemplateField>
+                                                                
+                                                                     <asp:TemplateField HeaderText="Employee Name">
+                                                                        <ItemTemplate>
+                                                                            <asp:Label ID="lblEmployee_Name"  runat="server" Text='<%#Eval("Employee_Name")%>'></asp:Label>
+                                                                        </ItemTemplate>
+                                                                        <ItemStyle Width="200px" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Search">
+                                                                        <ItemTemplate>
+                                                                        <asp:Label ID="lblsearch" runat="server" Visible="false" Text='<%#Eval("Search")%>'></asp:Label>
+                                                                            <asp:DropDownList ID="ddlsearch" OnSelectedIndexChanged="ddlsearch_Selectedindex_Changed" AutoPostBack="true"  Enabled="false"  runat="server" 
+                                                                               
+                                                                              CssClass="DropDown"  Width="60px">
+                                                                                <asp:ListItem  Text="NA" Value="1"></asp:ListItem>
+                                                                                <asp:ListItem Text="N" Value="2"></asp:ListItem>
+                                                                                <asp:ListItem Text="E" Value="3"></asp:ListItem>
+                                                                              
+                                                          <%--  <asp:ListItem>NA</asp:ListItem>
+                                                            <asp:ListItem>N</asp:ListItem>
+                                                            <asp:ListItem>E</asp:ListItem>
+                                                          --%>
+                                                                            </asp:DropDownList>
+                                                                        </ItemTemplate>
+                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Search QC">
+                                                                        <ItemTemplate>
+                                                                          <asp:Label ID="lblSearh_QC" runat="server" Visible="false" Text='<%#Eval("Searh_QC")%>'></asp:Label>
+                                                                            <asp:DropDownList ID="DdlsearchQc"  Enabled="false" OnSelectedIndexChanged="DdlsearchQc_Selectedindex_Changed" AutoPostBack="true" CssClass="DropDown" runat="server" 
+                                                                                  Width="60px">
+                                                                                  <asp:ListItem  Text="NA" Value="1"></asp:ListItem>
+                                                                               <asp:ListItem Text="N" Value="2"></asp:ListItem>
+                                                                                <asp:ListItem Text="E" Value="3"></asp:ListItem>
+                                                                            
+                                                                              
+                                                                            </asp:DropDownList>
+                                                                        </ItemTemplate>
+                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="120px" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Typing">
+                                                                        <ItemTemplate>
+                                                                         <asp:Label ID="lblTyping" runat="server" Visible="false" Text='<%#Eval("Typing")%>'></asp:Label>
+                                                                            <asp:DropDownList ID="DdlTyping" Enabled="false"  OnSelectedIndexChanged="DdlTyping_Selectedindex_Changed" AutoPostBack="true" CssClass="DropDown" runat="server"  
+                                                                                 Width="60px">
+                                                                                <asp:ListItem  Text="NA" Value="1"></asp:ListItem>
+                                                                                <asp:ListItem Text="N" Value="2"></asp:ListItem>
+                                                                                <asp:ListItem Text="E" Value="3"></asp:ListItem>
+                                                                          
+                                                                            </asp:DropDownList>
+                                                                        </ItemTemplate>
+                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Typing QC">
+                                                                        <ItemTemplate>
+                                                                         <asp:Label ID="lblTyping_QC" runat="server" Visible="false" Text='<%#Eval("Typing_QC")%>'></asp:Label>
+                                                                            <asp:DropDownList ID="DdlTypingQc"  Enabled="false"  OnSelectedIndexChanged="DdlTypingQc_Selectedindex_Changed" AutoPostBack="true" CssClass="DropDown" runat="server"  
+                                                                                Width="60px">
+                                                                                <asp:ListItem  Text="NA" Value="1"></asp:ListItem>
+                                                                                <asp:ListItem Text="N" Value="2"></asp:ListItem>
+                                                                                <asp:ListItem Text="E" Value="3"></asp:ListItem>
+                                                                            
+                                                                            </asp:DropDownList>
+                                                                        </ItemTemplate>
+                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="120px" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Upload">
+                                                                        <ItemTemplate>
+                                                                          <asp:Label ID="lblUpload" runat="server" Visible="false" Text='<%#Eval("Upload")%>'></asp:Label>
+                                                                            <asp:DropDownList ID="DdlUpload"  Enabled="false"  OnSelectedIndexChanged="DdlUpload_Selectedindex_Changed" AutoPostBack="true" CssClass="DropDown" runat="server" 
+                                                                                Width="60px">
+                                                                                  <asp:ListItem  Text="NA" Value="1"></asp:ListItem>
+                                                                               <asp:ListItem Text="N" Value="2"></asp:ListItem>
+                                                                                <asp:ListItem Text="E" Value="3"></asp:ListItem>
+                                                                            
+                                                                            </asp:DropDownList>
+                                                                        </ItemTemplate>
+                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                                <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
+                                                                <HeaderStyle BackColor="White" Font-Bold="True" ForeColor="#F7F7F7" />
+                                                                <PagerStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" HorizontalAlign="Right" />
+                                                                <RowStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
+                                                                <SelectedRowStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
+                                                                <SortedAscendingCellStyle BackColor="#F4F4FD" />
+                                                                <SortedAscendingHeaderStyle BackColor="#5A4C9D" />
+                                                                <SortedDescendingCellStyle BackColor="#D8D8F0" />
+                                                                <SortedDescendingHeaderStyle BackColor="#3E3277" />
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
+                                                 
+                                        
+                                                      <tr>
+                                                  <td class="lbltd">
+                                                      <asp:Label ID="Label5" runat="server" CssClass="Label" Text="Record Added By:"></asp:Label>
+                                                  </td>
+                                                  <td>
+                                                      <asp:Label ID="lbl_Record_Addedby" runat="server" CssClass="Label"></asp:Label>
+                                                  </td>
+                                              </tr>
+                              
+                                
+                                     
+                                          
+                                              <tr>
+                                                  <td class="lbltd">
+                                                      <asp:Label ID="Label6" runat="server" CssClass="Label" Text="Record Added On:"></asp:Label>
+                                                  </td>
+                                                  <td>
+                                                      <asp:Label ID="lbl_Record_AddedDate" runat="server" CssClass="Label"></asp:Label>
+                                                  </td>
+                                              </tr>
+                              
+                                                </table>
+                                            </div>
+                                        </td>
+                                        
+                                    </tr>
+                           
+                                    <tr>
+                                         <td align="center">
+                                             <asp:Button ID="btn_Save" runat="server" 
+                                                 CssClass="WebHRButton WebHRButtons green" 
+                                                 Text="Submit" onclick="btn_Save_Click" />
+                                             <asp:Button ID="btn_Cancel" runat="server" 
+                                                 CssClass="WebHRButton WebHRButtons red" 
+                                                 Text="Clear" Width="70px" />
+                                             <br />
+                                         </td>
+                                    
+                                     </tr>
+                           
+                             
+                                </table>
+               
+               </div>
+             
+               </td>
+        </tr>
+    </table>
+    </ContentTemplate></asp:UpdatePanel>
+</asp:Content>
+
+

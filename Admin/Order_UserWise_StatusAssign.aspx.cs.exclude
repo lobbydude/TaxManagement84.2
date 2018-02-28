@@ -1,0 +1,603 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+using System.Globalization;
+using System.Text;
+using System.Web.UI.HtmlControls;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Web;
+public partial class Admin_Order_Assign : System.Web.UI.Page
+{
+    Commonclass commnclass = new Commonclass();
+    DataAccess dataaccess = new DataAccess();
+    DropDownistBindClass dbc = new DropDownistBindClass();
+    int userid;
+    string Empname;
+    decimal Totalcost;
+    Hashtable htselect = new Hashtable();
+    DataTable dtselect = new DataTable();
+    static int Searchid = 2, search_Qcid = 3, Typing_id = 4, Typing_Qc_Id = 7, Upload_id = 12;
+    static int Count;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Session["userid"] == null)
+        {
+
+            Response.Redirect("~/Login.aspx");
+        }
+        else
+        {
+
+            userid = int.Parse(Session["userid"].ToString());
+            Empname = Session["Empname"].ToString();
+
+           
+        }
+
+        if (!IsPostBack)
+        {
+            GridviewbindUser_Statusdata();
+            lbl_Record_AddedDate.Text = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss tt");
+            lbl_Record_Addedby.Text = Empname;
+        }
+    }
+    protected void GridviewbindUser_Statusdata()
+    {
+
+        Hashtable htselect = new Hashtable();
+        DataTable dtselect = new DataTable();
+
+        htselect.Add("@Trans", "SELECT");
+        dtselect = dataaccess.ExecuteSP("Sp_UserPermission_Assign_Status_Wise", htselect);
+        Hashtable htget = new Hashtable();
+        DataTable dtget = new DataTable();
+
+        htget.Add("@Trans", "BIND");
+        dtget = dataaccess.ExecuteSP("Sp_UserPermission_Assign_Status_Wise", htget);
+        if (dtget.Rows.Count > 0)
+        {
+            grd_User.Visible = true;
+            grd_User.DataSource = dtget;
+            grd_User.DataBind();
+
+        }
+        else
+        {
+            grd_User.Visible = true;
+            grd_User.DataSource = null;
+            grd_User.EmptyDataText = "No Orders Added";
+            grd_User.DataBind();
+
+        }
+       // Get_Grid_RowValues();
+    }
+    protected void grd_User_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        grd_User.PageIndex = e.NewPageIndex;
+        GridviewbindUser_Statusdata();
+    }
+    protected void Get_Grid_RowValues()
+    {
+
+        foreach (GridViewRow row in grd_User.Rows)
+        {
+            Label lbl = (Label)row.FindControl("lblsearch");
+            string k = lbl.Text.ToString();
+
+        }
+
+
+    }
+    protected void grd_User_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+       
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            e.Row.Attributes.Add("onmouseover", "self.MouseOverOldColor=this.style.backgroundColor;this.style.backgroundColor='#BACFF8'");
+            e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=self.MouseOverOldColor");
+        }
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            DropDownList ddlsearch = (DropDownList)e.Row.FindControl("ddlsearch");
+            DropDownList DdlsearchQc = (DropDownList)e.Row.FindControl("DdlsearchQc");
+            DropDownList DdlTyping = (DropDownList)e.Row.FindControl("DdlTyping");
+            DropDownList DdlTypingQc = (DropDownList)e.Row.FindControl("DdlTypingQc");
+            DropDownList DdlUpload = (DropDownList)e.Row.FindControl("DdlUpload");
+            Label lblsearch = (Label)e.Row.FindControl("lblsearch");
+            Label lblSearh_QC = (Label)e.Row.FindControl("lblSearh_QC");
+            Label lblTyping = (Label)e.Row.FindControl("lblTyping");
+            Label lblTyping_QC = (Label)e.Row.FindControl("lblTyping_QC");
+            Label lblUpload = (Label)e.Row.FindControl("lblUpload");
+
+            //ddlsearch.Items.Insert(0, new ListItem("NA", "NA"));
+            //ddlsearch.Items.Insert(1, new ListItem("N", "N"));
+            //ddlsearch.Items.Insert(2, new ListItem("E", "E"));
+            //ddlsearch.Items.Insert(3, new ListItem("NI", "NI"));
+            //ddlsearch.DataBind();
+            string search = lblsearch.Text.ToString();
+            string Search_Qc = lblSearh_QC.Text.ToString();
+            string Typing = lblTyping.Text.ToString();
+            string Typing_Qc = lblTyping_QC.Text.ToString();
+            string Upload = lblUpload.Text.ToString();
+
+            //ddlsearch.SelectedValue = search.ToString();
+            //ddlsearch.SelectedItem.Text = search.ToString();
+            //DdlsearchQc.SelectedItem.Text = Search_Qc.ToString();
+            //DdlTyping.SelectedItem.Text = Typing.ToString();
+            //DdlTypingQc.SelectedItem.Text = Typing_Qc.ToString();
+            //DdlUpload.SelectedItem.Text = Upload.ToString();
+
+            ddlsearch.SelectedValue = search.ToString();
+            DdlsearchQc.SelectedValue = Search_Qc.ToString();
+            DdlTyping.SelectedValue = Typing.ToString();
+            DdlTypingQc.SelectedValue = Typing_Qc.ToString();
+            DdlUpload.SelectedValue = Upload.ToString();
+
+
+         
+        }
+    }
+
+    protected void Check_Status(int userid,int statusid)
+    {
+
+        Hashtable htsearch = new Hashtable();
+        DataTable dtserch = new DataTable();
+        DataTable dt = new DataTable();
+
+        htsearch.Add("@Trans", "CHECK");
+        htsearch.Add("@User_Id", userid);
+        htsearch.Add("@Status_Id", statusid);
+
+        dtserch = dataaccess.ExecuteSP("Sp_UserPermission_Assign_Status_Wise", htsearch);
+
+        if (dtserch.Rows.Count > 0)
+        {
+
+            Count = int.Parse(dtserch.Rows[0]["count"].ToString());
+        }
+        else
+        {
+
+            Count = 0;
+        }
+
+
+
+    }
+
+    protected void chkSelect_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox chkTest = (CheckBox)sender;
+        GridViewRow grdRow       = (GridViewRow)chkTest.NamingContainer;
+        DropDownList ddlsearch   = (DropDownList)grdRow.FindControl("ddlsearch");
+        DropDownList DdlsearchQc = (DropDownList)grdRow.FindControl("DdlsearchQc");
+        DropDownList DdlTyping   = (DropDownList)grdRow.FindControl("DdlTyping");
+        DropDownList DdlTypingQc = (DropDownList)grdRow.FindControl("DdlTypingQc");
+        DropDownList DdlUpload   = (DropDownList)grdRow.FindControl("DdlUpload");
+
+        if (chkTest.Checked == true)
+        {
+           // grdRow.BackColor = System.Drawing.Color.Pink;
+
+            ddlsearch.Enabled = true;
+            DdlsearchQc.Enabled = true;
+            DdlTyping.Enabled = true;
+            DdlTypingQc.Enabled = true;
+            DdlUpload.Enabled = true;
+        }
+        else if (chkTest.Checked == false)
+        {
+            // Color clr = ColorTranslator.FromHtml("#BACFF8");
+           // grd_User.BackColor = System.Drawing.Color.LightBlue ;
+            ddlsearch.Enabled = false;
+            DdlsearchQc.Enabled = false;
+            DdlTyping.Enabled = false;
+            DdlTypingQc.Enabled = false;
+            DdlUpload.Enabled = false;
+        }
+    }
+    protected void ddlsearch_Selectedindex_Changed(object sender, EventArgs e)
+    {
+
+        DropDownList chkTest = (DropDownList)sender;
+        GridViewRow grdRow = (GridViewRow)chkTest.NamingContainer;
+        DropDownList ddlsearch = (DropDownList)grdRow.FindControl("ddlsearch");
+        DropDownList DdlsearchQc = (DropDownList)grdRow.FindControl("DdlsearchQc");
+        DropDownList DdlTyping = (DropDownList)grdRow.FindControl("DdlTyping");
+        DropDownList DdlTypingQc = (DropDownList)grdRow.FindControl("DdlTypingQc");
+        DropDownList DdlUpload = (DropDownList)grdRow.FindControl("DdlUpload");
+
+        if (ddlsearch.SelectedValue == "2")
+        {
+
+            DdlsearchQc.BackColor = System.Drawing.Color.LightPink;
+            DdlsearchQc.SelectedValue = "1";
+            DdlsearchQc.Enabled = false;
+
+        }
+        if (ddlsearch.SelectedValue == "1")
+        {
+
+            DdlsearchQc.BackColor = System.Drawing.Color.LightPink;
+            DdlsearchQc.SelectedValue = "1";
+            DdlsearchQc.Enabled = false;
+
+        }
+        else if (ddlsearch.SelectedValue == "3")
+        {
+
+            DdlsearchQc.BackColor = System.Drawing.Color.LightYellow;
+
+            DdlsearchQc.Enabled = true;
+
+        }
+      
+
+    }
+  
+    protected void DdlsearchQc_Selectedindex_Changed(object sender, EventArgs e)
+    {
+
+        DropDownList chkTest = (DropDownList)sender;
+        GridViewRow grdRow = (GridViewRow)chkTest.NamingContainer;
+        DropDownList ddlsearch = (DropDownList)grdRow.FindControl("ddlsearch");
+        DropDownList DdlsearchQc = (DropDownList)grdRow.FindControl("DdlsearchQc");
+        DropDownList DdlTyping = (DropDownList)grdRow.FindControl("DdlTyping");
+        DropDownList DdlTypingQc = (DropDownList)grdRow.FindControl("DdlTypingQc");
+        DropDownList DdlUpload = (DropDownList)grdRow.FindControl("DdlUpload");
+
+
+        if (DdlsearchQc.SelectedValue == "3" || DdlsearchQc.SelectedValue=="2")
+        {
+
+            ddlsearch.BackColor = System.Drawing.Color.LightYellow;
+
+            ddlsearch.Enabled = false;
+            ddlsearch.SelectedValue = "3";
+
+        }
+        else
+        {
+            ddlsearch.BackColor = System.Drawing.Color.LightBlue;
+
+            ddlsearch.Enabled = true;
+
+        }
+    }
+    protected void DdlTyping_Selectedindex_Changed(object sender, EventArgs e)
+    {
+        DropDownList chkTest = (DropDownList)sender;
+        GridViewRow grdRow = (GridViewRow)chkTest.NamingContainer;
+        DropDownList ddlsearch = (DropDownList)grdRow.FindControl("ddlsearch");
+        DropDownList DdlsearchQc = (DropDownList)grdRow.FindControl("DdlsearchQc");
+        DropDownList DdlTyping = (DropDownList)grdRow.FindControl("DdlTyping");
+        DropDownList DdlTypingQc = (DropDownList)grdRow.FindControl("DdlTypingQc");
+        DropDownList DdlUpload = (DropDownList)grdRow.FindControl("DdlUpload");
+
+        if (DdlTyping.SelectedValue == "2")
+        {
+
+            DdlTypingQc.BackColor = System.Drawing.Color.LightPink;
+            DdlTypingQc.SelectedValue = "1";
+            DdlTypingQc.Enabled = false;
+
+        }
+        if (DdlTyping.SelectedValue == "1")
+        {
+
+            DdlTypingQc.BackColor = System.Drawing.Color.LightPink;
+            DdlTypingQc.SelectedValue = "1";
+            DdlTypingQc.Enabled = false;
+
+        }
+        else if (DdlTyping.SelectedValue == "3")
+        {
+
+            DdlTypingQc.BackColor = System.Drawing.Color.LightYellow;
+
+            DdlTypingQc.Enabled = true;
+
+        }
+      
+
+    }
+    protected void DdlTypingQc_Selectedindex_Changed(object sender, EventArgs e)
+    {
+
+        DropDownList chkTest = (DropDownList)sender;
+        GridViewRow grdRow = (GridViewRow)chkTest.NamingContainer;
+        DropDownList ddlsearch = (DropDownList)grdRow.FindControl("ddlsearch");
+        DropDownList DdlsearchQc = (DropDownList)grdRow.FindControl("DdlsearchQc");
+        DropDownList DdlTyping = (DropDownList)grdRow.FindControl("DdlTyping");
+        DropDownList DdlTypingQc = (DropDownList)grdRow.FindControl("DdlTypingQc");
+        DropDownList DdlUpload = (DropDownList)grdRow.FindControl("DdlUpload");
+
+
+        if (DdlTypingQc.SelectedValue == "3" || DdlTypingQc.SelectedValue=="2")
+        {
+
+            DdlTyping.BackColor = System.Drawing.Color.LightYellow;
+
+            DdlTyping.Enabled = false;
+            DdlTyping.SelectedValue = "3";
+
+        }
+        else
+        {
+            DdlTyping.BackColor = System.Drawing.Color.LightBlue;
+
+            DdlTyping.Enabled = true;
+
+        }
+    }
+    protected void DdlUpload_Selectedindex_Changed(object sender, EventArgs e)
+    {
+
+        DropDownList ddlassign = (DropDownList)sender;
+        GridViewRow grdRow = (GridViewRow)ddlassign.NamingContainer;
+        //DropDownList Ddl_Assign_Update = (DropDownList)grdRow.FindControl("ddlAssign");
+        //Label lbl_Orderid = (Label)grdRow.FindControl("lblorderid");
+    }
+    protected void btn_Save_Click(object sender, EventArgs e)
+    {
+
+
+        for (int i = 0; i < grd_User.Rows.Count;i++ )
+        {
+         
+            Label lbluseid = (Label)grd_User.Rows[i].Cells[0].FindControl("lbluserid");
+            Label lblEmployeename = (Label)grd_User.Rows[i].Cells[1].FindControl("lblEmployee_Name");
+            DropDownList ddlsearch = (DropDownList)grd_User.Rows[i].Cells[2].FindControl("ddlsearch");
+            DropDownList DdlsearchQc = (DropDownList)grd_User.Rows[i].Cells[3].FindControl("DdlsearchQc");
+            DropDownList DdlTyping = (DropDownList)grd_User.Rows[i].Cells[4].FindControl("DdlTyping");
+            DropDownList DdlTypingQc = (DropDownList)grd_User.Rows[i].Cells[5].FindControl("DdlTypingQc");
+            DropDownList DdlUpload = (DropDownList)grd_User.Rows[i].Cells[6].FindControl("DdlUpload");
+          
+            int User_Id = int.Parse(lbluseid.Text);
+            string search = ddlsearch.SelectedItem.ToString();
+            string Search_Qc = DdlsearchQc.SelectedItem.ToString();
+            string Typing = DdlTyping.SelectedItem.ToString();
+            string Typing_Qc = DdlTypingQc.SelectedItem.ToString();
+            string Upload = DdlUpload.SelectedItem.ToString();
+
+            string ser_id = ddlsearch.SelectedValue.ToString();
+            string Ser_Qc_id = DdlsearchQc.SelectedValue.ToString();
+            string Typ_id = DdlTyping.SelectedValue.ToString();
+            string Typ_Qc_id = DdlTypingQc.SelectedValue.ToString();
+            string Up_id = DdlUpload.SelectedValue.ToString();
+
+
+
+            if (search != "" && search!=null)
+            {
+                Check_Status(User_Id, Searchid);
+                if (Count == 0)
+                {
+                    Hashtable htsearch = new Hashtable();
+                    DataTable dtserch = new DataTable();
+                    DataTable dt = new DataTable();
+                    DateTime date = new DateTime();
+                    date = DateTime.Now;
+                    string dateeval = date.ToString("dd/MM/yyyy");
+                    htsearch.Add("@Trans", "INSERT");
+                    htsearch.Add("@User_Id", User_Id);
+                    htsearch.Add("@Status_Id", Searchid);
+                    htsearch.Add("@Assign_Status", search);
+                    htsearch.Add("@Assign_Status_Id", ser_id);
+                    htsearch.Add("@Inserted_By", userid);
+                    htsearch.Add("@Inserted_date", dateeval);
+                    htsearch.Add("@status", "True");
+                    dtserch = dataaccess.ExecuteSP("Sp_UserPermission_Assign_Status_Wise", htsearch);
+                }
+                else if (Count > 0)
+                {
+                    Hashtable htupsearch = new Hashtable();
+                    DataTable dtserch = new DataTable();
+                    DataTable dt = new DataTable();
+                    DateTime date = new DateTime();
+                    date = DateTime.Now;
+                    string dateeval = date.ToString("dd/MM/yyyy");
+                    htupsearch.Add("@Trans", "UPDATE");
+                    htupsearch.Add("@User_Id", User_Id);
+                    htupsearch.Add("@Status_Id", Searchid);
+                    htupsearch.Add("@Assign_Status", search);
+                    htupsearch.Add("@Assign_Status_Id", ser_id);
+                    htupsearch.Add("@Modified_By", userid);
+                    htupsearch.Add("@Modified_Date", dateeval);
+
+                    htupsearch.Add("@status", "True");
+                    dtserch = dataaccess.ExecuteSP("Sp_UserPermission_Assign_Status_Wise", htupsearch);
+
+
+                }
+                // ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('New Client Added Sucessfully')</script>", false);
+
+
+            }
+            if (Search_Qc != "" && Search_Qc!=null)
+            {
+                Check_Status(User_Id, search_Qcid);
+                if (Count == 0)
+                {
+                    Hashtable htsearchqc = new Hashtable();
+                    DataTable dtserchqc = new DataTable();
+                    DataTable dt = new DataTable();
+                    DateTime date = new DateTime();
+                    date = DateTime.Now;
+                    string dateeval = date.ToString("dd/MM/yyyy");
+                    htsearchqc.Add("@Trans", "INSERT");
+                    htsearchqc.Add("@User_Id", User_Id);
+                    htsearchqc.Add("@Status_Id", search_Qcid);
+                    htsearchqc.Add("@Assign_Status", Search_Qc);
+                    htsearchqc.Add("@Assign_Status_Id", Ser_Qc_id);
+                    htsearchqc.Add("@Inserted_By", userid);
+                    htsearchqc.Add("@Inserted_date", dateeval);
+                    htsearchqc.Add("@status", "True");
+                    dtserchqc = dataaccess.ExecuteSP("Sp_UserPermission_Assign_Status_Wise", htsearchqc);
+                }
+                else if (Count > 0)
+                {
+                    Hashtable htupsearchqc = new Hashtable();
+                    DataTable dtupserchqc = new DataTable();
+                    DataTable dt = new DataTable();
+                    DateTime date = new DateTime();
+                    date = DateTime.Now;
+                    string dateeval = date.ToString("dd/MM/yyyy");
+                    htupsearchqc.Add("@Trans", "UPDATE");
+                    htupsearchqc.Add("@User_Id", User_Id);
+                    htupsearchqc.Add("@Status_Id", search_Qcid);
+                    htupsearchqc.Add("@Assign_Status", Search_Qc);
+                    htupsearchqc.Add("@Assign_Status_Id", Ser_Qc_id);
+                    htupsearchqc.Add("@Modified_By", userid);
+                    htupsearchqc.Add("@Modified_Date", dateeval);
+                    htupsearchqc.Add("@status", "True");
+                    dtupserchqc = dataaccess.ExecuteSP("Sp_UserPermission_Assign_Status_Wise", htupsearchqc);
+
+
+                }
+            }
+            if (Typing != "" && Typing!=null)
+            {
+                Check_Status(User_Id, Typing_id);
+                if (Count == 0)
+                {
+                    Hashtable httyping = new Hashtable();
+                    DataTable dttyping = new DataTable();
+                    DataTable dt = new DataTable();
+                    DateTime date = new DateTime();
+                    date = DateTime.Now;
+                    string dateeval = date.ToString("dd/MM/yyyy");
+                    httyping.Add("@Trans", "INSERT");
+                    httyping.Add("@User_Id", User_Id);
+                    httyping.Add("@Status_Id", Typing_id);
+                    httyping.Add("@Assign_Status", Typing);
+                    httyping.Add("@Assign_Status_Id", Typ_id);
+                    httyping.Add("@Inserted_By", userid);
+                    httyping.Add("@Inserted_date", dateeval);
+                    httyping.Add("@status", "True");
+                    dttyping = dataaccess.ExecuteSP("Sp_UserPermission_Assign_Status_Wise", httyping);
+                }
+                else if (Count > 0)
+                {
+                    Hashtable htuptyping = new Hashtable();
+                    DataTable dtuptyping = new DataTable();
+                    DataTable dt = new DataTable();
+                    DateTime date = new DateTime();
+                    date = DateTime.Now;
+                    string dateeval = date.ToString("dd/MM/yyyy");
+                    htuptyping.Add("@Trans", "UPDATE");
+                    htuptyping.Add("@User_Id", User_Id);
+                    htuptyping.Add("@Status_Id", Typing_id);
+                    htuptyping.Add("@Assign_Status", Typing);
+                    htuptyping.Add("@Assign_Status_Id", Typ_id);
+                    htuptyping.Add("@Modified_By", userid);
+                    htuptyping.Add("@Modified_Date", dateeval);
+                    htuptyping.Add("@status", "True");
+                    dtuptyping = dataaccess.ExecuteSP("Sp_UserPermission_Assign_Status_Wise", htuptyping);
+
+
+                }
+
+            }
+            if (Typing_Qc != "" && Typing!=null)
+            {
+                Check_Status(User_Id, Typing_Qc_Id);
+                if (Count == 0)
+                {
+                    Hashtable htTyping_Qc = new Hashtable();
+                    DataTable dtTyping_Qc = new DataTable();
+                    DataTable dt = new DataTable();
+                    DateTime date = new DateTime();
+                    date = DateTime.Now;
+                    string dateeval = date.ToString("dd/MM/yyyy");
+                    htTyping_Qc.Add("@Trans", "INSERT");
+                    htTyping_Qc.Add("@User_Id", User_Id);
+                    htTyping_Qc.Add("@Status_Id", Typing_Qc_Id);
+                    htTyping_Qc.Add("@Assign_Status", Typing_Qc);
+                    htTyping_Qc.Add("@Assign_Status_Id", Typ_Qc_id);
+                    htTyping_Qc.Add("@Inserted_By", userid);
+                    htTyping_Qc.Add("@Inserted_date", dateeval);
+                    htTyping_Qc.Add("@status", "True");
+                    dtTyping_Qc = dataaccess.ExecuteSP("Sp_UserPermission_Assign_Status_Wise", htTyping_Qc);
+                }
+                else if (Count > 0)
+                {
+                    Hashtable htupTyping_Qc = new Hashtable();
+                    DataTable dtupTyping_Qc = new DataTable();
+                    DataTable dt = new DataTable();
+                    DateTime date = new DateTime();
+                    date = DateTime.Now;
+                    string dateeval = date.ToString("dd/MM/yyyy");
+                    htupTyping_Qc.Add("@Trans", "UPDATE");
+                    htupTyping_Qc.Add("@User_Id", User_Id);
+                    htupTyping_Qc.Add("@Status_Id", Typing_Qc_Id);
+                    htupTyping_Qc.Add("@Assign_Status", Typing_Qc);
+                    htupTyping_Qc.Add("@Assign_Status_Id", Typ_Qc_id);
+                    htupTyping_Qc.Add("@Modified_By", userid);
+                    htupTyping_Qc.Add("@Modified_Date", dateeval);
+                    htupTyping_Qc.Add("@status", "True");
+                    dtupTyping_Qc = dataaccess.ExecuteSP("Sp_UserPermission_Assign_Status_Wise", htupTyping_Qc);
+
+
+                }
+            }
+            if (Upload != "" && Upload!=null)
+            {
+
+                Check_Status(User_Id, Upload_id);
+                if (Count == 0)
+                {
+                    Hashtable htUpload = new Hashtable();
+                    DataTable dtUpload = new DataTable();
+                    DataTable dt = new DataTable();
+                    DateTime date = new DateTime();
+                    date = DateTime.Now;
+                    string dateeval = date.ToString("dd/MM/yyyy");
+                    htUpload.Add("@Trans", "INSERT");
+                    htUpload.Add("@User_Id", User_Id);
+                    htUpload.Add("@Status_Id", Upload_id);
+                    htUpload.Add("@Assign_Status", Upload);
+                    htUpload.Add("@Assign_Status_Id", Up_id);
+                    htUpload.Add("@Inserted_By", userid);
+                    htUpload.Add("@Inserted_date", dateeval);
+                    htUpload.Add("@status", "True");
+                    dtUpload = dataaccess.ExecuteSP("Sp_UserPermission_Assign_Status_Wise", htUpload);
+                }
+                else if (Count > 0)
+                {
+                    Hashtable htupUpload = new Hashtable();
+                    DataTable dtupUpload = new DataTable();
+                    DataTable dt = new DataTable();
+                    DateTime date = new DateTime();
+                    date = DateTime.Now;
+                    string dateeval = date.ToString("dd/MM/yyyy");
+                    htupUpload.Add("@Trans", "UPDATE");
+                    htupUpload.Add("@User_Id", User_Id);
+                    htupUpload.Add("@Status_Id", Upload_id);
+                    htupUpload.Add("@Assign_Status", Upload);
+                    htupUpload.Add("@Assign_Status_Id", Up_id);
+                    htupUpload.Add("@Modified_By", userid);
+                    htupUpload.Add("@Modified_Date", dateeval);
+                    htupUpload.Add("@status", "True");
+                    dtupUpload = dataaccess.ExecuteSP("Sp_UserPermission_Assign_Status_Wise", htupUpload);
+
+
+                }
+            }
+        }
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Record Submitted Sucessfully')</script>", false);
+      GridviewbindUser_Statusdata();
+
+    }
+}

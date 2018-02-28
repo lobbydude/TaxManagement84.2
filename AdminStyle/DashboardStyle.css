@@ -1,0 +1,185 @@
+﻿.bubblWEB_ALLOCATED 
+{
+position: relative;
+width: 20px;
+height: 20px;
+padding: 0px;
+background: #1A6DEF;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+}
+
+.bubblWEB_ALLOCATED:after 
+{
+content: "";
+position: absolute;
+bottom: -0px;
+left: 12px;
+border-style: solid;
+border-width: 0px 0px 0;
+border-color: #1A6DEF transparent;
+display: block;
+width: 0;
+z-index: 1;
+}
+
+.bubbleMAIL_ALLOCATED 
+{
+position: relative;
+width: 20px;
+height: 20px;
+padding: 0px;
+background: #E49A3D;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+}
+
+.bubbleMAIL_ALLOCATED:after 
+{
+content: "";
+position: absolute;
+bottom: -0px;
+left: 12px;
+border-style: solid;
+border-width: 0px 0px 0;
+border-color: #E49A3D transparent;
+display: block;
+width: 0;
+z-index: 1;
+}
+
+
+.bubbleQC_ORDERS_FOR_USER 
+{
+position: relative;
+width: 20px;
+height: 20px;
+padding: 0px;
+background: #E4543D;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+}
+
+.bubbleQC_ORDERS_FOR_USER:after 
+{
+content: "";
+position: absolute;
+bottom: -0px;
+left: 12px;
+border-style: solid;
+border-width: 0px 0px 0;
+border-color: #E4543D transparent;
+display: block;
+width: 0;
+z-index: 1;
+}
+
+
+.bubbleWEB_ORDERS 
+{
+position: relative;
+width: 20px;
+height: 20px;
+padding: 0px;
+background: #0076B6;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+}
+
+.bubbleWEB_ORDERS:after 
+{
+content: "";
+position: absolute;
+bottom: -0px;
+left: 12px;
+border-style: solid;
+border-width: 0px 0px 0;
+border-color: #0076B6 transparent;
+display: block;
+width: 0;
+z-index: 1;
+}
+
+
+.bubbleMAIL_ORDERS
+{
+    position: relative;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    background: #C0C0C0;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.bubbleMAIL_ORDERS:after 
+{
+content: "";
+position: absolute;
+bottom: -0px;
+left: 12px;
+border-style: solid;
+border-width: 0px 0px 0;
+border-color: #C0C0C0 transparent;
+display: block;
+width: 0;
+z-index: 1;
+}
+
+
+.bubbleQC_ORDERS
+{
+    position: relative;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    background: #00254A;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.bubbleQC_ORDERS:after 
+{
+content: "";
+position: absolute;
+bottom: -0px;
+left: 12px;
+border-style: solid;
+border-width: 0px 0px 0;
+border-color: #00254A transparent;
+display: block;
+width: 0;
+z-index: 1;
+}
+
+.bubbleORDER_EXPORT
+{
+    position: relative;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    background: #FFFF99;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.bubbleORDER_EXPORT:after 
+{
+content: "";
+position: absolute;
+bottom: -0px;
+left: 12px;
+border-style: solid;
+border-width: 0px 0px 0;
+border-color: #FFFF99 transparent;
+display: block;
+width: 0;
+z-index: 1;
+}

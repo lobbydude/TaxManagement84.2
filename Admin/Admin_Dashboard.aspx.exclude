@@ -1,0 +1,559 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masterpage/Copy of AdminHome.master" AutoEventWireup="true" CodeFile="Admin_Dashboard.aspx.cs" Inherits="Admin_Admin_Dashboard" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content2" runat="server" 
+    contentplaceholderid="ContentPlaceHolder1">
+
+
+
+    <link href="../AdminStyle/DashboardStyle.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" >
+        //Variable used to prevent caching on some browsers and knowing the count how many times user sends request to server.
+        var counter;
+        counter = 0;
+
+        function KeepSession() {
+            // Increase counter value
+            counter++;
+
+            // Gets reference of image
+            var img = document.getElementById("ImageButton2");
+
+            // Set new src value, which will send a request to the server
+            img.src = "Admin_Dashboard.aspx?count=" + counter;
+
+            // now schedule this process to happen<img src="" /> in some time interval, in this example its 1 min
+            setTimeout(KeepSession, 60000);
+        }
+
+        // Call this function for a first time
+        KeepSession();
+    </script>
+    
+      <div id="div1" style="height:100%;"  class="WebHRMain">
+         <br />
+         <asp:UpdatePanel ID="UpdateDashboard" runat="server" UpdateMode="Always"><ContentTemplate>
+         <table border="0" cellspacing="0" cellpadding="2" width="100%" align="center">
+             <tr>
+                 <td> 
+                     <table style="width: 100%">
+                         <tr>
+                             <td style="width:30%;" align="left">
+                                  <div id="content">
+                <span class="WebFont1">Dash Board</span>
+                  
+               </div>
+                                 </td>
+                             <td align="right">
+                                                   
+                                                      <table style="width: 15%">
+                                                          <tr>
+                                                              <td align="right">
+                                                                  <asp:ImageButton ID="ImageButton3" runat="server" 
+                                                                      ImageUrl="~/img/Filter.png" ToolTip="Filter Process" 
+                                                                      onclick="ImageButton3_Click" />
+                                                              </td>
+                                                              <td align="right">
+                                                                  <asp:ImageButton ID="ImageButton2" runat="server" 
+                                                                      ImageUrl="~/img/Refresh.png" ToolTip="Refresh" onclick="News_Click" />
+                                                              </td>
+                                                              <td align="right">
+                                                                  <asp:ImageButton ID="ImageButton1" ToolTip="Log Out"  runat="server" ImageUrl="~/img/Logout.png" 
+                                                                      onclick="ImageButton1_Click" />
+                                                              </td>
+                                                          </tr>
+                                                      </table>
+                                                   
+                                                  </td>
+                         </tr>
+                         <tr>
+                             <td align="center" style="border: thin dotted #062A6D;" valign="top">
+                             <asp:UpdatePanel ID="Updchart" runat="server" UpdateMode="Always"><ContentTemplate>
+                                  <asp:Chart ID="Chart1" runat="server" 
+                                    
+                                      BackImageAlignment="Center" EnableViewState="true"  BackImageTransparentColor="Silver" 
+                                     >
+                                      <Series>
+                                          <asp:Series ChartType="Doughnut" Name="Series1" XValueMember="No_Of_Orders" 
+                                              YValueMembers="No_Of_Orders" Legend="Legend1">
+                                          </asp:Series>
+                                      </Series>
+                                      <ChartAreas>
+                                          <asp:ChartArea Name="ChartArea1">
+                                          </asp:ChartArea>
+                                      </ChartAreas>
+                                      
+                                      <BorderSkin BackColor="Transparent" />
+                                  </asp:Chart>
+                                  </ContentTemplate></asp:UpdatePanel>
+                             </td>
+                             <td align="right" valign="top">
+                    
+              <table border="0" cellspacing="0" cellpadding="3" width="100%" align="center">
+                        <tr>
+                           
+                            <td align="left" style="border: thin dotted #062A6D;">
+                             <div id="Div2">
+                <span class="adminheading">Order Import And Export</span><br />
+                <asp:Label ID="lbl1head" runat="server" CssClass="Label" Text="Import and Export Order From System"></asp:Label>
+                  
+               </div>
+                               </td>
+                            <td valign="top" align="center" style="border: thin dotted #062A6D;">
+                                <table>
+                                    <tr>
+                                        <td align="center">
+                                           <asp:LinkButton ID="LinkImport" runat="server" onclick="LinkImport_Click" 
+                                              >
+                                            
+                                <div id="Dimport" runat="server" class="imgImport">
+                                </div>
+                                Order Import</asp:LinkButton></td>
+                                      
+                                    </tr>
+                                </table>
+                             </td>
+                            <td valign="top" align="center" style="border: thin dotted #062A6D;">
+                                    <table align="center" style="width:100%">
+                                    <tr>
+                                        <td align="right" style="width:100px;">
+                                        <asp:LinkButton ID="LinkExport" runat="server" onclick="LinkExport_Click" 
+                                              >
+                                             
+                                <div id="DiExport" runat="server" class="imgExport">
+                                </div>
+                                Order Export</asp:LinkButton></td>
+                                        <td align="left" valign="top">
+                                            <div id="div_Order_Export_Count" runat="server" align="center" class="bubble">
+                                                <asp:Label ID="lbl_Order_Export_Count" runat="server" CssClass="Label" 
+                                                    Font-Bold="True" ForeColor="White"></asp:Label>
+                                            </div>
+                                            &nbsp;</td>
+                                    </tr>
+                                </table>
+                               </td>
+                           
+                                
+                            <td style="border: thin dotted #062A6D;" align="center">
+                       
+
+                                 <asp:LinkButton ID="LinkBtn_Order_search" runat="server" onclick="LinkBtn_Order_search_Click" 
+                                              >
+                                             
+                                <div id="divorder_search" runat="server" class="imgReport">
+                                </div>
+                               Search Orders</asp:LinkButton>
+                            </td>
+                           
+                                
+                        </tr>
+                        
+                        <tr id="trAllocation" runat="server">
+                            
+                            <td  align="left" style="border: thin dotted #062A6D">
+                                 <div id="Div3">
+                <span class="adminheading">Order Allocation</span><br />
+                    <asp:Label ID="Label1" runat="server" CssClass="Label" Text="Allocate Orders to users for Web/Call/Mail/Fax And QC"></asp:Label>
+               </div>
+                                 </td>
+                            <td  align="center" style="border: thin dotted #062A6D;" valign="top">
+                                
+                              <table align="center" style="width:100%">
+                                    <tr>
+                                        <td style="width:100px;" align="right">
+                                             
+                                <asp:LinkButton ID="lnk_webcall_allocation" runat="server"  
+                                                onclick="lnk_webcall_allocation_Click">
+                                <div id="divwebalocate" runat="server" class="imgWebCallAllocate">
+                                </div>
+                                Web/Call <br /> Order Allocation
+                                </asp:LinkButton>
+                                </td>
+                                        <td valign="top" align="left">
+                                        <div align="center" id="div_web" visible="false" runat="server"  class="bubble">
+                                        <asp:Label ID="lb_count" CssClass="Label" visible="false" runat="server" Font-Bold="True" 
+                                                ForeColor="White" ></asp:Label>
+
+                                        </div>
+                                            &nbsp;</td>
+                                    </tr>
+                                </table>
+                                
+                                </td>
+                            <td align="center" style="border: thin dotted #062A6D" valign="top">
+                                       <table align="center" style="width:100%">
+                                    <tr>
+                                        <td style="width:100px;" align="right">
+                                         <asp:LinkButton ID="LinkMailFaxAllocate" runat="server" onclick="LinkMailFaxAllocate_Click" 
+                                                >
+                                                
+                                <div id="divMailalocate" runat="server" class="imgMailFaxAllocate">
+                                </div>
+                                Mail/Fax <br />Order Allocation</asp:LinkButton></td>
+                                        <td valign="top" align="left">
+                                        <div align="center" visible="false" id="div_mail" runat="server"  class="bubble">
+                                        <asp:Label ID="lbl_count_mail_fax_Allocation" visible="false" CssClass="Label" runat="server" Font-Bold="True" 
+                                                ForeColor="White" ></asp:Label>
+
+                                        </div>
+                                            &nbsp;</td>
+                                    </tr>
+                                </table>
+                               </td>
+                            <td  align="center" style="border: thin dotted #062A6D;">
+                                      <table align="center" style="width:100%">
+                                    <tr>
+                                        <td style="width:100px;" align="right">
+                                         <asp:LinkButton ID="LinkQualityAllocate"   runat="server" onclick="LinkQualityAllocate_Click" 
+                                                >
+                                                
+                                                 
+                                 <div id="divQCalocate" runat="server" class="imgQualityAllocate">
+                                 </div>
+                                 Quality Check
+                                 <br />
+                                 Order Allocation</asp:LinkButton></td>
+                                        <td valign="top" align="left">
+                                        <div align="center" visible="false" id="div_Qc_Allocated_Count" runat="server"  class="bubble">
+                                        <asp:Label ID="lbl_Qc_Allocated_Count" visible="false" CssClass="Label" runat="server" Font-Bold="True" 
+                                                ForeColor="White" ></asp:Label>
+
+                                        </div>
+                                            &nbsp;</td>
+                                    </tr>
+                                </table>
+                                </td>
+                         
+                                
+                        </tr>
+                        
+                        <tr>
+                            
+                                 
+                                
+                            
+                            <td  align="left" style="border: thin dotted #062A6D;">
+                                <div id="Div6">
+                <span class="adminheading">Order Search</span><br />
+                <asp:Label ID="Label2" runat="server" CssClass="Label" Text="Work on  Orders Waiting for Web/Call/Mail/Fax And QC"></asp:Label>
+                  
+               </div>
+                                
+                                </td>
+                            <td align="center" style="border: thin dotted #062A6D">
+                                      <table align="center" style="width:100%">
+                                    <tr>
+                                        <td style="width:100px;" align="right">
+                                                  <a href="Web_Call_Order_Research.aspx">
+                                <div class="imgWebCallResearch">
+                                </div>
+                                Web/Call
+                                <br />
+                                Research</a></td>
+                                        <td valign="top" align="left">
+                                        <div align="center"  id="div_Web_Work" runat="server" class="bubble">
+                                        <asp:Label ID="lbl_web_cal_reaserch_count" CssClass="Label" runat="server" Font-Bold="True" 
+                                                ForeColor="White" ></asp:Label>
+
+                                        </div>
+                                            &nbsp;</td>
+                                    </tr>
+                                </table>
+                              </td>
+                            <td  align="center" style="border: thin dotted #062A6D;">
+                                  <table align="center" style="width:100%">
+                                    <tr>
+                                        <td style="width:100px;" align="right">
+                                                 <a href="Mail_Fax_Order_Que.aspx">
+                                <div class="imgMailFaxQue">
+                                </div>
+                                Mail/Fax Queue</a></td>
+                                        <td valign="top" align="left">
+                                        <div align="center" id="div_mail_work" runat="server"  class="bubble">
+                                        <asp:Label ID="lbl_count_mail_Fax_Que_count" CssClass="Label" runat="server" Font-Bold="True" 
+                                                ForeColor="White" ></asp:Label>
+
+                                        </div>
+                                            &nbsp;</td>
+                                    </tr>
+                                </table>
+                               
+                                 </td>
+                            
+                                <td align="center" style="border: thin dotted #062A6D;">
+                                   <table align="center" style="width:100%">
+                                    <tr>
+                                        <td style="width:100px;" align="right">
+                                                 <a  href="QualityQue.aspx">
+                                <div class="imgQcQue"></div>
+                                Quality Check<br /> Queue</a>     </td>
+                                        <td valign="top" align="left">
+                                        <div align="center" id="div_Count_Qc_Que" runat="server"  class="bubble">
+                                        <asp:Label ID="lbl_Count_Qc_Que"  CssClass="Label"  runat="server" Font-Bold="True" 
+                                                ForeColor="White" ></asp:Label>
+
+                                        </div>
+                                            &nbsp;</td>
+                                    </tr>
+                                </table>
+                                  </td>
+                            
+                        </tr>
+                        
+                        <tr>
+                         
+                            <td align="left" style="border: thin dotted #062A6D">
+                                 
+                                <div id="Div5">
+                <span class="adminheading">Order Reports</span>
+                  
+               </div>
+                                 <asp:Label ID="Label3" runat="server" CssClass="Label" Text="Production Report for Working Day And View Supervisor,Customer and managerial Reports"></asp:Label></td>
+                            <td align="center" style="border: thin dotted #062A6D;">
+                                
+                                 <a href="../Reports/Rpt_ClientName_Production.aspx">
+                               
+                                </a>
+                                  <asp:LinkButton ID="LinkProduction" runat="server" 
+                                     onclick="LinkProduction_Click"   >
+                                <div class="imgProduction">
+                                 </div>
+                               Production<br />
+                                 Report
+                                </asp:LinkButton>
+                                 </td>
+                            <td align="center" style="border: thin dotted #062A6D" valign="top">
+                               
+                                   <asp:LinkButton ID="LinkReport" runat="server" onclick="LinkReport_Click" 
+                                       >
+                                      <div class="imgReport">
+                                </div>
+                                       Reports
+                                       </asp:LinkButton>
+                                </td>
+                            <td valign="top" align="center" style="border: thin dotted #062A6D;">
+                                   
+                          
+                             
+                                <asp:LinkButton ID="LinkPending" runat="server" onclick="LinkPending_Click" 
+                                       >
+                                       <div class="imgReport">
+                                </div>
+                                 Pending  Reports
+                                       </asp:LinkButton>
+                               
+                             </td>
+                           
+                                
+                        </tr>
+                        </table>
+                                                  </td>
+                         </tr>
+                         <tr>
+                             <td align="left" style="border: thin dotted #062A6D;" valign="top">
+                                  <table style="width: 100%">
+                                      <tr>
+                                          <td width="20">
+                                              <div id="div1" runat="server" class="bubblWEB_ALLOCATED" style="width:20px; height:20px;">
+                                              </div>
+                                              </td>
+                                          <td>
+                
+                <div class="Label" align="left">
+                    <asp:LinkButton ID="link_web_call_allocation" runat="server" 
+                        Font-Bold="True" Font-Size="10pt" ForeColor="#003366" 
+                        Font-Underline="False" onclick="link_web_call_allocation_Click">Web/Call Allocation</asp:LinkButton>
+                         -[<asp:Label ID="lbl_Chart_Web_Allocation" runat="server" CssClass="Label" 
+                                                    Font-Bold="True" ForeColor="#CC3300" ></asp:Label>
+                        ]</div> 
+                  
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                             <div class="bubbleMAIL_ALLOCATED" style="width:20px; height:20px;">
+                                              </div></td>
+                                          <td>
+                                              <asp:LinkButton ID="link_Mail_Fax_allocation" runat="server" 
+                        Font-Bold="True" Font-Size="10pt" ForeColor="#003366" Font-Underline="False" 
+                                                  onclick="link_Mail_Fax_allocation_Click">Mail/Fax Allocation</asp:LinkButton>
+                                              [<asp:Label ID="lbl_Chart_Mail_Allocation" runat="server" CssClass="Label" 
+                                                    Font-Bold="True" ForeColor="#CC3300" ></asp:Label>
+                                              ]</td>
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                             <div class="bubbleQC_ORDERS_FOR_USER" style="width:20px; height:20px;">
+                                              </div></td>
+                                          <td>
+                                              <asp:LinkButton ID="link_Qc_allocation" runat="server" 
+                        Font-Bold="True" Font-Size="10pt" ForeColor="#003366" Font-Underline="False" 
+                                                  onclick="link_Qc_allocation_Click">Qc Allocation</asp:LinkButton>
+                                              [<asp:Label ID="lbl_Chart_Qc_Allocation" runat="server" CssClass="Label" 
+                                                    Font-Bold="True" ForeColor="#CC3300" ></asp:Label>
+                                              ]</td>
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                             <div class="bubbleWEB_ORDERS" style="width:20px; height:20px;">
+                                              </div></td>
+                                          <td>
+                                              <asp:LinkButton ID="link_Web_Orders_Waiting" runat="server" 
+                        Font-Bold="True" Font-Size="10pt" ForeColor="#003366" Font-Underline="False" 
+                                                  onclick="link_Web_Orders_Waiting_Click">Waiting/Pending at Web/Call</asp:LinkButton>
+                                              [<asp:Label ID="lbl_Chart_Web_Pending" runat="server" CssClass="Label" 
+                                                    Font-Bold="True" ForeColor="#CC3300" ></asp:Label>
+                                              ]</td>
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                             <div class="bubbleMAIL_ORDERS" style="width:20px; height:20px;">
+                                              </div></td>
+                                          <td>
+                                              <asp:LinkButton ID="link_Mail_Orders_Waiting" runat="server" 
+                        Font-Bold="True" Font-Size="10pt" ForeColor="#003366" Font-Underline="False" 
+                                                  onclick="link_Mail_Orders_Waiting_Click">Waiting/Pending at Mail/Fax</asp:LinkButton>
+                                              -[<asp:Label ID="lbl_Chart_Mail_Pending" runat="server" CssClass="Label" 
+                                                    Font-Bold="True" ForeColor="#CC3300" ></asp:Label>
+                                              ]</td>
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                            <div class="bubbleQC_ORDERS" style="width:20px; height:20px;">
+                                              </div></td>
+                                          <td>
+                                              <asp:LinkButton ID="link_Qc_Orders_Waiting" runat="server" 
+                        Font-Bold="True" Font-Size="10pt" ForeColor="#003366" Font-Underline="False" 
+                                                  onclick="link_Qc_Orders_Waiting_Click">Waiting/Pending at Qc</asp:LinkButton>
+                                              [<asp:Label ID="lbl_Chart_Qc_Pending" runat="server" CssClass="Label" 
+                                                    Font-Bold="True" ForeColor="#CC3300" ></asp:Label>
+                                              ]</td>
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                             <div class="bubbleORDER_EXPORT" style="width:20px; height:20px;">
+                                              </div></td>
+                                          <td>
+                                              <asp:LinkButton ID="link_Qc_Orders_Waiting0" runat="server" 
+                        Font-Bold="True" Font-Size="10pt" ForeColor="#003366" Font-Underline="False" 
+                                                  onclick="link_Qc_Orders_Waiting0_Click">Waiting for Export</asp:LinkButton>
+                                              [<asp:Label ID="lbl_Chart_Export_Pending" runat="server" CssClass="Label" 
+                                                    Font-Bold="True" ForeColor="#CC3300" ></asp:Label>
+                                              ]</td>
+                                      </tr>
+                                  </table>
+                             </td>
+                             <td align="right">
+                    
+                                 &nbsp;</td>
+                         </tr>
+                     </table>
+                 </td>
+               
+             </tr>
+          
+             <tr>
+                 <td>
+                    
+                               </td>
+                               </tr>                       
+             <caption>
+                 &nbsp;</caption>
+             </table>
+            </ContentTemplate></asp:UpdatePanel> 
+        
+     </div>
+     <div>
+       <asp:LinkButton ID="LinkButtonExcel" runat="server"></asp:LinkButton>
+                        <cc1:ModalPopupExtender ID="ModalPopupImportExcel" BackgroundCssClass="ModalPopupBG"
+            runat="server" CancelControlID="btn_Tax_Cancel"  TargetControlID="LinkButtonExcel"
+            PopupControlID="DivImportExcel" Drag="true">
+        </cc1:ModalPopupExtender>
+          
+        <div id="DivImportExcel" align="center"  class="popupConfirmation">
+              <asp:UpdatePanel ID="UpdatePanelexcel" runat="server" UpdateMode="Always">
+              <ContentTemplate>
+             
+                
+           
+                <div class="DivContentBody" style="width:100%;">
+                   
+                    <table align="center" style="width:100%;">
+                           <tr class="tableHeader">
+                                                       <td>
+                                                         
+                                                         
+                                                           <asp:Label ID="Label39" CssClass="Lblheader" Text="Sort Process" runat="server" ></asp:Label>
+                                                         
+                                                         
+                                                           </td>
+                                                       <td align="right">
+                                                           <asp:Button ID="btn_Tax_Cancel" runat="server" 
+                                                               CssClass="WebHRButton red" Text="X" onclick="btn_Tax_Cancel_Click" 
+                                                           />
+                                                       </td>
+                                                   </tr>
+                        <tr>
+                            <td colspan="2">
+                                </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                   <div id="div4"   runat="server">
+                             <asp:UpdatePanel ID="UpDivSerch" runat="server" UpdateMode="Always"><ContentTemplate>
+                                 <table align="center" style="width:100%; height:100%;">
+                                     <tr>
+                                         <td style="width:200px;">
+                                             <asp:Label ID="Label52" runat="server" CssClass="Label" Text="Client Name:"></asp:Label>
+                                         </td>
+                                         <td>
+                                             <asp:DropDownList ID="ddl_Client_Name" runat="server" AutoPostBack="True" 
+                                                 CssClass="DropDown" 
+                                                 onselectedindexchanged="ddl_Client_Name_SelectedIndexChanged">
+                                             </asp:DropDownList>
+                                         </td>
+                                 
+                                     </tr>
+                                      <tr>
+                                         <td>
+                                             <asp:Label ID="Label53" runat="server" CssClass="Label" Text="Sub Process:"></asp:Label>
+                                         </td>
+                                         <td>
+                                             <asp:DropDownList ID="ddl_Client_SubProcess" runat="server" CssClass="DropDown">
+                                                        </asp:DropDownList>
+                                          </td>
+                                        
+                                     </tr>
+                                   
+                            
+                                   
+                                   
+                                 </table>
+                                 </ContentTemplate></asp:UpdatePanel>
+                             
+                             </div>
+                         
+                       
+                        <tr>
+                            <td align="center" colspan="2">
+                    <input id="Button3" value="Cancel"  style="display:none;" class="button_submitall" type="button" />
+                                
+                                <asp:Button ID="btn_Continue" runat="server" CssClass="WebButton" 
+                                    OnClick="btn_Submit_Click" OnClientClick="btnreturn()" Text="Continue" />
+                                
+                            </td>
+                        </tr>
+                    </table>
+                  </div>
+                 
+                </div>
+                </ContentTemplate></asp:UpdatePanel>
+                <div class="popup_Buttons" align="center">
+                    <input id="Buttonexcel" style="display:none;" value="Done"  type="button" />
+                </div>
+                  </div>
+     </div>
+</asp:Content>
+
+

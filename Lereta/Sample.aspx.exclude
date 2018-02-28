@@ -1,0 +1,1049 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Sample.aspx.cs" Inherits="Lereta_Sample" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <style type="text/css">
+
+
+.green {
+  background: #82cc5d;
+  background: -moz-linear-gradient(top,  #82cc5d 0%, #53b73c 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#82cc5d), color-stop(100%,#53b73c));
+  background: -webkit-linear-gradient(top,  #82cc5d 0%,#53b73c 100%);
+  background: -o-linear-gradient(top,  #82cc5d 0%,#53b73c 100%);
+  background: -ms-linear-gradient(top,  #82cc5d 0%,#53b73c 100%);
+  background: linear-gradient(to bottom,  #82cc5d 0%,#53b73c 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#82cc5d', endColorstr='#53b73c',GradientType=0 );
+  border: 1px solid #429E34;
+}
+
+  .WebHRButton { border-radius: 2px; box-shadow: inset rgba(255,255,255,0.3) 1px 1px 0; }
+.WebHRButton {
+  font-family: Trebuchet MS, Arial;
+  font-size: 13px;
+  color: #fff;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  padding: 3px 10px 5px;
+  cursor: pointer;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+  -webkit-transition: 0.1s linear;
+  -moz-transition: 0.1s linear;
+  -ms-transition: 0.1s linear;
+  -o-transition: 0.1s linear;
+  transition: 0.1s linear;
+    margin-left: 0;
+    margin-right: .5em;
+    margin-bottom: .5em;
+}
+
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+            <asp:gridview ID="Gridview1" runat="server" ShowFooter="True" 
+                        AutoGenerateColumns="False" onrowdeleting="Gridview1_RowDeleting" 
+                        onrowdatabound="Gridview1_RowDataBound"><Columns><asp:CommandField ShowDeleteButton="True" /><asp:BoundField DataField="RowNumber" Visible="False" HeaderText="Row Number" /><asp:TemplateField  HeaderText="Tax Type"><FooterTemplate><asp:Button ID="ButtonAdd" runat="server" Text="Add New Row" 
+                        onclick="ButtonAdd_Click" /></FooterTemplate><ItemTemplate><asp:DropDownList ID="ddl_DynamicTaxttype" runat="server" Width="100px"></asp:DropDownList></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Tax Year"><ItemTemplate><asp:TextBox ID="txt_DynamicTaxYear" Width="100px" runat="server"></asp:TextBox></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Tax Period"><ItemTemplate><asp:DropDownList ID="ddl_DynamicTaxtPeriod" runat="server" Width="120px"></asp:DropDownList></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Tax Base Amount"><ItemTemplate><asp:TextBox ID="txt_DynamicBaseamount" Width="100px" runat="server"></asp:TextBox></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Tax Due.D"><ItemTemplate><asp:TextBox ID="txt_DynamicDuedate" Width="100px" runat="server"></asp:TextBox><ajax:CalendarExtender ID="txt_DynamicDuedate_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_DynamicDuedate"></ajax:CalendarExtender></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="DIS Y/N"><ItemTemplate><asp:DropDownList ID="ddl_DynamicTaxtDiscountYN" runat="server" Width="40px"></asp:DropDownList></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="DIS.Amount"><ItemTemplate><asp:TextBox ID="txt_DynamicDiscamount" Width="100px" runat="server"></asp:TextBox></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="DIS.DATE"><ItemTemplate><asp:TextBox ID="txt_DynamicDiscDate" Width="100px" runat="server"></asp:TextBox><ajax:CalendarExtender ID="txt_DynamicDiscDate_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_DynamicDiscDate"></ajax:CalendarExtender></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Status"><ItemTemplate><asp:DropDownList ID="ddl_DynamicTaxStatus" runat="server" Width="100px"></asp:DropDownList></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Paid Amount"><ItemTemplate><asp:TextBox ID="txt_DynamicPaidAmount" Width="100px" runat="server"></asp:TextBox></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Paid Date"><ItemTemplate><asp:TextBox ID="txt_DynamicPaidDate" Width="100px" runat="server"></asp:TextBox><ajax:CalendarExtender ID="txt_DynamicPaidDate_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_DynamicPaidDate"></ajax:CalendarExtender></ItemTemplate></asp:TemplateField>
+                                                       <asp:TemplateField   HeaderText="Payoff amount1"><ItemTemplate>
+                                                       <asp:TextBox ID="txt_DynamicPayoffamount" Width="100px" runat="server"></asp:TextBox>
+                                                       </ItemTemplate></asp:TemplateField>
+                                                       <asp:TemplateField   HeaderText="Gt Date1">
+                                                       <ItemTemplate><asp:TextBox ID="txt_DynamicGoodThroughdate" Width="100px" runat="server"></asp:TextBox>
+                                                       <ajax:CalendarExtender ID="txt_DynamicGoodThroughdate_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_DynamicGoodThroughdate"></ajax:CalendarExtender>
+                                                       </ItemTemplate><FooterStyle HorizontalAlign="Right" /></asp:TemplateField>
+                                                         <asp:TemplateField   HeaderText="Payoff amount2"><ItemTemplate>
+                                                       <asp:TextBox ID="txt_DynamicPayoffamount2" Width="100px" runat="server"></asp:TextBox>
+                                                       </ItemTemplate></asp:TemplateField>
+                                                       <asp:TemplateField   HeaderText="Gt Date2">
+                                                       <ItemTemplate><asp:TextBox ID="txt_DynamicGoodThroughdate2" Width="100px" runat="server"></asp:TextBox>
+                                                       <ajax:CalendarExtender ID="txt_DynamicGoodThroughdate2_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_DynamicGoodThroughdate"></ajax:CalendarExtender>
+                                                       </ItemTemplate><FooterStyle HorizontalAlign="Right" /></asp:TemplateField>
+                                                       </Columns></asp:gridview>
+    </div>
+   <div>
+                  <ajax:TabContainer ID="TabContainer2" runat="server"  CssClass="MyTabStyle"
+                                                ActiveTabIndex="0"  Width="100%" Height="300px">
+<ajax:TabPanel ID="TabPanel3" runat="server" ><HeaderTemplate>Tax Details</HeaderTemplate>
+<ContentTemplate>
+
+
+                                                       
+ <ajax:TabContainer ID="TabContainerTax" runat="server"  CssClass="MyTabStyle"
+                                                ActiveTabIndex="1"  Width="100%" 
+        Height="300px">
+                                                <ajax:TabPanel ID="TabPanelcurrent" runat="server" ><HeaderTemplate>Current Year</HeaderTemplate>
+                                                <ContentTemplate>
+                                                <div style="width:1250px; height:300px; overflow:auto;">
+<asp:UpdatePanel ID="uptax_entrygrid" runat="server">
+<ContentTemplate>
+  <asp:GridView runat="server" AutoGenerateColumns="False" CellPadding="4" 
+            DataKeyNames="Tax_Id" PageSize="4" ShowFooter="True" BackColor="White" 
+            BorderColor="#CC9966" BorderWidth="1px" BorderStyle="None" Width="100%" 
+            ID="gvTaxDetails" OnRowCancelingEdit="gvTaxDetails_RowCancelingEdit" 
+            OnRowCommand="gvTaxDetails_RowCommand" OnRowDeleting="gvTaxDetails_RowDeleting" 
+            OnRowEditing="gvTaxDetails_RowEditing" OnRowUpdating="gvTaxDetails_RowUpdating" 
+            OnRowDataBound="gvTaxDetails_RowDataBound" 
+            OnSelectedIndexChanged="gvTaxDetails_SelectedIndexChanged"><Columns>
+<asp:TemplateField HeaderText="id" Visible="False"><ItemTemplate>
+<asp:Label 
+                                                              ID="lblTax_Id" runat="server" 
+                        CssClass="Label" Text='<%#Eval("Tax_Id") %>' 
+                                                              Visible="false"></asp:Label>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Center" Width="90px"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Tax Type"><EditItemTemplate>
+<asp:DropDownList ID="ddl_Tax_Type" 
+                                                                          
+        Width="150px"   CssClass="GridDropDown" runat="server" ></asp:DropDownList>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:DropDownList ID="ddl_Tax_Type_Entry"  
+                                                                          
+        Width="90px"   CssClass="GridDropDown" runat="server" ></asp:DropDownList>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Type" Width="90px" 
+                                                                          
+        CssClass="Label" runat="server" Text='<%#Eval("Tax_Type") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Center" Width="90px"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Municipality" Visible="false"><EditItemTemplate>
+<asp:TextBox ID="txt_Munciplane_Name" 
+                                                                          
+        Width="50px"   CssClass="Gridtextbox" runat="server" 
+                                                                          
+        Text='<%#Eval("Munciplene_Name") %>'/>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:TextBox ID="txt_Munciplane_Name_Entry" 
+                                                                          
+        Width="50px"   CssClass="Gridtextbox" runat="server"/>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_txt_Munciplane_Name" 
+                                                                          
+        Width="70px"  CssClass="Label" runat="server" 
+                                                                          
+        Text='<%#Eval("Munciplene_Name") %>'/>
+</ItemTemplate>
+
+<HeaderStyle ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Center" Width="40px"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Tax Year"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Year" 
+                            Width="40px" runat="server"   CssClass="GridDropDown"></asp:TextBox>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:TextBox ID="txt_Tax_Year_Entry" 
+                            Width="40px"   CssClass="GridDropDown" runat="server" >
+                                                              </asp:TextBox>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Year" Width="40px" 
+                            CssClass="Label" runat="server" 
+        Text='<%#Eval("Tax_Year") %>'/>
+</ItemTemplate>
+
+<HeaderStyle ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Center" Width="70px"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Period"><EditItemTemplate>
+<asp:DropDownList ID="ddl_Tax_Period" 
+                                                                          
+        Width="90px"   CssClass="GridDropDown"   runat="server"></asp:DropDownList>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:DropDownList ID="ddl_Tax_Period_Entry" 
+                                                                          
+        Width="90px"   CssClass="GridDropDown" runat="server" ></asp:DropDownList>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Period" Width="90px" 
+                                                                          
+        CssClass="Label" runat="server" Text='<%#Eval("Tax_Period") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Base Amt"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Amount" 
+                                                                          
+        Width="50px"   CssClass="Gridtextbox" runat="server" 
+                                                                          
+        Text='<%#Eval("Tax_Base_Amount") %>'/>
+</EditItemTemplate>
+<FooterTemplate>
+                                                                      <asp:TextBox ID="txt_Tax_Amount_Amount_Entry" Width="50px"   
+                                                                          CssClass="Gridtextbox" runat="server"/>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Amount" Width="50px"  
+                                                                          
+        CssClass="Label" runat="server" Text='<%#Eval("Tax_Base_Amount") %>'/>
+</ItemTemplate>
+
+<HeaderStyle ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Due Dt"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Due_Date" 
+                                                                          
+        Width="60px"   CssClass="Gridtextbox" runat="server" 
+                                                                          
+        Text='<%#Eval("Tax_Due_Date") %>'/>
+                                                                      <ajax:CalendarExtender ID="txt_Tax_Due_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" 
+        Format="MM/dd/yyyy" TargetControlID="txt_Tax_Due_Date"></ajax:CalendarExtender>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:TextBox ID="txt_Tax_Due_Date_Entry" 
+                                                                          
+        Width="60px"   CssClass="Gridtextbox" runat="server"/>
+                                                                      <ajax:CalendarExtender ID="txt_Tax_Due_Date_Entry_CalendarExtender" runat="server" 
+                                                       Enabled="True" 
+        Format="MM/dd/yyyy" TargetControlID="txt_Tax_Due_Date_Entry"></ajax:CalendarExtender>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Due_Date" Width="60px" 
+                                                                          
+        CssClass="Label"  runat="server" Text='<%#Eval("Tax_Due_Date") %>'/>
+</ItemTemplate>
+
+<HeaderStyle ForeColor="White"></HeaderStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Disc Y/s"><EditItemTemplate>
+<asp:DropDownList ID="ddl_Discount" Width="40px" 
+                                                                   
+        CssClass="GridDropDown" AutoPostBack="true"  
+                                                                   
+        OnSelectedIndexChanged="ddl_Tax_Discount_SelectedIndexChangedE"  runat="server"></asp:DropDownList>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:DropDownList ID="ddl_Discount_Entry" 
+                                                                   AutoPostBack="true"  
+                                                                   OnSelectedIndexChanged="ddl_Tax_Status_Entry_SelectedIndexChangedF"  
+                                                                   Width="45px" 
+        CssClass="GridDropDown" runat="server"></asp:DropDownList>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Discount" Width="40px"  
+                                                                   
+        CssClass="Label"  runat="server" Text='<%#Eval("Discount") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Center"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Disc Amt"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Discount_Amount" Width="50px" 
+                                                                   
+        Enabled="false"  CssClass="Gridtextbox" runat="server" 
+                                                                   
+        Text='<%#Eval("Discount_Amount") %>'/>
+</EditItemTemplate>
+<FooterTemplate>
+                                                               <asp:TextBox ID="txt_Tax_Discount_Amount_Amount_Entry" Width="50px"  
+                                                                   Enabled="false" CssClass="Gridtextbox" runat="server"/>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Discount_Amount" 
+                                                                   Width="50px"  
+        CssClass="Label" runat="server" 
+                                                                   
+        Text='<%#Eval("Discount_Amount") %>'/>
+</ItemTemplate>
+
+<HeaderStyle ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Disc Dt"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Discount_Date" Width="60px"   
+                                                                   
+        CssClass="Gridtextbox" runat="server" Text='<%#Eval("Discount_Date") %>'/>
+                                                               <ajax:CalendarExtender ID="txt_Tax_Discount_Date_CalendarExtender" runat="server" 
+                                                       Enabled="False" 
+        Format="MM/dd/yyyy" TargetControlID="txt_Tax_Discount_Date"></ajax:CalendarExtender>
+</EditItemTemplate>
+<FooterTemplate>
+                                                               <asp:TextBox ID="txt_Tax_Entry_Discount_Date" Width="60px" Enabled="false"  
+                                                                   CssClass="Gridtextbox" runat="server"/>
+                                                               <ajax:CalendarExtender ID="txt_Tax_Entry_Discount_Date_CalendarExtender" runat="server" 
+                                                       Enabled="true" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Entry_Discount_Date"></ajax:CalendarExtender>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Discount_Date" 
+                                                                   Width="60px" 
+        CssClass="Label" runat="server" Text='<%#Eval("Discount_Date") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Status"><EditItemTemplate>
+<asp:DropDownList ID="ddl_Tax_Status"  
+                                                                          
+        AutoPostBack="true" CssClass="GridDropDown"  
+                                                                          
+        OnSelectedIndexChanged="ddl_Tax_Status_SelectedIndexChanged" Width="90px" 
+                                                                          
+        runat="server" ></asp:DropDownList>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:DropDownList ID="ddl_Tax_Status_Entry" 
+                                                                          AutoPostBack="true"  
+                                                                          OnSelectedIndexChanged="ddl_Tax_Status_Entry_SelectedIndexChanged"  
+                                                                          
+        Width="90px"   CssClass="GridDropDown" runat="server" ></asp:DropDownList>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Status" Width="90px" 
+                                                                          
+        CssClass="Label" runat="server" Text='<%#Eval("Tax_Status") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Paid Amt"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Paid_Amount" Width="50px"   
+                                                                   
+        CssClass="Gridtextbox" runat="server" Text='<%#Eval("Tax_Paid_Amount") %>'/>
+</EditItemTemplate>
+<FooterTemplate>
+                                                               <asp:TextBox ID="txt_Tax_Paid_Amount_Amount_Entry" Width="50px"   
+                                                                   CssClass="Gridtextbox" runat="server"/>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Paid_Amount" 
+                                                                   Width="50px"  
+        CssClass="Label" runat="server" 
+                                                                   
+        Text='<%#Eval("Tax_Paid_Amount") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Paid Dt"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Paid_Date" 
+                                                                       
+        Width="60px"   CssClass="Gridtextbox" runat="server" 
+                                                                       
+        Text='<%#Eval("Paid_Date") %>'/>
+                                                                   <ajax:CalendarExtender ID="txt_Tax_Paid_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" 
+        Format="MM/dd/yyyy" TargetControlID="txt_Tax_Paid_Date">
+                                                       </ajax:CalendarExtender>
+</EditItemTemplate>
+<FooterTemplate>
+                                                                   <asp:TextBox ID="txt_Tax_Entry_Paid_Date" Width="60px"   CssClass="Gridtextbox" 
+                                                                       runat="server"/>
+                                                       <ajax:CalendarExtender ID="txt_Tax_Entry_Paid_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Entry_Paid_Date"></ajax:CalendarExtender>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Paid_Date" Width="60px" 
+                                                                       
+        CssClass="Label" runat="server" Text='<%#Eval("Paid_Date") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Payoff Amt1"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Payoff_Amount" 
+                        Width="50px"   CssClass="Gridtextbox" runat="server" 
+                        Text='<%#Eval("Tax_Payoff_Amount") %>'/>
+</EditItemTemplate>
+<FooterTemplate>
+                    <asp:TextBox ID="txt_Tax_Payoff_Amount_Amount_Entry" Width="50px"   
+                        CssClass="Gridtextbox" runat="server"/>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Payoff_Amount" 
+                        Width="50px"  CssClass="Label" runat="server" 
+                        Text='<%#Eval("Tax_Payoff_Amount") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+
+<asp:TemplateField HeaderText="G.T Dt1"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Good_Through_Date" Width="60px"   
+                                                                   
+        CssClass="Gridtextbox" runat="server" Text='<%#Eval("Good_Through_Date") %>'/>
+                                                               <ajax:CalendarExtender ID="txt_Tax_Good_Through_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" 
+        Format="MM/dd/yyyy" TargetControlID="txt_Tax_Good_Through_Date"></ajax:CalendarExtender>
+</EditItemTemplate>
+<FooterTemplate>
+                                                               <asp:TextBox ID="txt_Tax_Entry_Good_Through_Date"  Width="60px"   
+                                                                   CssClass="Gridtextbox" runat="server"/>
+                                                               <ajax:FilteredTextBoxExtender ID="txt_Tax_Entry_Good_Through_Date_filter_Date" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Tax_Entry_Good_Through_Date" ValidChars="_/"></ajax:FilteredTextBoxExtender>
+                                                               <ajax:CalendarExtender ID="txt_Tax_Entry_Good_Through_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Entry_Good_Through_Date"></ajax:CalendarExtender>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Good_Through_Date" 
+                                                                   Width="60px" 
+        CssClass="Label" runat="server" 
+                                                                   
+        Text='<%#Eval("Good_Through_Date") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+</asp:TemplateField>
+
+
+<asp:TemplateField HeaderText="Payoff Amt2">
+<EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Payoff_Amount2" 
+                        Width="50px"   CssClass="Gridtextbox" runat="server" 
+                        Text='<%#Eval("Tax_Payoff_Amount2") %>'/>
+</EditItemTemplate>
+<FooterTemplate>
+                    <asp:TextBox ID="txt_Tax_Payoff_Amount2_Amount_Entry" Width="50px"   
+                        CssClass="Gridtextbox" runat="server"/>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Payoff_Amount2" 
+                        Width="50px"  CssClass="Label" runat="server" 
+                        Text='<%#Eval("Tax_Payoff_Amount2") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+
+
+<asp:TemplateField HeaderText="G.T Dt2"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Good_Through_Date2" Width="60px"   
+                                                                   
+        CssClass="Gridtextbox" runat="server" Text='<%#Eval("Good_Through_Date2") %>'/>
+                                                               <ajax:CalendarExtender ID="txt_Tax_Good_Through_Date2_CalendarExtender" runat="server" 
+                                                       Enabled="True" 
+        Format="MM/dd/yyyy" TargetControlID="txt_Tax_Good_Through_Date2"></ajax:CalendarExtender>
+</EditItemTemplate>
+<FooterTemplate>
+                                                               <asp:TextBox ID="txt_Tax_Entry_Good_Through_Date2"  Width="60px"   
+                                                                   CssClass="Gridtextbox" runat="server"/>
+                                                               <ajax:FilteredTextBoxExtender ID="txt_Tax_Entry_Good_Through2_Date_filter_Date" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Tax_Entry_Good_Through_Date2" ValidChars="_/"></ajax:FilteredTextBoxExtender>
+                                                               <ajax:CalendarExtender ID="txt_Tax_Entry_Good_Through_Date2_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Entry_Good_Through_Date2"></ajax:CalendarExtender>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Good_Through_Date2" 
+                                                                   Width="60px" 
+        CssClass="Label" runat="server" 
+                                                                   
+        Text='<%#Eval("Good_Through_Date2") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+</asp:TemplateField>
+<asp:TemplateField><EditItemTemplate>
+                                                           <asp:ImageButton ID="imgbtnUpdate" CommandName="Update" runat="server" 
+                                                               ImageUrl="~/images/Gridview/Save.png" ToolTip="Update" Height="20px" 
+                                                               Width="20px" />
+                                                           <asp:ImageButton ID="imgbtnCancel" 
+                                                               runat="server" CommandName="Cancel" ImageUrl="~/images/Gridview/Cancel.png" 
+                                                               ToolTip="Cancel" Height="20px" Width="20px" />
+</EditItemTemplate>
+<FooterTemplate>
+<asp:ImageButton ID="imgbtnAdd" 
+                                                                   runat="server" ImageUrl="~/images/Gridview/Add.png" 
+                                                                   OnClientClick="javascript:return confirm('Are you sure to proceed?');" 
+                                                                   
+        CommandName="AddNew" Width="20px" Height="20px" ToolTip="Add New" 
+                                                                   
+        ValidationGroup="validaiton" />
+</FooterTemplate>
+<ItemTemplate>
+<asp:ImageButton ID="imgbtnEdit" 
+                                                                   
+        CommandName="Edit" runat="server" ImageUrl="~/images/Gridview/edit.png"  
+                                                                   ToolTip="Edit" 
+        Height="20px" Width="20px" />
+                                                               <asp:ImageButton ID="imgbtnDelete" CommandName="Delete" Text="Edit" 
+                                                                   runat="server" ImageUrl="~/images/Gridview/Remove-icon.png"  
+                                                                   OnClientClick="javascript:return confirm('Are you sure to proceed?');" 
+                                                                   
+        ToolTip="Delete" Height="20px" Width="20px" />
+</ItemTemplate>
+</asp:TemplateField>
+</Columns>
+
+<FooterStyle BackColor="#FFFFCC" ForeColor="#330099"></FooterStyle>
+
+<HeaderStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="#FFFFCC"></HeaderStyle>
+
+<SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399"></SelectedRowStyle>
+
+<SortedAscendingCellStyle BackColor="#FEFCEB"></SortedAscendingCellStyle>
+
+<SortedAscendingHeaderStyle BackColor="#AF0101"></SortedAscendingHeaderStyle>
+
+<SortedDescendingCellStyle BackColor="#F6F0C0"></SortedDescendingCellStyle>
+
+<SortedDescendingHeaderStyle BackColor="#7E0000"></SortedDescendingHeaderStyle>
+</asp:GridView>
+
+                                                       <div>
+                                                  <%--       <asp:gridview ID="Gridview2" runat="server" ShowFooter="True" 
+                        AutoGenerateColumns="False" onrowdeleting="Gridview1_RowDeleting" 
+                        onrowdatabound="Gridview1_RowDataBound"><Columns><asp:CommandField ShowDeleteButton="True" /><asp:BoundField DataField="RowNumber" Visible="False" HeaderText="Row Number" /><asp:TemplateField  HeaderText="Tax Type"><FooterTemplate><asp:Button ID="ButtonAdd" runat="server" Text="Add New Row" 
+                        onclick="ButtonAdd_Click" /></FooterTemplate><ItemTemplate><asp:DropDownList ID="ddl_DynamicTaxttype" runat="server" Width="100px"></asp:DropDownList></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Tax Year"><ItemTemplate><asp:TextBox ID="txt_DynamicTaxYear" Width="100px" runat="server"></asp:TextBox></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Tax Period"><ItemTemplate><asp:DropDownList ID="ddl_DynamicTaxtPeriod" runat="server" Width="120px"></asp:DropDownList></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Tax Base Amount"><ItemTemplate><asp:TextBox ID="txt_DynamicBaseamount" Width="100px" runat="server"></asp:TextBox></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Tax Due.D"><ItemTemplate><asp:TextBox ID="txt_DynamicDuedate" Width="100px" runat="server"></asp:TextBox><ajax:CalendarExtender ID="txt_DynamicDuedate_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_DynamicDuedate"></ajax:CalendarExtender></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="DIS Y/N"><ItemTemplate><asp:DropDownList ID="ddl_DynamicTaxtDiscountYN" runat="server" Width="40px"></asp:DropDownList></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="DIS.Amount"><ItemTemplate><asp:TextBox ID="txt_DynamicDiscamount" Width="100px" runat="server"></asp:TextBox></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="DIS.DATE"><ItemTemplate><asp:TextBox ID="txt_DynamicDiscDate" Width="100px" runat="server"></asp:TextBox><ajax:CalendarExtender ID="txt_DynamicDiscDate_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_DynamicDiscDate"></ajax:CalendarExtender></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Status"><ItemTemplate><asp:DropDownList ID="ddl_DynamicTaxStatus" runat="server" Width="100px"></asp:DropDownList></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Paid Amount"><ItemTemplate><asp:TextBox ID="txt_DynamicPaidAmount" Width="100px" runat="server"></asp:TextBox></ItemTemplate></asp:TemplateField><asp:TemplateField   HeaderText="Paid Date"><ItemTemplate><asp:TextBox ID="txt_DynamicPaidDate" Width="100px" runat="server"></asp:TextBox><ajax:CalendarExtender ID="txt_DynamicPaidDate_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_DynamicPaidDate"></ajax:CalendarExtender></ItemTemplate></asp:TemplateField>
+                                                       <asp:TemplateField   HeaderText="Payoff amount1"><ItemTemplate>
+                                                       <asp:TextBox ID="txt_DynamicPayoffamount" Width="100px" runat="server"></asp:TextBox>
+                                                       </ItemTemplate></asp:TemplateField>
+                                                       <asp:TemplateField   HeaderText="Gt Date1">
+                                                       <ItemTemplate><asp:TextBox ID="txt_DynamicGoodThroughdate" Width="100px" runat="server"></asp:TextBox>
+                                                       <ajax:CalendarExtender ID="txt_DynamicGoodThroughdate_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_DynamicGoodThroughdate"></ajax:CalendarExtender>
+                                                       </ItemTemplate><FooterStyle HorizontalAlign="Right" /></asp:TemplateField>
+                                                         <asp:TemplateField   HeaderText="Payoff amount2"><ItemTemplate>
+                                                       <asp:TextBox ID="txt_DynamicPayoffamount2" Width="100px" runat="server"></asp:TextBox>
+                                                       </ItemTemplate></asp:TemplateField>
+                                                       <asp:TemplateField   HeaderText="Gt Date2">
+                                                       <ItemTemplate><asp:TextBox ID="txt_DynamicGoodThroughdate2" Width="100px" runat="server"></asp:TextBox>
+                                                       <ajax:CalendarExtender ID="txt_DynamicGoodThroughdate2_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_DynamicGoodThroughdate"></ajax:CalendarExtender>
+                                                       </ItemTemplate><FooterStyle HorizontalAlign="Right" /></asp:TemplateField>
+                                                       </Columns></asp:gridview>--%>
+                                                       </div>
+                                                       <div>
+                                                         <asp:Button ID="btn_Save" OnClick="btn_Save_Click" runat="server" CssClass="WebButton" 
+                                                            Text="Save" />
+                                                       </div>
+                                                       </ContentTemplate>
+                                                       </asp:UpdatePanel>
+                                                       </div>
+                                                </ContentTemplate>
+                                                </ajax:TabPanel>
+                                                <ajax:TabPanel ID="TabAnnual" runat="server"><HeaderTemplate>Annual Tax</HeaderTemplate>
+                                                <ContentTemplate>
+                                                    <table style=" width:60%; align="center" ">
+                                                        <tr>
+                                                            <td>
+                                                                <asp:Label ID="Label56" runat="server" CssClass="Label" Text="Tax Year"></asp:Label>
+                                                            </td>
+                                                            <td>
+                                                                <asp:TextBox ID="txt_Annual_Tax_Year" runat="server" AutoPostBack="True" 
+                                                                    CssClass="textbox" TabIndex="14" Width="100px"></asp:TextBox>
+                                                            </td>
+                                                            <td>
+                                                                <asp:Label ID="Label57" runat="server" CssClass="Label" Text="Tax Base Amount"></asp:Label>
+                                                            </td>
+                                                            <td>
+                                                                <asp:TextBox ID="txt_Annual_BaseAmount" runat="server" AutoPostBack="True" 
+                                                                    CssClass="textbox" ontextchanged="txt_Barrower_Zip_TextChanged" TabIndex="14" 
+                                                                    Width="100px"></asp:TextBox>
+                                                            </td>
+                                                            <td>
+                                                                <asp:Label ID="Label58" runat="server" CssClass="Label" 
+                                                                    Text="Total Paid Amount"></asp:Label>
+                                                            </td>
+                                                            <td>
+                                                                <asp:TextBox ID="txt_Annual_Tot_PaidAmount" runat="server" AutoPostBack="True" 
+                                                                    CssClass="textbox" ontextchanged="txt_Barrower_Zip_TextChanged" TabIndex="14" 
+                                                                    Width="100px"></asp:TextBox>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6" align="center">
+                                                                <asp:GridView ID="Grd_Annual_Tax" runat="server" AllowSorting="True" 
+                                                                    AutoGenerateColumns="False" CellPadding="4" CssClass="name" 
+                                                                    DataKeyNames="Order_Id" Font-Size="Medium" ForeColor="#333333" 
+                                                                    GridLines="None" ShowHeaderWhenEmpty="True" Width="60%">
+                                                                    
+                                                                    <Columns>
+                                                                        <asp:TemplateField HeaderText="SI NO" SortExpression="Order_Number">
+                                                                            <ItemTemplate>
+                                                                                <asp:Label ID="lblsi1" runat="server" Text="<%# Container.DataItemIndex + 1 %>"> </asp:Label>
+                                                                            </ItemTemplate>
+                                                                            <HeaderStyle HorizontalAlign="Center" />
+                                                                            <ItemStyle CssClass="Label" HorizontalAlign="Center" Width="30px" />
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="Tax Type" SortExpression="Tax_Type">
+                                                                            <ItemTemplate>
+                                                                                <asp:Label ID="lblTax_Type1" runat="server" CssClass="Label" 
+                                                                                    Text='<%#Eval("Tax_Type") %>'></asp:Label>
+                                                                            </ItemTemplate>
+                                                                            <HeaderStyle HorizontalAlign="Center" />
+                                                                            <ItemStyle HorizontalAlign="Center" Width="100px" />
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="Tax Period" SortExpression="Tax_Period">
+                                                                            <ItemTemplate>
+                                                                                <asp:Label ID="lblTax_Period0" runat="server" CssClass="Label" 
+                                                                                    Text='<%#Eval("Tax_Period") %>'></asp:Label>
+                                                                            </ItemTemplate>
+                                                                            <HeaderStyle HorizontalAlign="Center" />
+                                                                            <ItemStyle HorizontalAlign="Center" Width="100px" />
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="Paid Amount" SortExpression="Loan_Number">
+                                                                            <ItemTemplate>
+                                                                                <asp:Label ID="lblTax_Paid_Amount0" runat="server" CssClass="Label" 
+                                                                                    Text='<%#Eval("Tax_Paid_Amount") %>'></asp:Label>
+                                                                            </ItemTemplate>
+                                                                            <HeaderStyle HorizontalAlign="Center" />
+                                                                            <ItemStyle HorizontalAlign="Center" Width="100px" />
+                                                                        </asp:TemplateField>
+                                                                    </Columns>
+                                                                    <EditRowStyle BackColor="#CCDDDD" />
+                                                                    <EmptyDataRowStyle Font-Names="Verdana" ForeColor="#FF5050" />
+                                                                    <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+                                                                    <HeaderStyle BackColor="#1C5E55" Font-Bold="True" Font-Size="Large" 
+                                                                        ForeColor="White" />
+                                                                    <PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" />
+                                                                    <RowStyle BackColor="#E3EAEB" />
+                                                                    <SelectedRowStyle BackColor="#C5D8D8" Font-Bold="True" ForeColor="#333333" />
+                                                                    <SortedAscendingCellStyle BackColor="#F8FAFA" />
+                                                                    <SortedAscendingHeaderStyle BackColor="#246B61" />
+                                                                    <SortedDescendingCellStyle BackColor="#D4DFE1" />
+                                                                    <SortedDescendingHeaderStyle BackColor="#15524A" />
+                                                                </asp:GridView>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </ContentTemplate>
+                                                </ajax:TabPanel>
+                                                </ajax:TabContainer>
+  </ContentTemplate></ajax:TabPanel>
+<%--<ajax:TabPanel ID="TabPanel4" runat="server" >
+<HeaderTemplate>Assesed Values</HeaderTemplate>
+<ContentTemplate>
+<table  style="width:100%;"><tr><td><table><tr><td 
+                                                      style=" border: thin dotted #008080; width:100%;"><asp:UpdatePanel 
+                                                      ID="Upcost" runat="server"><ContentTemplate><table style=" width:100%;"><tr><td><asp:Label 
+                                                              ID="lbl_Tax_Year" runat="server" CssClass="Label" Text="Tax Year"></asp:Label></td><td 
+                                                              style="width:70px;"><asp:DropDownList ID="ddl_Assesed_Tax_Year" runat="server" 
+                                                                  CssClass="DropDown" TabIndex="1" Width="100px"></asp:DropDownList></td><td 
+                                                              style="width:70px;"><asp:Label ID="Label3" runat="server" CssClass="Label" 
+                                                                  Text="Land"></asp:Label></td><td style=" width:75px;"><asp:TextBox 
+                                                                  ID="txt_Land" runat="server" AutoPostBack="True" CssClass="textbox" 
+                                                                  ontextchanged="txt_Land_TextChanged" style="text-transform:uppercase;" 
+                                                                  TabIndex="2" Width="150px"></asp:TextBox><cc1:FilteredTextBoxExtender 
+                                                                  ID="txt_Land_FilteredTextBoxExtender" runat="server" Enabled="True" 
+                                                                  FilterType="Custom, Numbers" TargetControlID="txt_Land" ValidChars="."></cc1:FilteredTextBoxExtender></td><td 
+                                                              style="width:75px;"><asp:Label ID="Label4" runat="server" CssClass="Label" 
+                                                                  Text="Building"></asp:Label></td><td style="width:150px;"><asp:TextBox 
+                                                                  ID="txt_Building" runat="server" AutoPostBack="True" CssClass="textbox" 
+                                                                  ontextchanged="txt_Building_TextChanged" style="text-transform:uppercase;" 
+                                                                  TabIndex="3" Width="150px"></asp:TextBox><cc1:FilteredTextBoxExtender 
+                                                                  ID="txt_Building_FilteredTextBoxExtender" runat="server" Enabled="True" 
+                                                                  FilterType="Custom, Numbers" TargetControlID="txt_Building" ValidChars="."></cc1:FilteredTextBoxExtender></td><td><asp:Label 
+                                                                  ID="Label52" runat="server" CssClass="Label" Text="Excemption"></asp:Label></td><td><asp:TextBox 
+                                                                  ID="txt_Excemption" runat="server" CssClass="textbox" 
+                                                                  style="text-transform:uppercase;" TabIndex="4" Width="150px"></asp:TextBox><cc1:FilteredTextBoxExtender 
+                                                                  ID="txt_Excemption_FilteredTextBoxExtender" runat="server" Enabled="True" 
+                                                                  FilterType="Custom, Numbers" TargetControlID="txt_Excemption" ValidChars="."></cc1:FilteredTextBoxExtender></td><td><asp:Label 
+                                                                  ID="Label25" runat="server" CssClass="Label" Text="Total"></asp:Label></td><td><asp:TextBox 
+                                                                  ID="txt_total" runat="server" CssClass="textbox" Enabled="False" 
+                                                                  style="text-transform:uppercase;" TabIndex="4" Width="150px"></asp:TextBox><cc1:FilteredTextBoxExtender 
+                                                                  ID="txt_total_FilteredTextBoxExtender" runat="server" Enabled="True" 
+                                                                  FilterType="Custom, Numbers" TargetControlID="txt_total" ValidChars="."></cc1:FilteredTextBoxExtender></td></tr></table></ContentTemplate></asp:UpdatePanel></td><td 
+                                                      align="right" style="border: thin dotted #008080"><asp:ImageButton 
+                                                          ID="imgbtn_Assesd_Add" runat="server" AlternateText="Add" 
+                                                          ImageUrl="~/images/Gridview/Add.png" onclick="imgbtn_Assesd_Add_Click" 
+                                                          TabIndex="5" Width="16px" /></td></tr></table></td></tr><tr><td><div 
+                                                          ID="div1" runat="server" style="overflow:scroll; height:300px; width:1250px;"><asp:GridView 
+                                                          ID="grd_Assesed" runat="server" AllowSorting="True" AutoGenerateColumns="False" 
+                                                          CellPadding="4" CssClass="name" DataKeyNames="Tax_Assessed_Id" 
+                                                          Font-Size="Medium" ForeColor="#333333" GridLines="None" 
+                                                          onrowdeleting="grd_Assesed_RowDeleting" 
+                                                          onselectedindexchanged="grd_Assesed_SelectedIndexChanged" 
+                                                          ShowHeaderWhenEmpty="True" Width="100%"><AlternatingRowStyle 
+                                                              BackColor="White" /><Columns><asp:TemplateField HeaderText="id" Visible="False"><ItemTemplate><asp:Label 
+                                                                  ID="lblTax_Assessed_Id" runat="server" CssClass="Label" 
+                                                                  Text='<%#Eval("Tax_Assessed_Id") %>' Visible="false"></asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                                  Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="SI NO" 
+                                                                  SortExpression="Order_Number"><ItemTemplate><asp:Label ID="lblsi_Assesid" 
+                                                                      runat="server" Text="<%# Container.DataItemIndex + 1 %>"> </asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center"></HeaderStyle><ItemStyle CssClass="Label" 
+                                                                  HorizontalAlign="Center" Width="30px"></ItemStyle></asp:TemplateField><asp:TemplateField 
+                                                                  HeaderText="Tax Year" SortExpression="Tax_Year"><ItemTemplate><asp:Label 
+                                                                      ID="lblTax_Year" runat="server" CssClass="Label" Text='<%#Eval("Tax_Year") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                                  Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="Land" 
+                                                                  SortExpression="Land_Cost"><ItemTemplate><asp:Label ID="lblLand_Cost" 
+                                                                      runat="server" CssClass="Label" Text='<%#Eval("Land_Cost") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                                  Width="100px" /></asp:TemplateField><asp:TemplateField 
+                                                                  HeaderText="Building" SortExpression="Building_Cost"><ItemTemplate><asp:Label 
+                                                                      ID="lblBuilding_Cost" runat="server" CssClass="Label" 
+                                                                      Text='<%#Eval("Building_Cost") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                                  Width="100px" /></asp:TemplateField><asp:TemplateField 
+                                                                  HeaderText="Excemption" SortExpression="Excemption"><ItemTemplate><asp:Label 
+                                                                      ID="lblExcemption_Cost" runat="server" CssClass="Label" 
+                                                                      Text='<%#Eval("Excemption") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                                  Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="Total" 
+                                                                  SortExpression="Total"><ItemTemplate><asp:Label ID="lblTotal" runat="server" 
+                                                                      CssClass="Label" Text='<%#Eval("Total") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                                  Width="100px" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:ImageButton 
+                                                                      ID="imgbtnExamEdit" runat="server" CommandName="Select" Height="20px" 
+                                                                      ImageUrl="~/images/Gridview/View.png" Width="20px" /></ItemTemplate><ItemStyle 
+                                                                  HorizontalAlign="Center" Width="16px" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:ImageButton 
+                                                                      ID="imgbtnExamDelete" runat="server" CommandName="Delete" Height="20px" 
+                                                                      ImageUrl="~/images/Gridview/Remove-icon.png" 
+                                                                      OnClientClick="javascript:return confirm('Are you sure to proceed?');" 
+                                                                      Width="20px" /></ItemTemplate><ItemStyle HorizontalAlign="Center" 
+                                                                  VerticalAlign="Middle" Width="16px" /></asp:TemplateField></Columns><EditRowStyle 
+                                                              BackColor="#B8CFCF" /><EmptyDataRowStyle Font-Names="Verdana" 
+                                                              ForeColor="#FF5050" /><FooterStyle BackColor="#1C5E55" Font-Bold="True" 
+                                                              ForeColor="White" /><HeaderStyle BackColor="#1C5E55" Font-Bold="True" 
+                                                              Font-Size="Large" ForeColor="White" /><PagerStyle BackColor="#666666" 
+                                                              ForeColor="White" HorizontalAlign="Center" /><RowStyle 
+                                                              BackColor="#E3EAEB" /><SelectedRowStyle BackColor="#CCDDDD" 
+                                                              Font-Bold="True" ForeColor="#333333" /><sortedascendingcellstyle 
+                                                              backcolor="#F8FAFA" /><sortedascendingheaderstyle backcolor="#246B61" /><sorteddescendingcellstyle 
+                                                              backcolor="#D4DFE1" /><sorteddescendingheaderstyle backcolor="#15524A" /></asp:GridView></div></td></tr></table>
+                                                              </ContentTemplate></ajax:TabPanel>
+--%>
+<%--<ajax:TabPanel ID="TabPanel7" runat="server" ><HeaderTemplate>Tax Sales Details</HeaderTemplate><ContentTemplate><div id="div7" runat="server" style="overflow:scroll; height:300px; width:100%;"><table style=" width:100%;"><tr><td><table><tr><td 
+        style=" border: thin dotted #008080; width:1100px;"><asp:UpdatePanel 
+        ID="UpdatePanel5" runat="server"><ContentTemplate></ContentTemplate></asp:UpdatePanel></td><td 
+        align="right" style="border: thin dotted #008080"><asp:ImageButton 
+            ID="ImageButton2" runat="server" AlternateText="Add" 
+            ImageUrl="~/images/Gridview/AddRec.png" onclick="ImageButton2_Click" 
+            TabIndex="5" Width="25px" /></td></tr></table></td></tr><tr><td><asp:GridView ID="grd_Tax_Sold" runat="server" AllowSorting="True" 
+                AutoGenerateColumns="False" CellPadding="4" CssClass="name" 
+                DataKeyNames="Tax_Sale_Id" Font-Size="Medium" ForeColor="#333333" 
+                GridLines="None" 
+              
+                ShowHeaderWhenEmpty="True" Width="100%" 
+            onrowdeleting="grd_Tax_Sold_RowDeleting" 
+            onselectedindexchanged="grd_Tax_Sold_SelectedIndexChanged"><Columns><asp:TemplateField HeaderText="id" Visible="False"><ItemTemplate><asp:Label ID="lblTax_Sale_Id" runat="server" CssClass="Label" 
+                                Text='<%#Eval("Tax_Sale_Id") %>' Visible="false"></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="SI NO" SortExpression="Order_Number"><ItemTemplate><asp:Label ID="lblSiTax_Sale_Id" runat="server" 
+                                Text="<%# Container.DataItemIndex + 1 %>"> </asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle CssClass="Label" HorizontalAlign="Center" Width="30px" /></asp:TemplateField><asp:TemplateField HeaderText="Tax Year" SortExpression="Tax_Year"><ItemTemplate><asp:LinkButton ID="lblTax_Sold" OnClick="lnkTaxSalebtn_CLick"  runat="server" CssClass="Label" 
+                                Text='<%#Eval("Taxes_Sold") %>'></asp:LinkButton></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="Tax Sale Date" SortExpression="Land_Cost"><ItemTemplate><asp:Label ID="lblSold_Date" runat="server" CssClass="Label" 
+                                Text='<%#Eval("Tax_Sold_Date") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="Redemption Amount" SortExpression="Total"><ItemTemplate><asp:Label ID="lblSold_TaxAmt" runat="server" CssClass="Label" 
+                                Text='<%#Eval("Sold_Tax_Amount") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="Good Thru Date" SortExpression="Total"><ItemTemplate><asp:Label ID="lblRedemption_Good_Thru_Date" runat="server" CssClass="Label" 
+                                Text='<%#Eval("Redemption_Good_Through_Date") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="Last Date to Redemption" SortExpression="Total"><ItemTemplate><asp:Label ID="lblLast_Redemption_Loss_Date" runat="server" CssClass="Label" 
+                                Text='<%#Eval("Last_Redemption") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="Next Critical Date" SortExpression="Building_Cost"><ItemTemplate><asp:Label ID="lbl_Next_Critical_Date" runat="server" CssClass="Label" 
+                                Text='<%#Eval("Next_Critical_Date") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="Next Critical Action" SortExpression="Total"><ItemTemplate><asp:Label ID="lblNext_Critical_Action" runat="server" CssClass="Label" 
+                                Text='<%#Eval("Next_Critical_Action") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="Comments" SortExpression="Total"><ItemTemplate><asp:Label ID="lblTax_Sale_Comments" runat="server" CssClass="Label" 
+                                Text='<%#Eval("Comments") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:ImageButton ID="imgbtnTaxSoldDelete" runat="server" CommandName="Delete" 
+                                Height="20px" ImageUrl="~/images/Gridview/Remove-icon.png" 
+                              OnClientClick="javascript:return confirm('Are you sure to proceed?');" 
+                                Width="20px" /></ItemTemplate><ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="16px" /></asp:TemplateField></Columns><EditRowStyle BackColor="#B8CFCF" /><EmptyDataRowStyle Font-Names="Verdana" ForeColor="#FF5050" /><FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" /><HeaderStyle BackColor="#1C5E55" Font-Bold="True" Font-Size="Large" 
+                    ForeColor="White" /><PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" /><RowStyle BackColor="#E3EAEB" /><SelectedRowStyle BackColor="#CCDDDD" Font-Bold="True" ForeColor="#333333" /><SortedAscendingCellStyle BackColor="#F8FAFA" /><SortedAscendingHeaderStyle BackColor="#246B61" /><SortedDescendingCellStyle BackColor="#D4DFE1" /><SortedDescendingHeaderStyle BackColor="#15524A" /></asp:GridView></td></tr></table></div></ContentTemplate></ajax:TabPanel>--%>
+
+<%--<ajax:TabPanel ID="TabPanel8" Visible="False" runat="server" ><HeaderTemplate>Munciple Details</HeaderTemplate><ContentTemplate><div id="div9" runat="server" style="overflow:scroll; height:200px; width:100%;"><table style=" width:100%;"><tr><td><table><tr><td 
+                                                      style=" border: thin dotted #008080; width:1100px;"><asp:UpdatePanel 
+                                                      ID="UpdatePanel6" runat="server"><ContentTemplate><table style=" width:100%;"><tr><td><asp:Label 
+                                                              ID="Label19" runat="server" CssClass="Label" Text="Tax Type"></asp:Label></td><td 
+                                                              style="width:70px;"><asp:DropDownList ID="ddl_Munciplene_Tax_Type" 
+                                                                  runat="server" CssClass="DropDown" TabIndex="1" Width="100px"></asp:DropDownList></td><td 
+                                                              style="width:70px;"><asp:Label ID="Label22" runat="server" CssClass="Label" 
+                                                                  Text="Tax Year"></asp:Label></td><td style=" width:75px;"><asp:DropDownList 
+                                                                  ID="ddl_Munciplene_Tax_Year" runat="server" CssClass="DropDown" TabIndex="1" 
+                                                                  Width="100px"></asp:DropDownList></td><td style="width:75px;"><asp:Label 
+                                                                  ID="Label23" runat="server" CssClass="Label" Text="Tax Status"></asp:Label></td><td 
+                                                              style="width:150px;"><asp:DropDownList ID="ddl_Munciplene_Tax_Status" 
+                                                                  runat="server" CssClass="DropDown" TabIndex="1" Width="100px"></asp:DropDownList></td><td><asp:Label 
+                                                                  ID="Label24" runat="server" CssClass="Label" Text="Amount"></asp:Label></td><td><asp:TextBox 
+                                                                  ID="txt_Munciplene_Amount" runat="server" CssClass="textbox" 
+                                                                  style="text-transform:uppercase;" TabIndex="4" Width="150px"></asp:TextBox><cc1:FilteredTextBoxExtender 
+                                                                  ID="txt_Munciplene_Amount_FilteredTextBoxExtender" runat="server" 
+                                                                  Enabled="True" FilterType="Custom, Numbers" 
+                                                                  TargetControlID="txt_Munciplene_Amount" ValidChars="."></cc1:FilteredTextBoxExtender></td></tr></table></ContentTemplate></asp:UpdatePanel></td><td 
+                                                      align="right" style="border: thin dotted #008080"><asp:ImageButton 
+                                                          ID="imgbtn_Munciple_Add" runat="server" AlternateText="Add" 
+                                                          ImageUrl="~/images/Gridview/Add.png" onclick="imgbtn_Munciple_Add_Click" 
+                                                          TabIndex="5" Width="20px" /></td></tr></table></td></tr><tr><td><asp:GridView 
+                                                          ID="Grid_Munciplene_Tax" runat="server" AllowSorting="True" 
+                                                          AutoGenerateColumns="False" CellPadding="4" CssClass="name" 
+                                                          DataKeyNames="Munciplene_Id" Font-Size="Medium" ForeColor="#333333" 
+                                                          GridLines="None" onrowdeleting="Grid_Munciplene_Tax_RowDeleting" 
+                                                          onselectedindexchanged="Grid_Munciplene_Tax_SelectedIndexChanged" 
+                                                          ShowHeaderWhenEmpty="True" Width="100%"><AlternatingRowStyle 
+                                                          BackColor="White" /><Columns><asp:TemplateField HeaderText="id" Visible="False"><ItemTemplate><asp:Label 
+                                                              ID="lblMunciplene_Id" runat="server" CssClass="Label" 
+                                                              Text='<%#Eval("Munciplene_Id") %>' Visible="false"></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="SI NO" 
+                                                              SortExpression="Order_Number"><ItemTemplate><asp:Label ID="lblSiMunciplene_Id" 
+                                                                  runat="server" Text="<%# Container.DataItemIndex + 1 %>"> </asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle CssClass="Label" 
+                                                              HorizontalAlign="Center" Width="30px" /></asp:TemplateField><asp:TemplateField 
+                                                              HeaderText="Tax Type" SortExpression="Tax_Type"><ItemTemplate><asp:Label 
+                                                                  ID="lblTax_Type" runat="server" CssClass="Label" Text='<%#Eval("Tax_Type") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField><asp:TemplateField 
+                                                              HeaderText="Tax Year" SortExpression="Tax_Type"><ItemTemplate><asp:Label 
+                                                                  ID="lblTax_Year" runat="server" CssClass="Label" Text='<%#Eval("Tax_Year") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField><asp:TemplateField 
+                                                              HeaderText="Tax Status" SortExpression="Tax_Status"><ItemTemplate><asp:Label 
+                                                                  ID="lblTax_Status" runat="server" CssClass="Label" 
+                                                                  Text='<%#Eval("Tax_Status") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField><asp:TemplateField 
+                                                              HeaderText="Tax Amount" SortExpression="Tax_Amount"><ItemTemplate><asp:Label 
+                                                                  ID="lbl_Tax_Amount" runat="server" CssClass="Label" 
+                                                                  Text='<%#Eval("Tax_Amount") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:ImageButton 
+                                                                  ID="imgbtnExamEdit" runat="server" CommandName="Select" Height="20px" 
+                                                                  ImageUrl="~/images/Gridview/View.png" Width="20px" /></ItemTemplate><ItemStyle 
+                                                              HorizontalAlign="Center" Width="16px" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:ImageButton 
+                                                                  ID="imgbtnTaxSoldDelete" runat="server" CommandName="Delete" Height="20px" 
+                                                                  ImageUrl="~/images/Gridview/Remove-icon.png" 
+                                                                  OnClientClick="javascript:return confirm('Are you sure to proceed?');"
+                                                                  Width="20px" /></ItemTemplate><ItemStyle HorizontalAlign="Center" 
+                                                              VerticalAlign="Middle" Width="16px" /></asp:TemplateField></Columns><EditRowStyle 
+                                                          BackColor="#B8CFCF" /><EmptyDataRowStyle Font-Names="Verdana" 
+                                                          ForeColor="#FF5050" /><FooterStyle BackColor="#1C5E55" Font-Bold="True" 
+                                                          ForeColor="White" /><HeaderStyle BackColor="#1C5E55" Font-Bold="True" 
+                                                          Font-Size="Large" ForeColor="White" /><PagerStyle BackColor="#666666" 
+                                                          ForeColor="White" HorizontalAlign="Center" /><RowStyle 
+                                                          BackColor="#E3EAEB" /><SelectedRowStyle BackColor="#CCDDDD" 
+                                                          Font-Bold="True" ForeColor="#333333" /><sortedascendingcellstyle 
+                                                          backcolor="#F8FAFA" /><sortedascendingheaderstyle backcolor="#246B61" /><sorteddescendingcellstyle 
+                                                          backcolor="#D4DFE1" /><sorteddescendingheaderstyle backcolor="#15524A" /></asp:GridView></td></tr></table></div></ContentTemplate></ajax:TabPanel>--%>
+ <%--<ajax:TabPanel ID="TabPanel9" Visible="true" runat="server" ><HeaderTemplate>Bankrupty Details</HeaderTemplate><ContentTemplate><div id="div6" runat="server" style="overflow:scroll; height:200px; width:100%;"><table style=" width:100%;"><tr><td><table><tr><td 
+                                                      style=" border: thin dotted #008080; width:100%;"><asp:UpdatePanel 
+                                                      ID="UpdatePanel2" runat="server"><ContentTemplate><table style=" width:100%;"><tr><td><asp:Label 
+                                                              ID="Label12" runat="server" CssClass="Label" Text="Bankrupty"></asp:Label></td><td 
+                                                              style="width:70px;"><asp:DropDownList ID="ddl_Bankruptcy_Yes_No" runat="server" 
+                                                                  AutoPostBack="True" CssClass="DropDown" 
+                                                                  onselectedindexchanged="ddl_Bankruptcy_Yes_No_SelectedIndexChanged" 
+                                                                  TabIndex="1" Width="100px"><asp:ListItem Value="YES">YES</asp:ListItem><asp:ListItem 
+                                                                      Value="NO">NO</asp:ListItem></asp:DropDownList></td><td 
+                                                              style="width:70px;"><asp:Label ID="Label14" runat="server" CssClass="Label" 
+                                                                  Text="Chapter # "></asp:Label></td><td style=" width:75px;"><asp:TextBox 
+                                                                  ID="txt_Bankruptcy_ChapterNo" runat="server" CssClass="textbox" TabIndex="9"></asp:TextBox></td><td 
+                                                              style="width:75px;"><asp:Label ID="Label16" runat="server" CssClass="Label" 
+                                                                  Text="Case# "></asp:Label></td><td style="width:150px;"><asp:TextBox 
+                                                                  ID="txt_Bankruptcy_Case_No" runat="server" CssClass="textbox" TabIndex="9"></asp:TextBox></td><td><asp:Label 
+                                                                  ID="Label21" runat="server" CssClass="Label" Text="BK Date"></asp:Label></td><td><asp:TextBox 
+                                                                  ID="txt_Bankruptcy_Date" runat="server" CssClass="textbox" 
+                                                                  style="text-transform:uppercase;" TabIndex="4" Width="150px"></asp:TextBox><cc1:FilteredTextBoxExtender 
+                                                                  ID="txt_Bankruptcy_Date_filter_Date" runat="server" Enabled="True" 
+                                                                  FilterType="Custom, Numbers" TargetControlID="txt_Bankruptcy_Date" 
+                                                                  ValidChars="_/"></cc1:FilteredTextBoxExtender><cc1:CalendarExtender 
+                                                                  ID="txt_Bankruptcy_Date_CalendarExtender" runat="server" Enabled="True" 
+                                                                  Format="MM/dd/yyyy" TargetControlID="txt_Bankruptcy_Date"></cc1:CalendarExtender></td><td><asp:Label 
+                                                                  ID="Label28" runat="server" CssClass="Label" Text="Comments"></asp:Label></td><td><asp:TextBox 
+                                                                  ID="txt_Bankcrupt_Comments" runat="server" CssClass="textbox" TabIndex="9" 
+                                                                  TextMode="MultiLine" Width="200px"></asp:TextBox><cc1:TextBoxWatermarkExtender 
+                                                                  ID="TextBoxWatermarkExtender5" runat="server" Enabled="True" 
+                                                                  TargetControlID="txt_Bankcrupt_Comments" WatermarkCssClass="watermarked" 
+                                                                  WatermarkText="Type Comment Here" /></td></tr></table></ContentTemplate></asp:UpdatePanel></td><td 
+                                                      align="right" style="border: thin dotted #008080"><asp:ImageButton 
+                                                          ID="Imgbtn_Brancrupty" runat="server" AlternateText="Add" 
+                                                          ImageUrl="~/images/Gridview/Add.png" onclick="Imgbtn_Brancrupty_Click" 
+                                                          TabIndex="5" Width="20px" /></td></tr></table></td></tr><tr><td><asp:GridView 
+                                                          ID="grid_Banckrupty" runat="server" AllowSorting="True" 
+                                                          AutoGenerateColumns="False" CellPadding="4" CssClass="name" 
+                                                          DataKeyNames="Bankruptcy_Id" Font-Size="Medium" ForeColor="#333333" 
+                                                          GridLines="None" onrowdeleting="grid_Banckrupty_RowDeleting" 
+                                                          onselectedindexchanged="grid_Banckrupty_SelectedIndexChanged" 
+                                                          ShowHeaderWhenEmpty="True" Width="100%"><AlternatingRowStyle 
+                                                          BackColor="White" /><Columns><asp:TemplateField HeaderText="id" Visible="False"><ItemTemplate><asp:Label 
+                                                              ID="lblBankruptcy_Id" runat="server" CssClass="Label" 
+                                                              Text='<%#Eval("Bankruptcy_Id") %>' Visible="false"></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="SI NO" 
+                                                              SortExpression="Order_Number"><ItemTemplate><asp:Label ID="lblSiMunciplene_Id" 
+                                                                  runat="server" Text="<%# Container.DataItemIndex + 1 %>"> </asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle CssClass="Label" 
+                                                              HorizontalAlign="Center" Width="30px" /></asp:TemplateField><asp:TemplateField 
+                                                              HeaderText="Bankcrupty"><ItemTemplate><asp:Label ID="lblBankcrupty_Type" 
+                                                                  runat="server" CssClass="Label" Text='<%#Eval("Bankcrupty") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              ForeColor="White" HorizontalAlign="Center" /><ItemStyle 
+                                                              HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField 
+                                                              HeaderText="Chapter No" SortExpression="Tax_Type"><ItemTemplate><asp:Label 
+                                                                  ID="lblChapter_No" runat="server" CssClass="Label" 
+                                                                  Text='<%#Eval("Chapter_No") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField><asp:TemplateField HeaderText="Case_No"><ItemTemplate><asp:Label 
+                                                                  ID="lbl_Case_No" runat="server" CssClass="Label" Text='<%#Eval("Case_No") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              ForeColor="White" HorizontalAlign="Center" /><ItemStyle 
+                                                              HorizontalAlign="Center" Width="100px" /></asp:TemplateField><asp:TemplateField 
+                                                              HeaderText="Bk Date" SortExpression="Bk_Date"><ItemTemplate><asp:Label 
+                                                                  ID="lbl_Bk_Date" runat="server" CssClass="Label" Text='<%#Eval("Bk_Date") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField><asp:TemplateField 
+                                                              HeaderText="Comments" SortExpression="Comments"><ItemTemplate><asp:Label 
+                                                                  ID="lbl_bankcruptComments" runat="server" CssClass="Label" 
+                                                                  Text='<%#Eval("Comments") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                              HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" 
+                                                              Width="100px" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:ImageButton 
+                                                                  ID="imgbtnBankCruptEdit" runat="server" CommandName="Select" Height="20px" 
+                                                                  ImageUrl="~/images/Gridview/View.png" Width="20px" /></ItemTemplate><ItemStyle 
+                                                              HorizontalAlign="Center" Width="16px" /></asp:TemplateField><asp:TemplateField><ItemTemplate><asp:ImageButton 
+                                                                  ID="imgbtnBankCruptDelete" runat="server" CommandName="Delete" Height="20px" 
+                                                                  ImageUrl="~/images/Gridview/Remove-icon.png" 
+                                                                  OnClientClick="javascript:return confirm('Are you sure to proceed?');" 
+                                                                  Width="20px" /></ItemTemplate><ItemStyle HorizontalAlign="Center" 
+                                                              VerticalAlign="Middle" Width="16px" /></asp:TemplateField></Columns><EditRowStyle 
+                                                          BackColor="#B8CFCF" /><EmptyDataRowStyle Font-Names="Verdana" 
+                                                          ForeColor="#FF5050" /><FooterStyle BackColor="#1C5E55" Font-Bold="True" 
+                                                          ForeColor="White" /><HeaderStyle BackColor="#1C5E55" Font-Bold="True" 
+                                                          Font-Size="Large" ForeColor="White" /><PagerStyle BackColor="#666666" 
+                                                          ForeColor="White" HorizontalAlign="Center" /><RowStyle 
+                                                          BackColor="#E3EAEB" /><SelectedRowStyle BackColor="#CCDDDD" 
+                                                          Font-Bold="True" ForeColor="#333333" /><sortedascendingcellstyle 
+                                                          backcolor="#F8FAFA" /><sortedascendingheaderstyle backcolor="#246B61" /><sorteddescendingcellstyle 
+                                                          backcolor="#D4DFE1" /><sorteddescendingheaderstyle backcolor="#15524A" /></asp:GridView></td></tr></table></div></ContentTemplate></ajax:TabPanel>--%>
+
+<%--<ajax:TabPanel ID="TabPanel10" runat="server" ><HeaderTemplate>Source Upload</HeaderTemplate>
+<ContentTemplate>
+<div style="width:1250px; height:300px; overflow:auto;">
+<table style=" width:100%; "><tr><td><table><tr><td><table 
+                                                      style=" width:100%;"><tr><td style="width:100px;"><asp:Label ID="Label31" 
+                                                          runat="server" CssClass="Label" Text="Tax Type"></asp:Label></td><td 
+                                                          style=" width:150px;"><asp:DropDownList ID="ddl_Source_upload_Taxtype" 
+                                                              runat="server" CssClass="DropDown" TabIndex="1" Width="175px"></asp:DropDownList></td><td><asp:Label 
+                                                              ID="Label32" runat="server" CssClass="Label" Text="Source Details"></asp:Label></td><td><asp:TextBox 
+                                                              ID="txt_Source_upload_Details" runat="server" CssClass="textbox" 
+                                                              style="text-transform:uppercase;" Width="500px"></asp:TextBox><cc1:TextBoxWatermarkExtender 
+                                                              ID="TextBoxWatermarkExtender6" runat="server" Enabled="True" 
+                                                              TargetControlID="txt_Source_upload_Details" WatermarkCssClass="watermarked" 
+                                                              WatermarkText="Type Details Here"></cc1:TextBoxWatermarkExtender></td><td><asp:Label 
+                                                              ID="Label33" runat="server" CssClass="Label" Text="Upload Document"></asp:Label></td><td><asp:UpdatePanel 
+                                                              ID="UpdatePanel7" runat="server"><ContentTemplate><asp:FileUpload 
+                                                                  ID="fileupload2" runat="server" CssClass="textbox" TabIndex="11" /></ContentTemplate><triggers><asp:PostBackTrigger 
+                                                              ControlID="ImageButton1"></asp:PostBackTrigger></triggers></asp:UpdatePanel></td></tr></table></td><td 
+                                                      align="right" style="border: thin dotted #008080"><asp:ImageButton 
+                                                          ID="ImageButton1" runat="server" AlternateText="Add" 
+                                                          ImageUrl="~/images/Gridview/Add.png" 
+                                                          OnClick="img_btn_order_source_tax_upload_add_Click" Width="16px"></asp:ImageButton></td></tr></table></td></tr><tr><td><div 
+                                                          style="width:95%; height:200px; overflow:scroll;"><asp:GridView 
+                                                          ID="Tax_Type_Source_upload" runat="server" AllowSorting="True" 
+                                                          AutoGenerateColumns="False" CellPadding="4" CssClass="name" 
+                                                          DataKeyNames="Tax_Type_Source_upload_id" Font-Size="Medium" ForeColor="#333333" 
+                                                          GridLines="None" OnRowDataBound="Tax_Type_Source_upload_RowDataBound" 
+                                                          OnRowDeleting="Tax_Type_Source_upload_RowDeleting" 
+                                                          OnSelectedIndexChanged="Tax_Type_Source_upload_SelectedIndexChanged" 
+                                                          ShowHeaderWhenEmpty="True" Width="100%"><AlternatingRowStyle BackColor="White"></AlternatingRowStyle><Columns><asp:TemplateField 
+                                                                  HeaderText="id" Visible="False"><ItemTemplate><asp:Label 
+                                                                      ID="lblTax_Type_Source_upload_Id" runat="server" CssClass="Label" 
+                                                                      Text='<%#Eval("Tax_Type_Source_upload_id") %>' Visible="false"></asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center"></HeaderStyle><ItemStyle HorizontalAlign="Center" 
+                                                                  Width="100px"></ItemStyle></asp:TemplateField><asp:TemplateField 
+                                                                  HeaderText="SI NO" SortExpression="Order_Number"><ItemTemplate><asp:Label 
+                                                                      ID="lblsi" runat="server" Text="<%# Container.DataItemIndex + 1 %>"> </asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center"></HeaderStyle><ItemStyle CssClass="Label" 
+                                                                  HorizontalAlign="Center" Width="30px"></ItemStyle></asp:TemplateField><asp:TemplateField 
+                                                                  HeaderText="Source Details" SortExpression="Source_Details"><ItemTemplate><asp:Label 
+                                                                      ID="lblSource_Details" runat="server" CssClass="Label" 
+                                                                      Text='<%#Eval("Source_Details") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center"></HeaderStyle><ItemStyle HorizontalAlign="Center" 
+                                                                  Width="100px"></ItemStyle></asp:TemplateField><asp:TemplateField 
+                                                                  HeaderText="Tax Type" SortExpression="Tax_Type"><ItemTemplate><asp:Label 
+                                                                      ID="lblDocument_Name" runat="server" CssClass="Label" 
+                                                                      Text='<%#Eval("Tax_Type") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center"></HeaderStyle><ItemStyle HorizontalAlign="Center" 
+                                                                  Width="100px"></ItemStyle></asp:TemplateField>
+                                                                  <asp:TemplateField Visible="False"
+                                                                  HeaderText="Tax Type path" 
+                    SortExpression="Tax_Type_Source_upload_Path"><ItemTemplate><asp:Label 
+                                                                      ID="lblDocument_Path" runat="server" CssClass="Label" 
+                                                                      Text='<%#Eval("Tax_Type_Source_upload_Path") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center"></HeaderStyle><ItemStyle HorizontalAlign="Center" 
+                                                                  Width="100px"></ItemStyle></asp:TemplateField><asp:TemplateField 
+                                                                  HeaderText="Updated By" SortExpression="Loan_Number"><ItemTemplate><asp:Label 
+                                                                      ID="lblUser_Name" runat="server" CssClass="Label" 
+                                                                      Text='<%#Eval("User_Name") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center"></HeaderStyle><ItemStyle HorizontalAlign="Center" 
+                                                                  Width="100px"></ItemStyle></asp:TemplateField><asp:TemplateField 
+                                                                  HeaderText="Updated When" SortExpression="Date"><ItemTemplate><asp:Label 
+                                                                      ID="lblModified_Date" runat="server" CssClass="Label" 
+                                                                      Text='<%#Eval("Date_of_Upload") %>'></asp:Label></ItemTemplate><HeaderStyle 
+                                                                  HorizontalAlign="Center"></HeaderStyle><ItemStyle HorizontalAlign="Center" 
+                                                                  Width="100px"></ItemStyle></asp:TemplateField><asp:TemplateField   HeaderText="Delete"><ItemTemplate><asp:ImageButton 
+                                                                      ID="imgbtnExamDelete" runat="server" CommandName="Delete" Height="20px" 
+                                                                      ImageUrl="~/images/Gridview/Remove-icon.png" 
+                                                                      OnClientClick="javascript:return confirm('Are you sure to proceed?');" /></ItemTemplate>
+                    <HeaderStyle ForeColor="White" />
+                    <ItemStyle 
+                                                                  HorizontalAlign="Center" VerticalAlign="Middle" Width="16px"></ItemStyle></asp:TemplateField>
+                                                                   <asp:TemplateField HeaderText="Download">
+                                                                   <HeaderStyle 
+                                                                  HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+    <ItemTemplate >
+
+    <asp:CheckBox ID="chkSelect"  Height="20px"  Width="10%" runat="server" />
+    </ItemTemplate>
+    <ItemStyle 
+       HorizontalAlign="Center" VerticalAlign="Middle" Width="16px"></ItemStyle>
+    </asp:TemplateField>
+                                                                  </Columns><EditRowStyle 
+                                                              BackColor="#CCDDDD"></EditRowStyle><EmptyDataRowStyle Font-Names="Verdana" 
+                                                              ForeColor="#FF5050"></EmptyDataRowStyle><FooterStyle BackColor="#1C5E55" 
+                                                              Font-Bold="True" ForeColor="White"></FooterStyle><HeaderStyle 
+                                                              BackColor="#1C5E55" Font-Bold="True" Font-Size="Large" ForeColor="White"></HeaderStyle><PagerStyle 
+                                                              BackColor="#666666" ForeColor="White" HorizontalAlign="Center"></PagerStyle><RowStyle 
+                                                              BackColor="#E3EAEB"></RowStyle><SelectedRowStyle BackColor="#C5D8D8" 
+                                                              Font-Bold="True" ForeColor="#333333"></SelectedRowStyle><sortedascendingcellstyle 
+                                                              backcolor="#F8FAFA"></sortedascendingcellstyle><sortedascendingheaderstyle 
+                                                              backcolor="#246B61"></sortedascendingheaderstyle><sorteddescendingcellstyle 
+                                                              backcolor="#D4DFE1"></sorteddescendingcellstyle><sorteddescendingheaderstyle 
+                                                              backcolor="#15524A"></sorteddescendingheaderstyle></asp:GridView>
+                                                              <table>
+                                                              <tr>
+                                                              <td align="right">
+                                                              
+                                                              <asp:ImageButton ID="btnDownload" ImageUrl="~/Admin/MsgImage/Download.png" Height="50px" Width="50px" Text="Download Selected Files" runat="server" onclick="btnDownload_Click" />
+                                                              </td>
+                                                              </tr>
+                                                              </table>
+                                                              </div></td></tr>
+                                                              <tr>
+                                                              <td>
+                                                               
+                                                              
+                                                              </td>
+                                                              </tr>
+                                                              </table></div></ContentTemplate></ajax:TabPanel>--%>
+
+
+                                                          </ajax:TabContainer>
+   </div>
+ 
+    </form>
+</body>
+</html>

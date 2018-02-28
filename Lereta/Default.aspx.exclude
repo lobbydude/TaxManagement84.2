@@ -1,0 +1,586 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Lereta_Default" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajax" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <style type="text/css">
+
+
+TABLE { font-family: Trebuchet MS, Arial; font-size:11px; color:#5a5a5a; text-align:left;}
+TH { font-family: Trebuchet MS, Arial; font-weight: BOLD; font-size:11px; color:#395584; }
+
+
+TD { font-family: Trebuchet MS, Arial; font-size:11px; color:#5a5a5a;}
+
+
+.Label
+{
+    font-family: Verdana;
+    font-size: 12px;
+    color: #000048;
+}
+
+
+
+.GridDropDown
+{
+    
+  border-color: #B6DADA;
+  width: 120px;
+  font-size: 11px;
+    font-family: verdana;
+     border: 1px solid #B6DADA;
+   
+    padding: 4px 4px 4px 4px;
+ 
+  
+} 
+
+
+
+        .Gridtextbox
+{
+    
+    width: 120px;
+    font-size: 11px;
+    font-family: verdana;
+    border: 1px solid #B6DADA;
+    font-size: 13px;
+    padding: 4px 4px 4px 4px;
+    font-family: verdana;
+} 
+ 
+
+
+    A:link
+{
+    color: #000000;
+    font-size: 11px;
+    font-family: Trebuchet MS, Arial;
+    
+}
+ 
+
+
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+   
+
+        <asp:GridView runat="server" AutoGenerateColumns="False" CellPadding="4" 
+            DataKeyNames="Tax_Id" PageSize="4" ShowFooter="True" BackColor="White" 
+            BorderColor="#CC9966" BorderWidth="1px" BorderStyle="None" Width="100%" 
+            ID="gvTaxDetails" OnRowCancelingEdit="gvTaxDetails_RowCancelingEdit" 
+            OnRowCommand="gvTaxDetails_RowCommand" OnRowDeleting="gvTaxDetails_RowDeleting" 
+            OnRowEditing="gvTaxDetails_RowEditing" OnRowUpdating="gvTaxDetails_RowUpdating" 
+            OnRowDataBound="gvTaxDetails_RowDataBound" 
+            OnSelectedIndexChanged="gvTaxDetails_SelectedIndexChanged"><Columns>
+<asp:TemplateField HeaderText="id" Visible="False"><ItemTemplate>
+<asp:Label 
+                                                              ID="lblTax_Id" runat="server" 
+                        CssClass="Label" Text='<%#Eval("Tax_Id") %>' 
+                                                              Visible="false"></asp:Label>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Center" Width="90px"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Tax Type"><EditItemTemplate>
+<asp:DropDownList ID="ddl_Tax_Type" 
+                                                                          
+        Width="150px"   CssClass="GridDropDown" runat="server" ></asp:DropDownList>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:DropDownList ID="ddl_Tax_Type_Entry"  
+                                                                          
+        Width="90px"   CssClass="GridDropDown" runat="server" ></asp:DropDownList>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Type" Width="90px" 
+                                                                          
+        CssClass="Label" runat="server" Text='<%#Eval("Tax_Type") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Center" Width="90px"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Municipality" Visible="false"><EditItemTemplate>
+<asp:TextBox ID="txt_Munciplane_Name" 
+                                                                          
+        Width="50px"   CssClass="Gridtextbox" runat="server" 
+                                                                          
+        Text='<%#Eval("Munciplene_Name") %>'/>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:TextBox ID="txt_Munciplane_Name_Entry" 
+                                                                          
+        Width="50px"   CssClass="Gridtextbox" runat="server"/>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_txt_Munciplane_Name" 
+                                                                          
+        Width="70px"  CssClass="Label" runat="server" 
+                                                                          
+        Text='<%#Eval("Munciplene_Name") %>'/>
+</ItemTemplate>
+
+<HeaderStyle ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Center" Width="40px"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Tax Year"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Year" 
+                            Width="40px" runat="server"   CssClass="GridDropDown"></asp:TextBox>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:TextBox ID="txt_Tax_Year_Entry" 
+                            Width="40px"   CssClass="GridDropDown" runat="server" >
+                                                              </asp:TextBox>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Year" Width="40px" 
+                            CssClass="Label" runat="server" 
+        Text='<%#Eval("Tax_Year") %>'/>
+</ItemTemplate>
+
+<HeaderStyle ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Center" Width="70px"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Period"><EditItemTemplate>
+<asp:DropDownList ID="ddl_Tax_Period" 
+                                                                          
+        Width="90px"   CssClass="GridDropDown"   runat="server"></asp:DropDownList>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:DropDownList ID="ddl_Tax_Period_Entry" 
+                                                                          
+        Width="90px"   CssClass="GridDropDown" runat="server" ></asp:DropDownList>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Period" Width="90px" 
+                                                                          
+        CssClass="Label" runat="server" Text='<%#Eval("Tax_Period") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Base Amt"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Amount" 
+                                                                          
+        Width="50px"   CssClass="Gridtextbox" runat="server" 
+                                                                          
+        Text='<%#Eval("Tax_Base_Amount") %>'/>
+</EditItemTemplate>
+<FooterTemplate>
+                                                                      <asp:TextBox ID="txt_Tax_Amount_Amount_Entry" Width="50px"   
+                                                                          CssClass="Gridtextbox" runat="server"/>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Amount" Width="50px"  
+                                                                          
+        CssClass="Label" runat="server" Text='<%#Eval("Tax_Base_Amount") %>'/>
+</ItemTemplate>
+
+<HeaderStyle ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Due Dt"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Due_Date" 
+                                                                          
+        Width="60px"   CssClass="Gridtextbox" runat="server" 
+                                                                          
+        Text='<%#Eval("Tax_Due_Date") %>'/>
+                                                                      <ajax:CalendarExtender ID="txt_Tax_Due_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" 
+        Format="MM/dd/yyyy" TargetControlID="txt_Tax_Due_Date"></ajax:CalendarExtender>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:TextBox ID="txt_Tax_Due_Date_Entry" 
+                                                                          
+        Width="60px"   CssClass="Gridtextbox" runat="server"/>
+                                                                      <ajax:CalendarExtender ID="txt_Tax_Due_Date_Entry_CalendarExtender" runat="server" 
+                                                       Enabled="True" 
+        Format="MM/dd/yyyy" TargetControlID="txt_Tax_Due_Date_Entry"></ajax:CalendarExtender>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Due_Date" Width="60px" 
+                                                                          
+        CssClass="Label"  runat="server" Text='<%#Eval("Tax_Due_Date") %>'/>
+</ItemTemplate>
+
+<HeaderStyle ForeColor="White"></HeaderStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Disc Y/s"><EditItemTemplate>
+<asp:DropDownList ID="ddl_Discount" Width="40px" 
+                                                                   
+        CssClass="GridDropDown" AutoPostBack="true"  
+                                                                   
+        OnSelectedIndexChanged="ddl_Tax_Discount_SelectedIndexChangedE"  runat="server"></asp:DropDownList>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:DropDownList ID="ddl_Discount_Entry" 
+                                                                   AutoPostBack="true"  
+                                                                   OnSelectedIndexChanged="ddl_Tax_Status_Entry_SelectedIndexChangedF"  
+                                                                   Width="45px" 
+        CssClass="GridDropDown" runat="server"></asp:DropDownList>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Discount" Width="40px"  
+                                                                   
+        CssClass="Label"  runat="server" Text='<%#Eval("Discount") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Center"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Disc Amt"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Discount_Amount" Width="50px" 
+                                                                   
+        Enabled="false"  CssClass="Gridtextbox" runat="server" 
+                                                                   
+        Text='<%#Eval("Discount_Amount") %>'/>
+</EditItemTemplate>
+<FooterTemplate>
+                                                               <asp:TextBox ID="txt_Tax_Discount_Amount_Amount_Entry" Width="50px"  
+                                                                   Enabled="false" CssClass="Gridtextbox" runat="server"/>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Discount_Amount" 
+                                                                   Width="50px"  
+        CssClass="Label" runat="server" 
+                                                                   
+        Text='<%#Eval("Discount_Amount") %>'/>
+</ItemTemplate>
+
+<HeaderStyle ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Disc Dt"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Discount_Date" Width="60px"   
+                                                                   
+        CssClass="Gridtextbox" runat="server" Text='<%#Eval("Discount_Date") %>'/>
+                                                               <ajax:CalendarExtender ID="txt_Tax_Discount_Date_CalendarExtender" runat="server" 
+                                                       Enabled="False" 
+        Format="MM/dd/yyyy" TargetControlID="txt_Tax_Discount_Date"></ajax:CalendarExtender>
+</EditItemTemplate>
+<FooterTemplate>
+                                                               <asp:TextBox ID="txt_Tax_Entry_Discount_Date" Width="60px" Enabled="false"  
+                                                                   CssClass="Gridtextbox" runat="server"/>
+                                                               <ajax:CalendarExtender ID="txt_Tax_Entry_Discount_Date_CalendarExtender" runat="server" 
+                                                       Enabled="true" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Entry_Discount_Date"></ajax:CalendarExtender>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Discount_Date" 
+                                                                   Width="60px" 
+        CssClass="Label" runat="server" Text='<%#Eval("Discount_Date") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Status"><EditItemTemplate>
+<asp:DropDownList ID="ddl_Tax_Status"  
+                                                                          
+        AutoPostBack="true" CssClass="GridDropDown"  
+                                                                          
+        OnSelectedIndexChanged="ddl_Tax_Status_SelectedIndexChanged" Width="90px" 
+                                                                          
+        runat="server" ></asp:DropDownList>
+</EditItemTemplate>
+<FooterTemplate>
+<asp:DropDownList ID="ddl_Tax_Status_Entry" 
+                                                                          AutoPostBack="true"  
+                                                                          OnSelectedIndexChanged="ddl_Tax_Status_Entry_SelectedIndexChanged"  
+                                                                          
+        Width="90px"   CssClass="GridDropDown" runat="server" ></asp:DropDownList>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Status" Width="90px" 
+                                                                          
+        CssClass="Label" runat="server" Text='<%#Eval("Tax_Status") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Paid Amt"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Paid_Amount" Width="50px"   
+                                                                   
+        CssClass="Gridtextbox" runat="server" Text='<%#Eval("Tax_Paid_Amount") %>'/>
+</EditItemTemplate>
+<FooterTemplate>
+                                                               <asp:TextBox ID="txt_Tax_Paid_Amount_Amount_Entry" Width="50px"   
+                                                                   CssClass="Gridtextbox" runat="server"/>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Paid_Amount" 
+                                                                   Width="50px"  
+        CssClass="Label" runat="server" 
+                                                                   
+        Text='<%#Eval("Tax_Paid_Amount") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Paid Dt"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Paid_Date" 
+                                                                       
+        Width="60px"   CssClass="Gridtextbox" runat="server" 
+                                                                       
+        Text='<%#Eval("Paid_Date") %>'/>
+                                                                   <ajax:CalendarExtender ID="txt_Tax_Paid_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" 
+        Format="MM/dd/yyyy" TargetControlID="txt_Tax_Paid_Date">
+                                                       </ajax:CalendarExtender>
+</EditItemTemplate>
+<FooterTemplate>
+                                                                   <asp:TextBox ID="txt_Tax_Entry_Paid_Date" Width="60px"   CssClass="Gridtextbox" 
+                                                                       runat="server"/>
+                                                       <ajax:CalendarExtender ID="txt_Tax_Entry_Paid_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Entry_Paid_Date"></ajax:CalendarExtender>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Paid_Date" Width="60px" 
+                                                                       
+        CssClass="Label" runat="server" Text='<%#Eval("Paid_Date") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+<asp:TemplateField HeaderText="Payoff Amt1"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Payoff_Amount" 
+                        Width="50px"   CssClass="Gridtextbox" runat="server" 
+                        Text='<%#Eval("Tax_Payoff_Amount") %>'/>
+</EditItemTemplate>
+<FooterTemplate>
+                    <asp:TextBox ID="txt_Tax_Payoff_Amount_Amount_Entry" Width="50px"   
+                        CssClass="Gridtextbox" runat="server"/>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Payoff_Amount" 
+                        Width="50px"  CssClass="Label" runat="server" 
+                        Text='<%#Eval("Tax_Payoff_Amount") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+
+<asp:TemplateField HeaderText="G.T Dt1"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Good_Through_Date" Width="60px"   
+                                                                   
+        CssClass="Gridtextbox" runat="server" Text='<%#Eval("Good_Through_Date") %>'/>
+                                                               <ajax:CalendarExtender ID="txt_Tax_Good_Through_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" 
+        Format="MM/dd/yyyy" TargetControlID="txt_Tax_Good_Through_Date"></ajax:CalendarExtender>
+</EditItemTemplate>
+<FooterTemplate>
+                                                               <asp:TextBox ID="txt_Tax_Entry_Good_Through_Date"  Width="60px"   
+                                                                   CssClass="Gridtextbox" runat="server"/>
+                                                               <ajax:FilteredTextBoxExtender ID="txt_Tax_Entry_Good_Through_Date_filter_Date" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Tax_Entry_Good_Through_Date" ValidChars="_/"></ajax:FilteredTextBoxExtender>
+                                                               <ajax:CalendarExtender ID="txt_Tax_Entry_Good_Through_Date_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Entry_Good_Through_Date"></ajax:CalendarExtender>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Good_Through_Date" 
+                                                                   Width="60px" 
+        CssClass="Label" runat="server" 
+                                                                   
+        Text='<%#Eval("Good_Through_Date") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+</asp:TemplateField>
+
+
+<asp:TemplateField HeaderText="Payoff Amt2">
+<EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Payoff_Amount2" 
+                        Width="50px"   CssClass="Gridtextbox" runat="server" 
+                        Text='<%#Eval("Tax_Payoff_Amount2") %>'/>
+</EditItemTemplate>
+<FooterTemplate>
+                    <asp:TextBox ID="txt_Tax_Payoff_Amount2_Amount_Entry" Width="50px"   
+                        CssClass="Gridtextbox" runat="server"/>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Payoff_Amount2" 
+                        Width="50px"  CssClass="Label" runat="server" 
+                        Text='<%#Eval("Tax_Payoff_Amount2") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+
+<ItemStyle HorizontalAlign="Right"></ItemStyle>
+</asp:TemplateField>
+
+
+<asp:TemplateField HeaderText="G.T Dt2"><EditItemTemplate>
+<asp:TextBox ID="txt_Tax_Good_Through_Date2" Width="60px"   
+                                                                   
+        CssClass="Gridtextbox" runat="server" Text='<%#Eval("Good_Through_Date2") %>'/>
+                                                               <ajax:CalendarExtender ID="txt_Tax_Good_Through_Date2_CalendarExtender" runat="server" 
+                                                       Enabled="True" 
+        Format="MM/dd/yyyy" TargetControlID="txt_Tax_Good_Through_Date2"></ajax:CalendarExtender>
+</EditItemTemplate>
+<FooterTemplate>
+                                                               <asp:TextBox ID="txt_Tax_Entry_Good_Through_Date2"  Width="60px"   
+                                                                   CssClass="Gridtextbox" runat="server"/>
+                                                               <ajax:FilteredTextBoxExtender ID="txt_Tax_Entry_Good_Through2_Date_filter_Date" 
+                                                       runat="server" Enabled="True" FilterType="Custom, Numbers" 
+                                                       TargetControlID="txt_Tax_Entry_Good_Through_Date2" ValidChars="_/"></ajax:FilteredTextBoxExtender>
+                                                               <ajax:CalendarExtender ID="txt_Tax_Entry_Good_Through_Date2_CalendarExtender" runat="server" 
+                                                       Enabled="True" Format="MM/dd/yyyy" TargetControlID="txt_Tax_Entry_Good_Through_Date2"></ajax:CalendarExtender>
+</FooterTemplate>
+<ItemTemplate>
+<asp:Label ID="lbl_Tax_Good_Through_Date2" 
+                                                                   Width="60px" 
+        CssClass="Label" runat="server" 
+                                                                   
+        Text='<%#Eval("Good_Through_Date2") %>'/>
+</ItemTemplate>
+
+<HeaderStyle HorizontalAlign="Center" ForeColor="White"></HeaderStyle>
+</asp:TemplateField>
+<asp:TemplateField><EditItemTemplate>
+                                                           <asp:ImageButton ID="imgbtnUpdate" CommandName="Update" runat="server" 
+                                                               ImageUrl="~/images/Gridview/Save.png" ToolTip="Update" Height="20px" 
+                                                               Width="20px" />
+                                                           <asp:ImageButton ID="imgbtnCancel" 
+                                                               runat="server" CommandName="Cancel" ImageUrl="~/images/Gridview/Cancel.png" 
+                                                               ToolTip="Cancel" Height="20px" Width="20px" />
+</EditItemTemplate>
+<FooterTemplate>
+<asp:ImageButton ID="imgbtnAdd" 
+                                                                   runat="server" ImageUrl="~/images/Gridview/Add.png" 
+                                                                   OnClientClick="javascript:return confirm('Are you sure to proceed?');" 
+                                                                   
+        CommandName="AddNew" Width="20px" Height="20px" ToolTip="Add New" 
+                                                                   
+        ValidationGroup="validaiton" />
+</FooterTemplate>
+<ItemTemplate>
+<asp:ImageButton ID="imgbtnEdit" 
+                                                                   
+        CommandName="Edit" runat="server" ImageUrl="~/images/Gridview/edit.png"  
+                                                                   ToolTip="Edit" 
+        Height="20px" Width="20px" />
+                                                               <asp:ImageButton ID="imgbtnDelete" CommandName="Delete" Text="Edit" 
+                                                                   runat="server" ImageUrl="~/images/Gridview/Remove-icon.png"  
+                                                                   OnClientClick="javascript:return confirm('Are you sure to proceed?');" 
+                                                                   
+        ToolTip="Delete" Height="20px" Width="20px" />
+</ItemTemplate>
+</asp:TemplateField>
+</Columns>
+
+<FooterStyle BackColor="#FFFFCC" ForeColor="#330099"></FooterStyle>
+
+<HeaderStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="#FFFFCC"></HeaderStyle>
+
+<SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="#663399"></SelectedRowStyle>
+
+<SortedAscendingCellStyle BackColor="#FEFCEB"></SortedAscendingCellStyle>
+
+<SortedAscendingHeaderStyle BackColor="#AF0101"></SortedAscendingHeaderStyle>
+
+<SortedDescendingCellStyle BackColor="#F6F0C0"></SortedDescendingCellStyle>
+
+<SortedDescendingHeaderStyle BackColor="#7E0000"></SortedDescendingHeaderStyle>
+</asp:GridView>
+
+
+    </div>
+    <div>
+   
+        <asp:GridView runat="server" AllowSorting="True" AutoGenerateColumns="False" 
+            CellPadding="4" DataKeyNames="Order_Kb_Id" GridLines="None" 
+            ShowHeaderWhenEmpty="True" CssClass="name" Font-Size="Medium" 
+            ForeColor="#333333" Width="60%" ID="grd_order_kb" 
+            OnRowDataBound="grd_order_kb_RowDataBound" 
+            OnRowDeleting="grd_order_kb_RowDeleting" 
+            OnSelectedIndexChanged="grd_order_kb_SelectedIndexChanged">
+            <AlternatingRowStyle BackColor="White"></AlternatingRowStyle>
+            <Columns>
+                <asp:TemplateField HeaderText="SI NO" SortExpression="Order_Number">
+                    <ItemTemplate>
+                        <asp:Label 
+                                                                    ID="lblsi" runat="server" 
+                            Text="<%# Container.DataItemIndex + 1 %>"> </asp:Label>
+                    </ItemTemplate>
+                    <HeaderStyle HorizontalAlign="Center"></HeaderStyle>
+                    <ItemStyle HorizontalAlign="Center" CssClass="Label" Width="30px"></ItemStyle>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Tax Type" SortExpression="Tax_Type">
+                    <ItemTemplate>
+                        <asp:Label 
+                                                                    ID="lblTax_Type" 
+                            runat="server" CssClass="Label" 
+                                                                    Text='<%#Eval("Tax_Type") %>'></asp:Label>
+                    </ItemTemplate>
+                    <HeaderStyle HorizontalAlign="Center"></HeaderStyle>
+                    <ItemStyle HorizontalAlign="Center" Width="100px"></ItemStyle>
+                </asp:TemplateField>
+             
+                <asp:TemplateField HeaderText="Tax Period" SortExpression="Tax_Period">
+                    <ItemTemplate>
+                        <asp:Label 
+                                                                    ID="lblTax_Period" runat="server" 
+                            CssClass="Label" Text='<%#Eval("Tax_Period") %>'></asp:Label>
+                    </ItemTemplate>
+                    <HeaderStyle HorizontalAlign="Center"></HeaderStyle>
+                    <ItemStyle HorizontalAlign="Center" Width="100px"></ItemStyle>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Paid Amount" SortExpression="Loan_Number">
+                    <ItemTemplate>
+                        <asp:Label 
+                                                                    ID="lblTax_Paid_Amount" runat="server" CssClass="Label" 
+                                                                    Text='<%#Eval("Tax_Paid_Amount") %>'></asp:Label>
+                    </ItemTemplate>
+                    <HeaderStyle HorizontalAlign="Center"></HeaderStyle>
+                    <ItemStyle HorizontalAlign="Center" Width="100px"></ItemStyle>
+                </asp:TemplateField>
+            </Columns>
+            <EditRowStyle BackColor="#CCDDDD"></EditRowStyle>
+            <EmptyDataRowStyle Font-Names="Verdana" ForeColor="#FF5050"></EmptyDataRowStyle>
+            <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White">
+            </FooterStyle>
+            <HeaderStyle BackColor="#1C5E55" Font-Size="Large" Font-Bold="True" 
+                ForeColor="White"></HeaderStyle>
+            <PagerStyle HorizontalAlign="Center" BackColor="#666666" ForeColor="White">
+            </PagerStyle>
+            <RowStyle BackColor="#E3EAEB"></RowStyle>
+            <SelectedRowStyle BackColor="#C5D8D8" Font-Bold="True" ForeColor="#333333">
+            </SelectedRowStyle>
+            <SortedAscendingCellStyle BackColor="#F8FAFA">
+            </SortedAscendingCellStyle>
+            <SortedAscendingHeaderStyle BackColor="#246B61">
+            </SortedAscendingHeaderStyle>
+            <SortedDescendingCellStyle BackColor="#D4DFE1">
+            </SortedDescendingCellStyle>
+            <SortedDescendingHeaderStyle BackColor="#15524A">
+            </SortedDescendingHeaderStyle>
+        </asp:GridView>
+   
+    </div>
+
+    </form>
+</body>
+</html>

@@ -1,0 +1,87 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Collections;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+
+using System.Web.UI.WebControls.WebParts;
+using System.IO;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+
+public partial class Admin_Document_View : System.Web.UI.Page
+{
+    string Doctype, DOcment_Path;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        Doctype = Session["Doc_Type"].ToString();
+        DOcment_Path = Session["Doc_Path"].ToString();
+        if (!IsPostBack)
+        {
+            Genrate_File();
+
+        }
+    }
+    protected void Genrate_File()
+    {
+
+
+        if (Doctype == ".doc" || Doctype == ".docx")
+        {
+
+           // FileInfo file = new FileInfo("DOcment_Path");
+            FileStream fs = new FileStream(Server.MapPath(DOcment_Path), FileMode.Open);
+            Response.ClearContent();
+            Response.AddHeader("Content-Disposition", "inline;filename=" + fs.Name);
+            Response.AddHeader("Content-Length", fs.Length.ToString());
+            Response.ContentType = "application/msword";
+         //   Response.TransmitFile(fs.FullName);
+            Response.End();
+        }
+        else if (Doctype == ".xls" || Doctype == ".xlsx")
+        { 
+        
+
+        }
+        else if (Doctype == ".pdf")
+        {
+            List<PdfReader> readerList = new List<PdfReader>();
+           
+                string path = DOcment_Path.ToString();
+                FileStream fs = new FileStream(Server.MapPath(path), FileMode.Open);
+                PdfReader pf = new PdfReader(fs);
+                readerList.Add(pf);
+
+            
+            //Define a new output document and its size, type
+            Document document = new Document(PageSize.A4, 0, 0, 0, 0);
+            //Get instance response output stream to write output file.
+            PdfWriter writer = PdfWriter.GetInstance(document, Response.OutputStream);
+            document.Open();
+
+            foreach (PdfReader reader in readerList)
+            {
+                for (int i = 1; i <= reader.NumberOfPages; i++)
+                {
+                    PdfImportedPage page = writer.GetImportedPage(reader, i);
+                    document.Add(iTextSharp.text.Image.GetInstance(page));
+                }
+            }
+            document.Close();
+
+            Response.AppendHeader("content-disposition", "inline; filename=DRN.pdf");
+            Response.ContentType = "application/pdf";
+
+        
+
+        }
+
+    }
+}

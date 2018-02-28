@@ -1,0 +1,1776 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Collections;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+using iTextSharp.text.pdf;
+using RadPdf.Data.Document;
+using RadPdf.Data.Document.Common;
+using RadPdf.Data.Document.Objects;
+using RadPdf.Data.Document.Objects.FormFields;
+using RadPdf.Data.Document.Objects.Shapes;
+using System.Web.UI.WebControls.WebParts;
+using System.IO;
+using System.Web.UI.HtmlControls;
+
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.ReportSource;
+using CrystalDecisions.Shared;
+using CrystalDecisions.Web;
+
+
+public partial class Admin_Web_Order_Tax_Create : System.Web.UI.Page
+{
+    Commonclass commnclass = new Commonclass();
+    CustomerBowser browser = new CustomerBowser();
+    DataAccess dataaccess = new DataAccess();
+    DropDownistBindClass dbc = new DropDownistBindClass();
+    int userid;
+    string Empname;
+    int Count;
+    Hashtable htselect = new Hashtable();
+    DataTable dtselect = new DataTable();
+    Genral gen = new Genral();
+    int BRANCH_ID;
+    int Order_Id;
+    string Operation;
+    decimal Land, Building, Total;
+    string path;
+    string extension;
+    string Order_Kbpath;
+    string Doctype;
+    string docpath;
+    int Maximum;
+    int Order_Type = 0;
+    decimal Tax_Amount;
+    int Orderpath_Count;
+    ReportDocument rptDoc = new ReportDocument();
+    ReportDocument subRepDoc = new ReportDocument();
+    public string Connection = ConfigurationManager.ConnectionStrings["TaxManagementConnectionString"].ConnectionString.ToString();
+    int client_Id, Subprocess_id;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Session["client_Id"] != "" && Session["subProcess_id"] != "")
+        {
+
+            client_Id = int.Parse(Session["client_Id"].ToString());
+            Subprocess_id = int.Parse(Session["subProcess_id"].ToString());
+
+
+        }
+        
+        if (Session["userid"] == null)
+        {
+
+            Response.Redirect("~/Login.aspx");
+            
+        }
+        else
+        {
+
+            userid = int.Parse(Session["userid"].ToString());
+            Empname = Session["Empname"].ToString();
+            BRANCH_ID = int.Parse(Session["Branch_id"].ToString());
+        }
+        Order_Id = int.Parse(Session["order_id"].ToString());
+        Order_Type = int.Parse(Session["Order_Type"].ToString()); 
+        if (!IsPostBack)
+        {
+
+            //TabContainer1.ActiveTabIndex = 0;
+            //string s = browser.GetWebpage("http://www.netronline.com");
+            //LiteralControl lc = new LiteralControl(s);
+            //this.PlaceHolder1.Controls.Add(lc);
+            dbc.BindState(ddl_Client_State);
+            dbc.BindState(ddl_Barrower_State);
+            dbc.BindTax_Year(ddl_Assesed_Tax_Year);
+
+
+            if (ddl_Barrower_County.SelectedValue != "")
+            {
+
+                dbc.BindCounty(ddl_Client_County, int.Parse(ddl_Client_State.SelectedValue));
+            }
+
+            if (ddl_Barrower_County.SelectedValue != "")
+            {
+
+                dbc.BindCounty(ddl_Barrower_County, int.Parse(ddl_Barrower_State.SelectedValue));
+
+            }
+            Get_Order_Details();
+            Page.MaintainScrollPositionOnPostBack = true;
+            Gridview_Bind_Order_Kb_Data();
+            Gridview_Bind_Order_Agency_Kb_Data();
+          
+            Gridview_Bind_Tax_Details();
+            Gridview_Bind_TaxAcseesd_Data();
+            Gridview_Bind_CountyDatabaseInformation();
+            Geydview_Bind_Comments();
+            Geydview_Bind_Notes();
+        }
+
+    }
+
+
+    //-------------------------------Order Knowledge Base--------------------------------
+
+
+    protected void Get_Order_Details()
+    {
+
+        Hashtable htorder = new Hashtable();
+        DataTable dtorder = new System.Data.DataTable();
+
+        htorder.Add("@Trans", "SELECT_ORDER_WISE");
+        htorder.Add("@Order_Id", Order_Id);
+        dtorder = dataaccess.ExecuteSP("Sp_Order", htorder);
+        if (dtorder.Rows.Count > 0)
+         {
+
+             txt_Order_Number.Text = dtorder.Rows[0]["Client_Order_Number"].ToString();
+
+             txt_Loan_Number.Text = dtorder.Rows[0]["Loan_Number"].ToString();
+             txt_Client_Name.Text = dtorder.Rows[0]["Sub_ProcessName"].ToString();
+             Session["Sub_processID"] = dtorder.Rows[0]["Sub_ProcessId"].ToString();
+             txt_Client_Address.Text = dtorder.Rows[0]["Address"].ToString();
+             txt_Client_City.Text = dtorder.Rows[0]["City"].ToString();
+             txt_Client_Zip.Text = dtorder.Rows[0]["Zip"].ToString();
+             if (dtorder.Rows[0]["State"] != "" && ddl_Client_State.SelectedValue != null && dtorder.Rows[0]["State"] != "SELECT")
+             {
+                 int id = int.Parse(dtorder.Rows[0]["State"].ToString());
+                 if (id== 0)
+                 {
+
+                 }
+                 else
+                 {
+                     ddl_Client_State.SelectedValue = dtorder.Rows[0]["State"].ToString();
+                 }
+             }
+             else
+             {
+
+                 ddl_Client_State.SelectedValue = "0";
+             }
+             if (dtorder.Rows[0]["County"] != "" && dtorder.Rows[0]["County"] != null && dtorder.Rows[0]["County"] != "SELECT" && dtorder.Rows[0]["County"]!="0")
+             {
+                 int ii = int.Parse(dtorder.Rows[0]["County"].ToString());
+                 ddl_Client_County.SelectedValue = dtorder.Rows[0]["County"].ToString();
+             }
+             else
+             {
+                 ddl_Client_County.SelectedValue = "0";
+
+             }
+             txt_Barrower_Name.Text = dtorder.Rows[0]["Borrower_Name"].ToString();
+             txt_Barrower_Address.Text = dtorder.Rows[0]["Barrower_Address"].ToString();
+             txt_Barrower_City.Text = dtorder.Rows[0]["Barrower_City"].ToString();
+             txt_Barrower_Zip.Text = dtorder.Rows[0]["Barrower_Zip"].ToString();
+
+             ddl_Barrower_State.SelectedValue = dtorder.Rows[0]["Barrower_State"].ToString();
+
+             dbc.BindCounty(ddl_Barrower_County,int.Parse(ddl_Barrower_State.SelectedValue));
+             ddl_Barrower_County.SelectedValue = dtorder.Rows[0]["Barrower_County"].ToString();
+
+             txt_Date.Text = dtorder.Rows[0]["date"].ToString();
+          
+             txt_Tax_Comments.Text = dtorder.Rows[0]["Comments"].ToString();
+             txt_Order_Notes.Text = dtorder.Rows[0]["Notes"].ToString();
+             ViewState["County_Id"] = dtorder.Rows[0]["Barrower_County"].ToString();
+             ViewState["State_Id"] = dtorder.Rows[0]["Barrower_State"].ToString();
+             if (txt_Barrower_City.Text != "")
+             {
+                 ViewState["City"] = txt_Barrower_City.Text;
+             }
+             else
+             {
+                 ViewState["City"] = "";
+             
+
+             }
+             ViewState["Order_Number"] = dtorder.Rows[0]["Order_Number"].ToString();
+
+         }
+
+
+    }
+
+    private bool Validate_Order_Kb()
+    {
+
+        
+        if (txt_order_Kb_Comment.Text == "")
+        {
+            txt_order_Kb_Comment.Focus();
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Enter Comment')</script>", false);
+            return false;
+        
+
+        }
+        return true;
+    }
+
+    protected void img_btn_order_kb_add_Click(object sender, ImageClickEventArgs e)
+    {
+       
+        if (Validate_Order_Kb() != false && img_btn_order_kb_add.AlternateText=="Add")
+        {
+            model1.Show();
+            Hashtable htorderkb = new Hashtable();
+            DataTable dtorderkb = new System.Data.DataTable();
+
+            DateTime date = new DateTime();
+            date = DateTime.Now;
+            string dateeval = date.ToString("dd/MM/yyyy");
+            string time = date.ToString("hh:mm tt");
+            string Uploadpath = "~/OrdersFile/OrderKB/" + Order_Id + "/";
+            DirectoryInfo di = new DirectoryInfo(Uploadpath);
+            
+            if (di.Exists)
+            {
+                di.Delete(true);
+
+                Directory.CreateDirectory(Server.MapPath(Uploadpath));
+            }
+            else if (!di.Exists)
+            {
+                Directory.CreateDirectory(Server.MapPath(Uploadpath));
+            }
+            HttpFileCollection uploads = HttpContext.Current.Request.Files;
+            if (uploads != null)
+            {
+                string c = Path.GetFileName(fileupload1.PostedFile.FileName);
+                string fileName = c;
+                 extension = Path.GetExtension(fileupload1.FileName);
+                if (fileName != "")
+                {
+
+                    fileuploadError.PostedFile.SaveAs(Server.MapPath(Uploadpath) + fileName);
+                    ViewState["FPath"] = Uploadpath.ToString() + fileName;
+
+                    Order_Kbpath = ViewState["FPath"].ToString();
+                }
+            }
+            else
+            {
+
+                Order_Kbpath = null;
+            }
+            htorderkb.Add("@Trans", "INSERT");
+            htorderkb.Add("@Subprocess_Id", int.Parse(Session["Sub_processID"].ToString()));
+            htorderkb.Add("@Order_Id", Order_Id);
+            htorderkb.Add("@Document_Name", txt_order_Kb_Document.Text);
+            htorderkb.Add("@Comments", txt_order_Kb_Comment.Text);
+            htorderkb.Add("@Order_kb_File_Type", extension);
+            htorderkb.Add("@Order_Kb_Path", Order_Kbpath);
+            htorderkb.Add("@Inserted_By", userid);
+            htorderkb.Add("@Inserted_date", date);
+            htorderkb.Add("@Modified_By", userid);
+            htorderkb.Add("@Modified_Date", date);
+            htorderkb.Add("@status","True");
+            dtorderkb = dataaccess.ExecuteSP("Sp_Order_Knowledge_Base", htorderkb);
+            Gridview_Bind_Order_Kb_Data();
+
+            ClearOrderandAgency();
+        
+        }
+        else if (img_btn_order_kb_add.AlternateText == "UPDATE" && Validate_Order_Kb()!=false)
+        {
+            model1.Show();
+           
+            Hashtable htorderkb = new Hashtable();
+            DataTable dtorderkb = new System.Data.DataTable();
+
+            DateTime date = new DateTime();
+            date = DateTime.Now;
+            string dateeval = date.ToString("dd/MM/yyyy");
+            string time = date.ToString("hh:mm tt");
+            string Uploadpath = "~/OrdersFile/OrderKB/" + Order_Id + "/";
+            DirectoryInfo di = new DirectoryInfo(Uploadpath);
+
+            if (di.Exists)
+            {
+                di.Delete(true);
+
+                Directory.CreateDirectory(Server.MapPath(Uploadpath));
+            }
+            else if (!di.Exists)
+            {
+                Directory.CreateDirectory(Server.MapPath(Uploadpath));
+            }
+            HttpFileCollection uploads = HttpContext.Current.Request.Files;
+            if (uploads != null)
+            {
+                string c = Path.GetFileName(fileupload1.PostedFile.FileName);
+                string fileName = c;
+                extension = Path.GetExtension(fileupload1.FileName);
+                if (fileName != "")
+                {
+
+                    fileuploadError.PostedFile.SaveAs(Server.MapPath(Uploadpath) + fileName);
+                    ViewState["FPath"] = Uploadpath.ToString() + fileName;
+
+                    Order_Kbpath = ViewState["FPath"].ToString();
+                }
+            }
+            else
+            {
+
+                Order_Kbpath = null;
+            }
+           
+            htorderkb.Add("@Trans", "UPDATE");
+            htorderkb.Add("@Order_Kb_Id", ViewState["Order_Kb_Id"]);
+            htorderkb.Add("@Subprocess_Id", userid);
+            htorderkb.Add("@Order_Id", Order_Id);
+            htorderkb.Add("@Document_Name", txt_order_Kb_Document.Text);
+            htorderkb.Add("@Comments", txt_order_Kb_Comment.Text);
+            htorderkb.Add("@Order_kb_File_Type",extension);
+            htorderkb.Add("@Order_Kb_Path",Order_Kbpath);
+            htorderkb.Add("@Modified_By", userid);
+            htorderkb.Add("@Modified_Date", date);
+            htorderkb.Add("@status", "True");
+            dtorderkb = dataaccess.ExecuteSP("Sp_Order_Knowledge_Base", htorderkb);
+            img_btn_order_kb_add.ImageUrl = "~/images/Gridview/Add.png";
+            img_btn_order_kb_add.AlternateText = "Add";
+            ClearOrderandAgency();
+            Gridview_Bind_Order_Kb_Data();
+           
+        }
+
+        model1.Hide();
+    }
+    protected void ClearOrderandAgency()
+    {
+
+        txt_order_Kb_Comment.Text = "";
+        txt_order_Kb_Document.Text = "";
+        txt_Agency_Comment.Text = "";
+       
+
+    }
+    protected void Gridview_Bind_Order_Kb_Data()
+    {
+        Hashtable htselorderkb = new Hashtable();
+        DataTable dtuser = new System.Data.DataTable();
+
+        htselorderkb.Add("@Trans", "SELECT");
+        htselorderkb.Add("@Order_Id",Order_Id);
+        dtuser = dataaccess.ExecuteSP("Sp_Order_Knowledge_Base", htselorderkb);
+        if (dtuser.Rows.Count > 0)
+        {
+            //ex2.Visible = true;
+            grd_order_kb.Visible = true;
+            grd_order_kb.DataSource = dtuser;
+            grd_order_kb.DataBind();
+
+        }
+        else
+        {
+
+            grd_order_kb.DataSource = null;
+            grd_order_kb.EmptyDataText = "No Records Are Avilable";
+            grd_order_kb.DataBind();
+
+        }
+    }
+    protected void grd_order_kb_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        
+        //GridViewRow row = grd_order_kb.SelectedRow;
+        //Label lblOrder_Kb_Id = (Label)row.FindControl("lblOrder_Kb_Id");
+        //Label lbl_Document = (Label)row.FindControl("lblDocuments");
+        //Label lbl_Comments = (Label)row.FindControl("lblComments");
+
+        //ViewState["Order_Kb_Id"] = lblOrder_Kb_Id.Text;
+        //txt_order_Kb_Document.Text = lbl_Document.Text;
+        //txt_order_Kb_Comment.Text = lbl_Comments.Text;
+        //img_btn_order_kb_add.ImageUrl = "~/images/Gridview/Save.png";
+        //img_btn_order_kb_add.AlternateText = "UPDATE";
+        //Operation = "UPDATE";
+        //ViewState["Update"] = "UPDATE";
+       
+    }
+
+    //-----------------------------order Agency Details------------------------------------------
+    private bool Validate_Order_Agency_Kb()
+    {
+
+        if (txt_Agency_Comment.Text == "")
+        {
+            txt_Agency_Comment.Focus();
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Enter Comment')</script>", false);
+            return false;
+
+
+        }
+        return true;
+    }
+    
+    protected void imgbtn_agency_Add_Click(object sender, ImageClickEventArgs e)
+    {
+        if (Validate_Order_Agency_Kb() != false &&   imgbtn_agency_Add.AlternateText != "UPDATE")
+        {
+            model1.Show();
+            Hashtable htagencykb = new Hashtable();
+            DataTable agencykb = new System.Data.DataTable();
+
+            DateTime date = new DateTime();
+            date = DateTime.Now;
+            string dateeval = date.ToString("dd/MM/yyyy");
+            string time = date.ToString("hh:mm tt");
+
+            htagencykb.Add("@Trans", "INSERT");
+            htagencykb.Add("@County_Id",ViewState["County_Id"]);
+            htagencykb.Add("@Comments", txt_Agency_Comment.Text);
+            htagencykb.Add("@Inserted_By", userid);
+            htagencykb.Add("@Inserted_date", date);
+            htagencykb.Add("@Modified_By", userid);
+            htagencykb.Add("@Modified_Date", date);
+            htagencykb.Add("@status", "True");
+            agencykb = dataaccess.ExecuteSP("Sp_Orders_Agency_Knowledge_Base", htagencykb);
+
+            Gridview_Bind_Order_Agency_Kb_Data();
+            ClearOrderandAgency();
+        }
+        else if (imgbtn_agency_Add.AlternateText == "UPDATE")
+        {
+
+            Hashtable htagencykb = new Hashtable();
+            DataTable agencykb = new System.Data.DataTable();
+
+            DateTime date = new DateTime();
+            date = DateTime.Now;
+            string dateeval = date.ToString("dd/MM/yyyy");
+            string time = date.ToString("hh:mm tt");
+
+            htagencykb.Add("@Trans", "UPDATE");
+            htagencykb.Add("@Order_Agency_Kb_Id", ViewState["Agency_Order_Kb_Id"]);
+            htagencykb.Add("@County_Id", ViewState["County_Id"]);
+            htagencykb.Add("@Comments", txt_Agency_Comment.Text);
+            htagencykb.Add("@Modified_By", userid);
+            htagencykb.Add("@Modified_Date", date);
+            htagencykb.Add("@status", "True");
+            agencykb = dataaccess.ExecuteSP("Sp_Orders_Agency_Knowledge_Base", htagencykb);
+            imgbtn_agency_Add.ImageUrl = "~/images/Gridview/Add.png";
+            ClearOrderandAgency();
+            imgbtn_agency_Add.AlternateText = "Add";
+            Gridview_Bind_Order_Agency_Kb_Data();
+
+        }
+        model1.Hide();
+
+    }
+    protected void Gridview_Bind_Order_Agency_Kb_Data()
+    {
+        Hashtable htselorderkb = new Hashtable();
+        DataTable dtuser = new System.Data.DataTable();
+
+        htselorderkb.Add("@Trans", "SELECT");
+        htselorderkb.Add("@County_Id", ViewState["County_Id"]);
+        dtuser = dataaccess.ExecuteSP("Sp_Orders_Agency_Knowledge_Base", htselorderkb);
+        if (dtuser.Rows.Count > 0)
+        {
+            //ex2.Visible = true;
+            grd_Agency.Visible = true;
+            grd_Agency.DataSource = dtuser;
+            grd_Agency.DataBind();
+
+        }
+        else
+        {
+
+            grd_Agency.DataSource = null;
+            grd_Agency.EmptyDataText = "No Records Are Avilable";
+            grd_Agency.DataBind();
+
+        }
+    }
+    protected void grd_Agency_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        GridViewRow row = grd_Agency.SelectedRow;
+        Label lbl_AgencyOrder_Kb_Id = (Label)row.FindControl("lbl_Agency_Order_Kb_Id");
+        Label lbl_Agency_Document = (Label)row.FindControl("lbl_Agency_Documents");
+        Label lbl_agency_Comments = (Label)row.FindControl("lbl_Agency_Comments");
+
+        ViewState["Agency_Order_Kb_Id"] = lbl_AgencyOrder_Kb_Id.Text;
+        txt_Agency_Comment.Text = lbl_agency_Comments.Text;
+        imgbtn_agency_Add.ImageUrl = "~/images/Gridview/Save.png";
+     
+        imgbtn_agency_Add.AlternateText = "UPDATE";
+    }
+    protected void grd_order_kb_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        int orderkbid = int.Parse(grd_order_kb.DataKeys[e.RowIndex].Values["Order_Kb_Id"].ToString());
+        Hashtable htdelete = new Hashtable();
+        DataTable dtdelete = new DataTable();
+        htdelete.Add("@Trans", "DELETE");
+        htdelete.Add("@Order_Kb_Id", orderkbid);
+        dtdelete = dataaccess.ExecuteSP("Sp_Order_Knowledge_Base", htdelete);
+        Gridview_Bind_Order_Kb_Data();
+    }
+    protected void grd_Agency_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        int Agencyid = int.Parse(grd_Agency.DataKeys[e.RowIndex].Values["Order_Agency_Kb_Id"].ToString());
+        Hashtable htdelete = new Hashtable();
+        DataTable dtdelete = new DataTable();
+        htdelete.Add("@Trans", "DELETE");
+        htdelete.Add("@Order_Agency_Kb_Id", Agencyid);
+        dtdelete = dataaccess.ExecuteSP("Sp_Orders_Agency_Knowledge_Base", htdelete);
+        Gridview_Bind_Order_Agency_Kb_Data();
+    }
+   
+    protected void ddl_Client_State_SelectedIndexChanged(object sender, System.EventArgs e)
+    {
+        if (ddl_Client_State.SelectedValue != "")
+        {
+
+            dbc.BindCounty(ddl_Client_County, int.Parse(ddl_Client_State.SelectedValue));
+            ddl_Client_County.Focus();
+        }
+
+    }
+    protected void ddl_Barrower_State_SelectedIndexChanged(object sender, System.EventArgs e)
+    {
+        if (ddl_Barrower_State.SelectedValue != "")
+        {
+
+            dbc.BindCounty(ddl_Barrower_County, int.Parse(ddl_Barrower_State.SelectedValue));
+            ddl_Barrower_County.Focus();
+        }
+    }
+
+
+    //---------------------------------Tax Entry And Output Details------------------------------------
+    protected void Gridview_Bind_Tax_Details()
+    {
+        Hashtable htTax = new Hashtable();
+        DataTable dtTax = new System.Data.DataTable();
+
+        htTax.Add("@Trans", "SELECT");
+        htTax.Add("@Order_Id", Order_Id);
+        dtTax = dataaccess.ExecuteSP("Sp_Orders_Tax_Entry", htTax);
+        if (dtTax.Rows.Count > 0)
+        {
+            //ex2.Visible = true;
+            gvTaxDetails.Visible = true;
+            gvTaxDetails.DataSource = dtTax;
+            gvTaxDetails.DataBind();
+
+        }
+        else
+        {
+            dtTax.Rows.Add(dtTax.NewRow());
+            gvTaxDetails.DataSource = dtTax;
+            gvTaxDetails.DataBind();
+            int columncount = gvTaxDetails.Rows[0].Cells.Count;
+            gvTaxDetails.Rows[0].Cells.Clear();
+            gvTaxDetails.Rows[0].Cells.Add(new TableCell());
+            gvTaxDetails.Rows[0].Cells[0].ColumnSpan = columncount;
+            gvTaxDetails.Rows[0].Cells[0].Text = "No Records Found";
+          
+
+        }
+    }
+    protected void gvTaxDetails_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        gvTaxDetails.EditIndex = -1;
+        Gridview_Bind_Tax_Details();
+    }
+    protected void gvTaxDetails_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName.Equals("AddNew"))
+        {
+           // model1.Show();
+
+            TextBox txt_Tax_No_Entry = (TextBox)gvTaxDetails.FooterRow.FindControl("txt_Tax_No_Entry");
+            DropDownList ddl_Tax_Type_Entry = (DropDownList)gvTaxDetails.FooterRow.FindControl("ddl_Tax_Type_Entry");
+            DropDownList ddl_Tax_Year_Entry = (DropDownList)gvTaxDetails.FooterRow.FindControl("ddl_Tax_Year_Entry");
+            DropDownList ddl_Tax_Status_Entry = (DropDownList)gvTaxDetails.FooterRow.FindControl("ddl_Tax_Status_Entry");
+            TextBox txt_Tax_Amount_Entry = (TextBox)gvTaxDetails.FooterRow.FindControl("txt_Tax_Amount_Entry");
+            TextBox txt_Tax_Due_Date_Entry = (TextBox)gvTaxDetails.FooterRow.FindControl("txt_Tax_Due_Date_Entry");
+            DropDownList ddl_Tax_Period_Entry = (DropDownList)gvTaxDetails.FooterRow.FindControl("ddl_Tax_Period_Entry");
+            TextBox txt_Tax_Entry_Good_Through_Date = (TextBox)gvTaxDetails.FooterRow.FindControl("txt_Tax_Entry_Good_Through_Date");
+            TextBox txt_Tax_Entry_Paid_Date = (TextBox)gvTaxDetails.FooterRow.FindControl("txt_Tax_Due_Date_Entry");
+            if (ddl_Tax_Status_Entry.SelectedValue == "2")
+            {
+
+                if (txt_Tax_Entry_Good_Through_Date.Text == "")
+                {
+
+
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Please Enter Good Throgh Date')</script>", false);
+                  //  model1.Hide();
+                    return;
+                }
+
+
+            }
+
+            if (txt_Tax_No_Entry.Text != "")
+            {
+                Hashtable htinsertrec = new Hashtable();
+                DataTable dtinsertrec = new System.Data.DataTable();
+                DateTime date = new DateTime();
+                date = DateTime.Now;
+                string dateeval = date.ToString("dd/MM/yyyy");
+                string time = date.ToString("hh:mm tt");
+                string Amount = String.Format("{0:.##}", txt_Tax_Amount_Entry.Text);
+                Tax_Amount = Convert.ToDecimal(Amount.ToString());
+                htinsertrec.Add("@Trans", "INSERT");
+                htinsertrec.Add("@Tax_No", txt_Tax_No_Entry.Text);
+                htinsertrec.Add("@Order_Id", Order_Id);
+                htinsertrec.Add("@Tax_Type_Id", ddl_Tax_Type_Entry.SelectedValue);
+                htinsertrec.Add("@Tax_Year", ddl_Tax_Year_Entry.SelectedValue);
+                htinsertrec.Add("@Tax_Status_Id", ddl_Tax_Status_Entry.SelectedValue);
+                htinsertrec.Add("@Tax_Amount", Tax_Amount);
+                htinsertrec.Add("@Tax_Due_Date", txt_Tax_Due_Date_Entry.Text);
+                htinsertrec.Add("@Tax_Period_Id", ddl_Tax_Period_Entry.SelectedValue);
+                htinsertrec.Add("@Good_Through_Date", txt_Tax_Entry_Good_Through_Date.Text);
+                htinsertrec.Add("@Paid_Date", txt_Tax_Entry_Paid_Date.Text);
+                htinsertrec.Add("@Inserted_By", userid);
+                htinsertrec.Add("@Inserted_date", date);
+                htinsertrec.Add("@Status", "True");
+                dtinsertrec = dataaccess.ExecuteSP("Sp_Orders_Tax_Entry", htinsertrec);
+                ViewState["Tax_Type"] = ddl_Tax_Type_Entry.SelectedItem.ToString();
+                ViewState["Tax_Type_Id"] = ddl_Tax_Type_Entry.SelectedValue.ToString();
+
+
+                if (Session["Order_Type"] == "1")
+                {
+
+                    Order_Type = 1;
+                }
+                else if (Session["Order_Type"] == "3")
+                {
+
+                    Order_Type = 3;
+                }
+                Hashtable htupdate = new Hashtable();
+                DataTable dtupdate = new System.Data.DataTable();
+                htupdate.Add("@Trans", "UPDATE_STATUS");
+                htupdate.Add("@Order_ID", Order_Id);
+                htupdate.Add("@Order_Status", 3);
+                htupdate.Add("@Order_Type", Order_Type);
+                htupdate.Add("@Modified_By", userid);
+                htupdate.Add("@Modified_Date", dateeval);
+
+                dtupdate = dataaccess.ExecuteSP("Sp_Order", htupdate);
+
+                //Insert Tax Dat into Tax County Wise Information
+
+
+                //get The CountyDatabase Information
+                string CITY = ViewState["Tax_Type"].ToString();
+                //city Wise
+                if (CITY == "City" && txt_Barrower_City.Text != "")
+                {
+
+                    Hashtable htTax = new Hashtable();
+                    DataTable dtTax = new System.Data.DataTable();
+
+                    htTax.Add("@Trans", "SEL_TAX_TYPE_CITY_WISE");
+                    htTax.Add("@State_Id", ViewState["State_Id"]);
+                    htTax.Add("@County_Id", ViewState["County_Id"]);
+                    htTax.Add("@City", ViewState["City"]);
+                    dtTax = dataaccess.ExecuteSP("Sp_County_Tax_Data_Order_Wise", htTax);
+                    if (dtTax.Rows.Count > 0)
+                    {
+
+                        ViewState["Tax_Office_Phone_No"] = dtTax.Rows[0]["Tax_Office_Phone_No"].ToString();
+                        ViewState["Make_Changes_Payable_to"] = dtTax.Rows[0]["Make_Changes_Payable_to"].ToString();
+                        ViewState["Payee_Address"] = dtTax.Rows[0]["Payee_Address"].ToString();
+
+
+
+                    }
+                    else
+                    {
+
+
+                        ViewState["Tax_Office_Phone_No"] = "";
+                        ViewState["Make_Changes_Payable_to"] = "";
+                        ViewState["Payee_Address"] = "";
+
+                    }
+
+
+
+                }
+                //county With Same Name of City
+                else if (CITY == "County" && txt_Barrower_City.Text != "")
+                {
+                    Hashtable htTax = new Hashtable();
+                    DataTable dtTax = new System.Data.DataTable();
+
+                    htTax.Add("@Trans", "SEL_TAX_TYPE_CITY_WISE");
+                    htTax.Add("@State_Id", ViewState["State_Id"]);
+                    htTax.Add("@County_Id", ViewState["County_Id"]);
+                    htTax.Add("@City", ViewState["City"]);
+                    dtTax = dataaccess.ExecuteSP("Sp_County_Tax_Data_Order_Wise", htTax);
+                    if (dtTax.Rows.Count > 0)
+                    {
+
+                        ViewState["Tax_Office_Phone_No"] = dtTax.Rows[0]["Tax_Office_Phone_No"].ToString();
+                        ViewState["Make_Changes_Payable_to"] = dtTax.Rows[0]["Make_Changes_Payable_to"].ToString();
+                        ViewState["Payee_Address"] = dtTax.Rows[0]["Payee_Address"].ToString();
+
+
+
+                    }
+                    else
+                    {
+
+
+                        ViewState["Tax_Office_Phone_No"] = "";
+                        ViewState["Make_Changes_Payable_to"] = "";
+                        ViewState["Payee_Address"] = "";
+
+                    }
+
+
+
+                }
+                //county With City Name Blank
+                else if (CITY == "County" && txt_Barrower_City.Text == "")
+                {
+                    Hashtable htTax = new Hashtable();
+                    DataTable dtTax = new System.Data.DataTable();
+
+                    htTax.Add("@Trans", "SEL_TAX_TYPE_CITY_WISE");
+                    htTax.Add("@State_Id", ViewState["State_Id"]);
+                    htTax.Add("@County_Id", ViewState["County_Id"]);
+                    string CityName = "";
+                    htTax.Add("@City", CityName);
+                    dtTax = dataaccess.ExecuteSP("Sp_County_Tax_Data_Order_Wise", htTax);
+                    if (dtTax.Rows.Count > 0)
+                    {
+
+                        ViewState["Tax_Office_Phone_No"] = dtTax.Rows[0]["Tax_Office_Phone_No"].ToString();
+                        ViewState["Make_Changes_Payable_to"] = dtTax.Rows[0]["Make_Changes_Payable_to"].ToString();
+                        ViewState["Payee_Address"] = dtTax.Rows[0]["Payee_Address"].ToString();
+
+
+
+                    }
+                    else
+                    {
+
+                        ViewState["Tax_Office_Phone_No"] = "";
+                        ViewState["Make_Changes_Payable_to"] = "";
+                        ViewState["Payee_Address"] = "";
+
+                    }
+
+                }
+
+                // Not an County and Not an City
+                else if (CITY != "County" && CITY != "City")
+                {
+                    Hashtable htTax = new Hashtable();
+                    DataTable dtTax = new System.Data.DataTable();
+
+                    htTax.Add("@Trans", "SEL_TAX_TYPE_CITY_WISE");
+                    htTax.Add("@State_Id", ViewState["State_Id"]);
+                    htTax.Add("@County_Id", ViewState["County_Id"]);
+                    string CityName = "";
+                    htTax.Add("@City", CityName);
+                    dtTax = dataaccess.ExecuteSP("Sp_County_Tax_Data_Order_Wise", htTax);
+                    if (dtTax.Rows.Count > 0)
+                    {
+
+                        ViewState["Tax_Office_Phone_No"] = dtTax.Rows[0]["Tax_Office_Phone_No"].ToString();
+                        ViewState["Make_Changes_Payable_to"] = dtTax.Rows[0]["Make_Changes_Payable_to"].ToString();
+                        ViewState["Payee_Address"] = dtTax.Rows[0]["Payee_Address"].ToString();
+
+
+
+                    }
+                    else
+                    {
+
+
+                        ViewState["Tax_Office_Phone_No"] = "";
+                        ViewState["Make_Changes_Payable_to"] = "";
+                        ViewState["Payee_Address"] = "";
+
+                    }
+
+                }
+
+                //get Maximum Tax Id 
+                Hashtable htmax = new Hashtable();
+                DataTable dtmax = new System.Data.DataTable();
+                htmax.Add("@Trans", "GET_MAX_TAX_ID");
+                dtmax = dataaccess.ExecuteSP("Sp_Orders_Tax_Entry", htmax);
+                if (dtmax.Rows.Count > 0)
+                {
+
+                    Maximum = int.Parse(dtmax.Rows[0]["Tax_id"].ToString());
+                }
+                else
+                {
+
+                    Maximum = 0;
+                }
+
+                //Now iNsert into Tbl_County Database OrderWise
+                Hashtable htcountydata = new Hashtable();
+                DataTable dtcountydata = new System.Data.DataTable();
+                DateTime datecounty = new DateTime();
+                datecounty = DateTime.Now;
+
+                htcountydata.Add("@Trans", "INSERT");
+                htcountydata.Add("@Order_Id", Order_Id);
+                htcountydata.Add("@Tax_Id", Maximum);
+                htcountydata.Add("@Tax_Type_Id", ViewState["Tax_Type_Id"]);
+                htcountydata.Add("@Ph_No", ViewState["Tax_Office_Phone_No"].ToString());
+                htcountydata.Add("@Make_Changes_Payable_to", ViewState["Make_Changes_Payable_to"].ToString());
+                htcountydata.Add("@Payee_Address", ViewState["Payee_Address"].ToString());
+                htcountydata.Add("@Inserted_By", userid);
+                htcountydata.Add("@Inserted_date", datecounty);
+                htcountydata.Add("@Status", "True");
+                dtcountydata = dataaccess.ExecuteSP("Sp_County_Tax_Data_Order_Wise", htcountydata);
+                Gridview_Bind_Tax_Details();
+                Gridview_Bind_CountyDatabaseInformation();
+                model1.Hide();
+
+            }
+        }
+        //else
+        //{
+
+        //    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Please Enter Tax id')</script>", false);
+        //    model1.Hide();
+        //}
+    }
+    protected void Gridview_Bind_CountyDatabaseInformation()
+    {
+
+        Hashtable htselCountyDdata = new Hashtable();
+        DataTable dtCountyData = new System.Data.DataTable();
+
+        htselCountyDdata.Add("@Trans", "SELECT");
+        htselCountyDdata.Add("@Order_Id", Order_Id);
+        dtCountyData = dataaccess.ExecuteSP("Sp_County_Tax_Data_Order_Wise", htselCountyDdata);
+        if (dtCountyData.Rows.Count > 0)
+        {
+            //ex2.Visible = true;
+            grd_Tax_County_Database.Visible = true;
+            grd_Tax_County_Database.DataSource = dtCountyData;
+            grd_Tax_County_Database.DataBind();
+
+        }
+        else
+        {
+
+            grd_Tax_County_Database.DataSource = null;
+            grd_Tax_County_Database.EmptyDataText = "No Records Are Avilable";
+            grd_Tax_County_Database.DataBind();
+
+        }
+
+    }
+    protected void gvTaxDetails_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+      //  model1.Show();
+           //delete tax entry 
+        int Tax_Id = Convert.ToInt32(gvTaxDetails.DataKeys[e.RowIndex].Values["Tax_Id"].ToString());
+        Hashtable htdelete = new Hashtable();
+        DataTable dtdelete = new DataTable();
+        htdelete.Add("@Trans", "DELETE");
+        htdelete.Add("@Tax_Id", Tax_Id);
+        dtdelete = dataaccess.ExecuteSP("Sp_Orders_Tax_Entry", htdelete);
+        Gridview_Bind_Tax_Details();
+        //delete tax county info
+        Hashtable htdeletecountytax = new Hashtable();
+        DataTable dtdeletecountytax = new DataTable();
+        htdeletecountytax.Add("@Trans", "DELETE");
+        htdeletecountytax.Add("@Order_Id", Order_Id);
+        htdeletecountytax.Add("@Tax_Id", Tax_Id);
+        dtdeletecountytax = dataaccess.ExecuteSP("Sp_County_Tax_Data_Order_Wise", htdeletecountytax);
+        Gridview_Bind_CountyDatabaseInformation();
+
+       // model1.Hide();
+
+
+
+           
+    }
+    protected void gvTaxDetails_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        gvTaxDetails.EditIndex = e.NewEditIndex;
+        Gridview_Bind_Tax_Details();
+       
+        
+     
+    }
+    protected void gvTaxDetails_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+
+       // model1.Show();
+           
+        int Taxid = Convert.ToInt32(gvTaxDetails.DataKeys[e.RowIndex].Value.ToString());
+        TextBox txt_Tax_No = (TextBox)gvTaxDetails.Rows[e.RowIndex].FindControl("txt_Tax_No");
+        DropDownList ddl_Tax_Type = (DropDownList)gvTaxDetails.Rows[e.RowIndex].FindControl("ddl_Tax_Type");
+        DropDownList ddl_Tax_Year = (DropDownList)gvTaxDetails.Rows[e.RowIndex].FindControl("ddl_Tax_Year");
+        DropDownList ddl_Tax_Status = (DropDownList)gvTaxDetails.Rows[e.RowIndex].FindControl("ddl_Tax_Status");
+        TextBox txt_Tax_Amount = (TextBox)gvTaxDetails.Rows[e.RowIndex].FindControl("txt_Tax_Amount");
+        TextBox txt_Tax_Due_Date = (TextBox)gvTaxDetails.Rows[e.RowIndex].FindControl("txt_Tax_Due_Date");
+        DropDownList ddl_Tax_Period = (DropDownList)gvTaxDetails.Rows[e.RowIndex].FindControl("ddl_Tax_Period");
+        TextBox txt_Tax_Good_Through_Date = (TextBox)gvTaxDetails.Rows[e.RowIndex].FindControl("txt_Tax_Good_Through_Date");
+        TextBox txt_Tax_Paid_Date = (TextBox)gvTaxDetails.Rows[e.RowIndex].FindControl("txt_Tax_Paid_Date");
+
+
+
+        Hashtable htupdaterec = new Hashtable();
+        DataTable dtupdaterec = new System.Data.DataTable();
+        DateTime date = new DateTime();
+        date = DateTime.Now;
+        string dateeval = date.ToString("dd/MM/yyyy");
+        string time = date.ToString("hh:mm tt");
+
+        htupdaterec.Add("@Trans", "UPDATE");
+        htupdaterec.Add("@Tax_Id", Taxid);
+        htupdaterec.Add("@Tax_No", txt_Tax_No.Text);
+        htupdaterec.Add("@Order_Id", Order_Id);
+        htupdaterec.Add("@Tax_Type_Id", ddl_Tax_Type.SelectedValue);
+        htupdaterec.Add("@Tax_Year", ddl_Tax_Year.SelectedValue);
+        htupdaterec.Add("@Tax_Status_Id", ddl_Tax_Status.SelectedValue);
+        htupdaterec.Add("@Tax_Amount",Math.Round(Convert.ToDecimal(txt_Tax_Amount.Text), 2));
+        htupdaterec.Add("@Tax_Due_Date", txt_Tax_Due_Date.Text);
+        htupdaterec.Add("@Tax_Period_Id", ddl_Tax_Period.SelectedValue);
+        htupdaterec.Add("@Good_Through_Date", txt_Tax_Good_Through_Date.Text);
+        htupdaterec.Add("@Paid_Date", txt_Tax_Paid_Date.Text);
+        htupdaterec.Add("@Modified_By", userid);
+        htupdaterec.Add("@Modified_Date", date);
+        htupdaterec.Add("@Status", "True");
+        dtupdaterec = dataaccess.ExecuteSP("Sp_Orders_Tax_Entry", htupdaterec);
+
+
+        gvTaxDetails.EditIndex = -1;
+        Gridview_Bind_Tax_Details();
+        //model1.Hide();
+           
+    }
+
+    protected void gvTaxDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+      
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            if ((e.Row.RowState & DataControlRowState.Edit) > 0)
+            {
+
+                Label lbl_Tax_Id = (Label)e.Row.FindControl("lbl_Tax_Id");
+                DropDownList ddl_Tax_Type = (DropDownList)e.Row.FindControl("ddl_Tax_Type");
+                DropDownList ddl_Tax_Year = (DropDownList)e.Row.FindControl("ddl_Tax_Year");
+                DropDownList ddl_Tax_Status = (DropDownList)e.Row.FindControl("ddl_Tax_Status");
+                DropDownList ddl_Tax_Period = (DropDownList)e.Row.FindControl("ddl_Tax_Period");
+             
+                dbc.BindTax_Status(ddl_Tax_Status);
+                dbc.BindTax_Type(ddl_Tax_Type);
+                dbc.BindTax_Year(ddl_Tax_Year);
+                dbc.BindTax_Period(ddl_Tax_Period);
+        
+                
+        Hashtable htsel = new Hashtable();
+        DataTable dtsel = new System.Data.DataTable();
+
+        htsel.Add("@Trans", "GET_TAXINFO_IDWISE");
+        htsel.Add("@Tax_Id", lbl_Tax_Id.Text);
+        dtsel = dataaccess.ExecuteSP("Sp_Orders_Tax_Entry", htsel);
+        if (dtsel.Rows.Count > 0)
+        {
+
+            ddl_Tax_Status.SelectedValue = dtsel.Rows[0]["Tax_Status_Id"].ToString();
+            ddl_Tax_Type.SelectedValue = dtsel.Rows[0]["Tax_Type_Id"].ToString();
+            ddl_Tax_Year.SelectedValue = dtsel.Rows[0]["Tax_Year"].ToString();
+            ddl_Tax_Period.SelectedValue = dtsel.Rows[0]["Tax_Period_Id"].ToString();
+            
+
+        }
+              
+
+               
+            }
+        }
+        else if (e.Row.RowType == DataControlRowType.Footer)
+        {
+            DropDownList ddl_Tax_Type_Entry = (DropDownList)e.Row.FindControl("ddl_Tax_Type_Entry");
+            DropDownList ddl_Tax_Year_Entry = (DropDownList)e.Row.FindControl("ddl_Tax_Year_Entry");
+            DropDownList ddl_Tax_Status_Entry = (DropDownList)e.Row.FindControl("ddl_Tax_Status_Entry");
+            DropDownList ddl_Tax_Period_Entry = (DropDownList)e.Row.FindControl("ddl_Tax_Period_Entry");
+            dbc.BindTax_Status(ddl_Tax_Status_Entry);
+            dbc.BindTax_Type(ddl_Tax_Type_Entry);
+            dbc.BindTax_Year(ddl_Tax_Year_Entry);
+            dbc.BindTax_Period(ddl_Tax_Period_Entry);
+
+        }
+    }
+
+
+    //----------------------------------Tax Assesd Entry-------------------------------------
+
+ 
+    protected void ClearAsseed()
+    {
+
+        txt_Land.Text = "";
+        txt_Building.Text = "";
+        txt_total.Text = "";
+
+
+    }
+    
+    protected void imgbtn_Assesd_Add_Click(object sender, ImageClickEventArgs e)
+    {
+
+        if (txt_Land.Text != "")
+        {
+
+            Land = Convert.ToDecimal(txt_Land.Text);
+        }
+        else
+        {
+
+            Land = 0;
+        }
+        if (txt_Building.Text != "")
+        {
+
+            Building = Convert.ToDecimal(txt_Building.Text);
+        }
+        else
+        {
+
+            Building = 0;
+        }
+
+        Total = Land + Building;
+        if (ddl_Assesed_Tax_Year.SelectedItem.ToString() != "")
+        {
+
+            if (imgbtn_Assesd_Add.AlternateText == "Add")
+            {
+                Hashtable htorderkb = new Hashtable();
+                DataTable dtorderkb = new System.Data.DataTable();
+
+
+                DateTime date = new DateTime();
+                date = DateTime.Now;
+                string dateeval = date.ToString("dd/MM/yyyy");
+                string time = date.ToString("hh:mm tt");
+
+                htorderkb.Add("@Trans", "INSERT");
+                htorderkb.Add("@Order_Id", Order_Id);
+                htorderkb.Add("@Tax_Year", ddl_Assesed_Tax_Year.SelectedValue);
+                htorderkb.Add("@Land_Cost", Land);
+                htorderkb.Add("@Building_Cost", Building);
+                htorderkb.Add("@Total", Total);
+                htorderkb.Add("@Inserted_By", userid);
+                htorderkb.Add("@Inserted_date", date);
+                htorderkb.Add("@Modified_By", userid);
+                htorderkb.Add("@Modified_Date", date);
+                htorderkb.Add("@status", "True");
+                dtorderkb = dataaccess.ExecuteSP("Sp_Tax_Asessed_Entry", htorderkb);
+                Gridview_Bind_TaxAcseesd_Data();
+
+                ClearAsseed();
+
+            }
+            else if (imgbtn_Assesd_Add.AlternateText == "UPDATE")
+            {
+
+                Hashtable htorderkb = new Hashtable();
+                DataTable dtorderkb = new System.Data.DataTable();
+
+                DateTime date = new DateTime();
+                date = DateTime.Now;
+                string dateeval = date.ToString("dd/MM/yyyy");
+                string time = date.ToString("hh:mm tt");
+
+                htorderkb.Add("@Trans", "UPDATE");
+                htorderkb.Add("@Tax_Assessed_Id", ViewState["Tax_Assessed_Id"]);
+                htorderkb.Add("@Order_Id", Order_Id);
+                htorderkb.Add("@Tax_Year", ddl_Assesed_Tax_Year.SelectedValue);
+                htorderkb.Add("@Land_Cost", Land);
+                htorderkb.Add("@Building_Cost", Building);
+                htorderkb.Add("@Total", Total);
+                htorderkb.Add("@Modified_By", userid);
+                htorderkb.Add("@Modified_Date", date);
+                htorderkb.Add("@status", "True");
+                dtorderkb = dataaccess.ExecuteSP("Sp_Tax_Asessed_Entry", htorderkb);
+                imgbtn_Assesd_Add.ImageUrl = "~/images/Gridview/Add.png";
+                imgbtn_Assesd_Add.AlternateText = "Add";
+                ClearAsseed();
+                Gridview_Bind_TaxAcseesd_Data();
+            }
+
+        }
+        else
+        {
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Please Select Tax Year')</script>", false);   
+        }
+
+
+
+    }
+    protected void Gridview_Bind_TaxAcseesd_Data()
+    {
+        Hashtable htselorderkb = new Hashtable();
+        DataTable dtuser = new System.Data.DataTable();
+
+        htselorderkb.Add("@Trans", "SELECT");
+        htselorderkb.Add("@Order_Id", Order_Id);
+        dtuser = dataaccess.ExecuteSP("Sp_Tax_Asessed_Entry", htselorderkb);
+        if (dtuser.Rows.Count > 0)
+        {
+            //ex2.Visible = true;
+            grd_Assesed.Visible = true;
+            grd_Assesed.DataSource = dtuser;
+            grd_Assesed.DataBind();
+
+        }
+        else
+        {
+
+            grd_Assesed.DataSource = null;
+            grd_Assesed.EmptyDataText = "No Records Are Avilable";
+            grd_Assesed.DataBind();
+
+        }
+    }
+    protected void txt_Land_TextChanged(object sender, System.EventArgs e)
+    {
+        CalculateTotal();
+        txt_Building.Focus();
+
+    }
+    protected void txt_Building_TextChanged(object sender, System.EventArgs e)
+    {
+        CalculateTotal();
+        imgbtn_Assesd_Add.Focus();
+    }
+    protected void CalculateTotal()
+    {
+        if (txt_Land.Text != "")
+        {
+
+            Land = Convert.ToDecimal(txt_Land.Text);
+        }
+        else
+        {
+
+            Land = 0;
+        }
+        if (txt_Building.Text != "")
+        {
+
+            Building = Convert.ToDecimal(txt_Building.Text);
+        }
+        else
+        {
+
+            Building = 0;
+        }
+
+        Total = Land + Building;
+        txt_total.Text = Total.ToString();
+
+
+    }
+    protected void grd_Assesed_SelectedIndexChanged(object sender, System.EventArgs e)
+    {
+        GridViewRow row = grd_Assesed.SelectedRow;
+
+        Label lblTax_Assessed_Id = (Label)row.FindControl("lblTax_Assessed_Id");
+        Label lblTax_Year = (Label)row.FindControl("lblTax_Year");
+        Label lblLand_Cost = (Label)row.FindControl("lblLand_Cost");
+        Label lblBuilding_Cost = (Label)row.FindControl("lblBuilding_Cost");
+        Label lblTotal = (Label)row.FindControl("lblTotal");
+        string Year = lblTax_Year.Text;
+        ViewState["Tax_Assessed_Id"] = lblTax_Assessed_Id.Text;
+        dbc.BindTax_Year(ddl_Assesed_Tax_Year);
+        if (ddl_Assesed_Tax_Year.Items.FindByText(Year).Value != null)
+        {
+
+
+            ddl_Assesed_Tax_Year.Items.FindByText(Year).Selected = true;
+        }
+        txt_Land.Text = lblLand_Cost.Text;
+        txt_Building.Text = lblBuilding_Cost.Text;
+        txt_total.Text = lblTotal.Text;
+        imgbtn_Assesd_Add.ImageUrl = "~/images/Gridview/Save.png";
+
+        imgbtn_Assesd_Add.AlternateText = "UPDATE";
+    }
+    protected void btn_Error_Submit_Click(object sender, System.EventArgs e)
+    {
+
+        if (txt_Error.Text != "")
+        {
+            Hashtable htorderkb = new Hashtable();
+            DataTable dtorderkb = new System.Data.DataTable();
+
+            string Uploadpath = "~/UserError/" + Order_Id + "/";
+                 DirectoryInfo di = new DirectoryInfo(Uploadpath);
+
+                 if (di.Exists)
+                 {
+                     di.Delete(true);
+
+                     Directory.CreateDirectory(Server.MapPath(Uploadpath));
+                 }
+                 else if (!di.Exists)
+                 {
+                     Directory.CreateDirectory(Server.MapPath(Uploadpath));
+                 }
+                 HttpFileCollection uploads = HttpContext.Current.Request.Files;
+                 if (uploads != null)
+                 {
+                     string c = Path.GetFileName(fileuploadError.PostedFile.FileName);
+                     string fileName = c;
+                     if (fileName != "")
+                     {
+
+                         fileuploadError.PostedFile.SaveAs(Server.MapPath(Uploadpath) + fileName);
+                         ViewState["Path"] = Uploadpath.ToString() + fileName;
+
+                         path = ViewState["Path"].ToString();
+                     }
+                 }
+                 else
+                 {
+
+                     path = null;
+                 }
+           
+            DateTime date = new DateTime();
+            date = DateTime.Now;
+            string dateeval = date.ToString("dd/MM/yyyy");
+            string time = date.ToString("hh:mm tt");
+
+            htorderkb.Add("@Trans", "INSERT");
+            htorderkb.Add("@Order_Id", Order_Id);
+            htorderkb.Add("@Erorr_Name",txt_Error.Text);
+            htorderkb.Add("@Error_Docuemnt_Path", path);
+            htorderkb.Add("@Error_From", userid);
+            htorderkb.Add("@Error_Sended_Date", date);
+            htorderkb.Add("@status", "True");
+            dtorderkb = dataaccess.ExecuteSP("Sp_Orders_Error", htorderkb);
+
+            txt_Error.Text = "";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Your request has Sent to IT Team,We Will Response You Soon')</script>", false);
+            //fileuploadError.FileName = null;
+        }
+        else
+        {
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Please Enter Error Name')</script>", false);   
+        }
+
+
+    }
+    protected void grd_Tax_County_Database_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        grd_Tax_County_Database.EditIndex = e.NewEditIndex;
+        Gridview_Bind_CountyDatabaseInformation();
+
+    }
+    protected void grd_Tax_County_Database_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        int Taxid = Convert.ToInt32(grd_Tax_County_Database.DataKeys[e.RowIndex].Value.ToString());
+
+        TextBox txt_Tax_Phno = (TextBox)grd_Tax_County_Database.Rows[e.RowIndex].FindControl("txt_County_Phno");
+        TextBox txt_Tax_Make_Changes_Payble_To = (TextBox)grd_Tax_County_Database.Rows[e.RowIndex].FindControl("txt_Make_Changes_Payable_to");
+        TextBox txt_Tax_Payee_Address = (TextBox)grd_Tax_County_Database.Rows[e.RowIndex].FindControl("txt_Payee_Address");
+      
+
+
+
+        Hashtable htupdaterec = new Hashtable();
+        DataTable dtupdaterec = new System.Data.DataTable();
+        DateTime date = new DateTime();
+        date = DateTime.Now;
+        string dateeval = date.ToString("dd/MM/yyyy");
+        string time = date.ToString("hh:mm tt");
+
+        htupdaterec.Add("@Trans", "UPDATE");
+        htupdaterec.Add("@Conty_Database_Id", Taxid);
+        htupdaterec.Add("@Ph_No", txt_Tax_Phno.Text);
+        htupdaterec.Add("@Make_Changes_Payable_to", txt_Tax_Make_Changes_Payble_To.Text);
+        htupdaterec.Add("@Payee_Address", txt_Tax_Payee_Address.Text);
+        htupdaterec.Add("@Modified_By", userid);
+        htupdaterec.Add("@Modified_Date", date);
+        htupdaterec.Add("@Status", "True");
+        dtupdaterec = dataaccess.ExecuteSP("Sp_County_Tax_Data_Order_Wise", htupdaterec);
+
+
+        grd_Tax_County_Database.EditIndex = -1;
+        Gridview_Bind_CountyDatabaseInformation();
+
+
+    }
+    protected void grd_Tax_County_Database_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        grd_Tax_County_Database.EditIndex = -1;
+        Gridview_Bind_CountyDatabaseInformation();
+
+    }
+    protected void grd_order_kb_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            Label lbl_order_kb_id = (Label)e.Row.FindControl("lblOrder_Kb_Id");
+            Label lbl_order_kb_fileType = (Label)e.Row.FindControl("lbl_Order_Kb_File_Type");
+            Label lbl_order_kb_filepath = (Label)e.Row.FindControl("lbl_orderkb_doc_path");
+            ImageButton imbtn_orderdoc = (ImageButton)e.Row.FindControl("imgbtndoc");
+
+            if (lbl_order_kb_filepath.Text != "" && lbl_order_kb_filepath.Text != null)
+            {
+                ViewState["doc_type"] = lbl_order_kb_fileType.Text;
+                ViewState["doc_path"] = lbl_order_kb_filepath.Text;
+                imbtn_orderdoc.Visible = true;
+
+                if (lbl_order_kb_fileType.Text == ".doc" || lbl_order_kb_fileType.Text == ".docx")
+                {
+                    imbtn_orderdoc.ImageUrl = "~/Admin/img/word.png";
+
+                }
+                else if (lbl_order_kb_fileType.Text == ".xls" || lbl_order_kb_fileType.Text == ".xlsx")
+                {
+
+                    imbtn_orderdoc.ImageUrl = "~/Admin/img/Excel.png";
+                }
+                else if (lbl_order_kb_fileType.Text == ".pdf")
+                {
+
+                    imbtn_orderdoc.ImageUrl = "~/Admin/img/pdf.png";
+                }
+            }
+            else
+            {
+
+                imbtn_orderdoc.Visible = false;
+            }
+
+
+
+        }
+
+
+
+    }
+
+    protected void View_OrderDocuemnt(object sender, CommandEventArgs e)
+    {
+        Session["Doc_Type"] = ViewState["doc_type"].ToString();
+        Session["Doc_Path"] = ViewState["doc_path"].ToString();
+        string doc_path = ViewState["doc_path"].ToString();
+        string samlpe = ViewState["doc_type"].ToString();
+        if (ViewState["doc_type"].ToString()==".doc" || ViewState["doc_type"].ToString() ==".docx")
+        {
+            //scpm.WordorExcelToPdfConverter.ConvertWordToPdf(Server.MapPath(ViewState["doc_path"].ToString()), Server.MapPath("~/pdfs/CrystalReport.pdf"));
+        } 
+        else if (ViewState["doc_type"].ToString() == ".xls" || ViewState["doc_type"].ToString() == ".xlsx")
+        {
+            //scpm.WordorExcelToPdfConverter.ConvertExcelToPdf(Server.MapPath(ViewState["doc_path"].ToString()), Server.MapPath("~/pdfs/CrystalReport.pdf"));
+        }
+      
+       // path = path + fileName;
+        PdfView1();
+     
+    }
+    // Report Viwer
+    protected void btn_Preview_Click(object sender, System.EventArgs e)
+    {
+        model1.Show();
+           
+        System.Data.Common.DbConnectionStringBuilder builder = new System.Data.Common.DbConnectionStringBuilder();
+        builder.ConnectionString = ConfigurationManager.ConnectionStrings["TaxManagementConnectionString"].ConnectionString;
+        string server = builder["Data Source"] as string;
+        string database = builder["Initial Catalog"] as string;
+        string UserID = builder["User ID"] as string;
+        string password = builder["Password"] as string;
+        //int OrderID = int.Parse(Session["OrderID"].ToString());
+        //int ClintID = int.Parse(Session["ClientID"].ToString());
+        // string LetterCase = Convert.ToString(Session["CaseLetter"].ToString());
+        //int SubProcessID = int.Parse(Session["SubProcessID"].ToString());
+        // string Trans = "OrderWise";
+
+        //int ProcessID=1;
+
+        TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
+        TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
+        ConnectionInfo crConnectionInfo = new ConnectionInfo();
+        Tables CrTables;
+        rptDoc.Load(Server.MapPath("~/Reports/Rpt_Tax_Information.rpt"));
+
+        // Order_Details_Page_1 Parameter
+        rptDoc.SetParameterValue("@Order_ID", Order_Id);
+
+
+        crConnectionInfo.ServerName = server;
+        crConnectionInfo.DatabaseName = database;
+        crConnectionInfo.UserID = UserID;
+        crConnectionInfo.Password = password;
+        CrTables = rptDoc.Database.Tables;
+        foreach (CrystalDecisions.CrystalReports.Engine.Table CrTable in CrTables)
+        {
+            crtableLogoninfo = CrTable.LogOnInfo;
+            crtableLogoninfo.ConnectionInfo = crConnectionInfo;
+            CrTable.ApplyLogOnInfo(crtableLogoninfo);
+        }
+
+        foreach (ReportDocument sr in rptDoc.Subreports)
+        {
+            foreach (CrystalDecisions.CrystalReports.Engine.Table CrTable in sr.Database.Tables)
+            {
+                crtableLogoninfo = CrTable.LogOnInfo;
+                crtableLogoninfo.ConnectionInfo = crConnectionInfo;
+                CrTable.ApplyLogOnInfo(crtableLogoninfo);
+
+            }
+        }
+
+        Session["rptDoc"] = rptDoc;
+        rptDoc.ExportToDisk(ExportFormatType.PortableDocFormat, Server.MapPath("~/Reports/Rpt_Tax_Information.pdf"));
+        // CrystalReportViewer1.ReportSource = rptDoc;
+        //MemoryStream oStream = default(MemoryStream);
+        //oStream = (MemoryStream)rptDoc.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //Response.Clear();
+        //Response.Buffer = true;
+        //Response.ContentType = "application/pdf";
+        //Response.BinaryWrite(oStream.ToArray());
+        //Response.End();
+        PdfView();
+        model1.Hide();
+           
+    }
+
+    protected void PdfView()
+    {
+        byte[] pdfData = System.IO.File.ReadAllBytes(Server.MapPath("~/Reports/Rpt_Tax_Information.pdf"));
+        this.PdfWebControl1.CreateDocument("Document Name", pdfData);
+        PdfDocumentEditor DocumentEditor1 =
+            this.PdfWebControl1.EditDocument();
+        PdfWebControl1.HideToolsMenu = true;
+        PdfWebControl1.HideSideBar = true;
+        PdfWebControl1.HideObjectPropertiesBar = true;
+        PdfWebControl1.HideThumbnails = true;
+    }
+    protected void PdfView1()
+    {
+        byte[] pdfData = System.IO.File.ReadAllBytes(Server.MapPath("~/pdfs/CrystalReport.pdf"));
+        this.PdfWebControl1.CreateDocument("Document Name", pdfData);
+        PdfDocumentEditor DocumentEditor1 =
+            this.PdfWebControl1.EditDocument();
+        PdfWebControl1.HideToolsMenu = true;
+        PdfWebControl1.HideSideBar = true;
+        PdfWebControl1.HideObjectPropertiesBar = true;
+        PdfWebControl1.HideThumbnails = true;
+    }
+    protected void btn_Complete_Click(object sender, System.EventArgs e)
+    {
+        model1.Show();
+           
+        DateTime date = new DateTime();
+        date = DateTime.Now;
+        string dateeval = date.ToString("dd/MM/yyyy");
+        string time = date.ToString("hh:mm tt");
+        Hashtable htupdate = new Hashtable();
+        DataTable dtupdate = new System.Data.DataTable();
+        htupdate.Add("@Trans", "UPDATE_STATUS");
+        htupdate.Add("@Order_ID",Order_Id);
+        htupdate.Add("@Order_Status", 4);
+        htupdate.Add("@Order_Type", 4);
+        htupdate.Add("@Modified_By", userid);
+        htupdate.Add("@Modified_Date", dateeval);
+        dtupdate = dataaccess.ExecuteSP("Sp_Order", htupdate);
+
+
+        //delete from Web_Qc 
+        Hashtable htdel = new Hashtable();
+        DataTable dtdel = new System.Data.DataTable();
+        htdel.Add("@Trans", "DELETE");
+        htdel.Add("@Order_ID", Order_Id);
+        dtdel = dataaccess.ExecuteSP("Sp_Order_Assignment", htdel);
+
+     
+        System.Data.Common.DbConnectionStringBuilder builder = new System.Data.Common.DbConnectionStringBuilder();
+        builder.ConnectionString = ConfigurationManager.ConnectionStrings["TaxManagementConnectionString"].ConnectionString;
+        string server = builder["Data Source"] as string;
+        string database = builder["Initial Catalog"] as string;
+        string UserID = builder["User ID"] as string;
+        string password = builder["Password"] as string;
+
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Msg", "<script> alert('Order Completed Sucessfully')</script>", false);
+        model1.Hide();
+           
+    }
+    protected void btn_Update_Click(object sender, System.EventArgs e)
+    {
+        model1.Show();
+           
+        Hashtable htupdaterec = new Hashtable();
+        DataTable dtupdaterec = new System.Data.DataTable();
+        DateTime date = new DateTime();
+        date = DateTime.Now;
+        string dateeval = date.ToString("dd/MM/yyyy");
+        string time = date.ToString("hh:mm tt");
+        int barrowercounty, barrowerstate, clientcounty, clientstate;
+        if (ddl_Barrower_County.SelectedValue == "SELECT" || ddl_Barrower_County.SelectedValue=="")
+        {
+
+            barrowercounty = 0;
+
+        }
+        else
+        {
+
+            barrowercounty = int.Parse(ddl_Barrower_County.SelectedValue);
+        }
+        if (ddl_Barrower_State.SelectedValue == "SELECT") { barrowerstate = 0; } else { barrowerstate = int.Parse(ddl_Barrower_State.SelectedValue); }
+
+        if (ddl_Client_County.SelectedValue == "SELECT" || ddl_Client_County.SelectedValue=="") { clientcounty = 0; } else { clientcounty = int.Parse(ddl_Client_County.SelectedValue); }
+        if (ddl_Client_State.SelectedValue == "SELECT") { clientstate = 0; } else { clientstate = int.Parse(ddl_Client_State.SelectedValue); }
+        htupdaterec.Add("@Trans", "UPDATE");
+        htupdaterec.Add("@Order_Id", Order_Id);
+        htupdaterec.Add("@Loan_Number",txt_Loan_Number.Text);
+        htupdaterec.Add("@Borrower_Name", txt_Barrower_Name.Text);
+        htupdaterec.Add("@Barrower_Address",txt_Barrower_Address.Text);
+        htupdaterec.Add("@Barrower_County", barrowercounty);
+        htupdaterec.Add("@Barrower_City", txt_Barrower_City.Text);
+        htupdaterec.Add("@Barrower_Zip", txt_Barrower_Zip.Text);
+        htupdaterec.Add("@Barrower_State", barrowerstate);
+        htupdaterec.Add("@Address",txt_Client_Address.Text);
+        htupdaterec.Add("@City",txt_Client_City.Text);
+        htupdaterec.Add("@State", clientstate);
+        htupdaterec.Add("@county", clientcounty);
+        htupdaterec.Add("@Comments",txt_Tax_Comments.Text);
+        htupdaterec.Add("@Zip", txt_Client_Zip.Text);
+        htupdaterec.Add("@Modified_By", userid);
+        htupdaterec.Add("@Modified_Date", date);
+        htupdaterec.Add("@Status", "True");
+        dtupdaterec = dataaccess.ExecuteSP("Sp_Order", htupdaterec);
+
+        Get_Order_Details();
+        model1.Hide();
+           
+    }
+    protected void txt_Tax_Comments_TextChanged(object sender, EventArgs e)
+    {
+        btn_Update_Click(sender, e);
+        txt_Client_Name.Focus();
+    }
+    protected void txt_Client_Name_TextChanged(object sender, EventArgs e)
+    {
+        btn_Update_Click(sender, e);
+        txt_Client_Address.Focus();
+
+    }
+    protected void txt_Client_Address_TextChanged(object sender, EventArgs e)
+    {
+        btn_Update_Click(sender, e);
+        txt_Client_City.Focus();
+    }
+    protected void txt_Client_City_TextChanged(object sender, EventArgs e)
+    {
+        btn_Update_Click(sender, e);
+        ddl_Client_County.Focus();
+    }
+    protected void ddl_Client_County_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        btn_Update_Click(sender, e);
+        txt_Client_Zip.Focus();
+    }
+    protected void txt_Client_Zip_TextChanged(object sender, EventArgs e)
+    {
+        btn_Update_Click(sender, e);
+        txt_Barrower_Name.Focus();
+    }
+    protected void txt_Barrower_Name_TextChanged(object sender, EventArgs e)
+    {
+        btn_Update_Click(sender, e);
+        txt_Barrower_Address.Focus();
+    }
+    protected void txt_Barrower_Address_TextChanged(object sender, EventArgs e)
+    {
+        btn_Update_Click(sender, e);
+        txt_Barrower_City.Focus();
+    }
+    protected void txt_Barrower_City_TextChanged(object sender, EventArgs e)
+    {
+        btn_Update_Click(sender, e);
+        txt_Barrower_Zip.Focus();
+    }
+    protected void txt_Barrower_Zip_TextChanged(object sender, EventArgs e)
+    {
+        btn_Update_Click(sender, e);
+        txt_Date.Focus();
+    }
+   
+    protected void gvTaxDetails_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        for (int i = 0; i < gvTaxDetails.Rows.Count - 1; i++)
+        {
+            TextBox curTexbox = gvTaxDetails.Rows[i].Cells[1].FindControl("txt_Tax_No_Entry") as TextBox;
+            DropDownList nexTextbox = gvTaxDetails.Rows[i + 1].Cells[2].FindControl("ddl_Tax_Type_Entry") as DropDownList;
+            curTexbox.Attributes.Add("onkeypress", "return clickEnter('" + nexTextbox.ClientID + "', event)");
+            curTexbox.Attributes.Add("onkeypress", "return controlEnter('" + curTexbox.ClientID + "', event)");
+            nexTextbox.Attributes.Add("onkeypress", "return controlEnter('" + nexTextbox.ClientID + "', event)");
+            //TextBox3.Attributes.Add("onkeypress", "return controlEnter('" + TextBox4.ClientID + "', event)");
+            //TextBox4.Attributes.Add("onkeypress", "return controlEnter('" + TextBox5.ClientID + "', event)");
+            //TextBox5.Attributes.Add("onkeypress", "return controlEnter('" + TextBox1.ClientID + "', event)");
+        }
+    }
+ 
+  
+    //Notes and Comments
+
+    protected void Insert_OrderNotes(object sender, EventArgs e)
+    {
+
+        if (txt_Order_Notes.Text != "")
+        {
+            model1.Show();
+            Hashtable htnotes = new Hashtable();
+            DataTable dtnotes = new System.Data.DataTable();
+
+            DateTime date = new DateTime();
+            date = DateTime.Now;
+            string dateeval = date.ToString("dd/MM/yyyy");
+            string time = date.ToString("hh:mm tt");
+
+            htnotes.Add("@Trans", "INSERT");
+            htnotes.Add("@Order_Id", Order_Id);
+            htnotes.Add("@Note", txt_Order_Notes.Text);
+            htnotes.Add("@Inserted_By", userid);
+            htnotes.Add("@Inserted_date", date);
+            htnotes.Add("@Modified_By", userid);
+            htnotes.Add("@Modified_Date", date);
+            htnotes.Add("@status", "True");
+            dtnotes = dataaccess.ExecuteSP("Sp_Order_Notes", htnotes);
+
+            Geydview_Bind_Notes();
+            txt_Order_Notes.Text = "";
+        }
+    }
+    protected void Geydview_Bind_Notes()
+    {
+
+        Hashtable htNotes = new Hashtable();
+        DataTable dtNotes = new System.Data.DataTable();
+
+        htNotes.Add("@Trans", "SELECT");
+        htNotes.Add("@Order_Id", Order_Id);
+        dtNotes = dataaccess.ExecuteSP("Sp_Order_Notes", htNotes);
+        if (dtNotes.Rows.Count > 0)
+        {
+            //ex2.Visible = true;
+            Grid_Notes.Visible = true;
+            Grid_Notes.DataSource = dtNotes;
+            Grid_Notes.DataBind();
+
+        }
+        else
+        {
+            dtNotes.Rows.Add(dtNotes.NewRow());
+            Grid_Notes.DataSource = dtNotes;
+            Grid_Notes.DataBind();
+            int columncount = gvTaxDetails.Rows[0].Cells.Count;
+            Grid_Notes.Rows[0].Cells.Clear();
+            Grid_Notes.Rows[0].Cells.Add(new TableCell());
+            Grid_Notes.Rows[0].Cells[0].ColumnSpan = columncount;
+           
+
+
+        }
+    
+
+    }
+
+
+    protected void txt_Order_Notes_TextChanged(object sender, EventArgs e)
+    {
+        Insert_OrderNotes(sender, e);
+        txt_Order_Notes.Focus();
+    }
+
+
+    protected void Insert_OrderComments(object sender, EventArgs e)
+    {
+
+        if (txt_Order_Comments.Text != "")
+        {
+            model1.Show();
+            Hashtable htComments = new Hashtable();
+            DataTable dtComments = new System.Data.DataTable();
+
+            DateTime date = new DateTime();
+            date = DateTime.Now;
+            string dateeval = date.ToString("dd/MM/yyyy");
+            string time = date.ToString("hh:mm tt");
+
+            htComments.Add("@Trans", "INSERT");
+            htComments.Add("@Order_Id", Order_Id);
+            htComments.Add("@Comment", txt_Order_Comments.Text);
+            htComments.Add("@Inserted_By", userid);
+            htComments.Add("@Inserted_date", date);
+            htComments.Add("@Modified_By", userid);
+            htComments.Add("@Modified_Date", date);
+            htComments.Add("@status", "True");
+            dtComments = dataaccess.ExecuteSP("Sp_Order_Comments", htComments);
+
+            Geydview_Bind_Comments();
+            txt_Order_Comments.Text = "";
+        }
+    }
+    protected void Geydview_Bind_Comments()
+    {
+
+        Hashtable htComments = new Hashtable();
+        DataTable dtComments = new System.Data.DataTable();
+
+        htComments.Add("@Trans", "SELECT");
+        htComments.Add("@Order_Id", Order_Id);
+        dtComments = dataaccess.ExecuteSP("Sp_Order_Comments", htComments);
+        if (dtComments.Rows.Count > 0)
+        {
+            //ex2.Visible = true;
+            Grid_Comments.Visible = true;
+            Grid_Comments.DataSource = dtComments;
+            Grid_Comments.DataBind();
+
+        }
+        else
+        {
+            dtComments.Rows.Add(dtComments.NewRow());
+            Grid_Comments.DataSource = dtComments;
+            Grid_Comments.DataBind();
+            int columncount = gvTaxDetails.Rows[0].Cells.Count;
+            Grid_Comments.Rows[0].Cells.Clear();
+            Grid_Comments.Rows[0].Cells.Add(new TableCell());
+            Grid_Comments.Rows[0].Cells[0].ColumnSpan = columncount;
+
+
+
+        }
+
+
+    }
+
+    protected void txt_Order_Comments_TextChanged(object sender, EventArgs e)
+    {
+        Insert_OrderComments(sender, e);
+        txt_Tax_Comments.Focus();
+    }
+}
